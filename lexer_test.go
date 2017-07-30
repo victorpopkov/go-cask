@@ -12,21 +12,24 @@ import (
 
 func testSingleNextToken(t *testing.T, input string, expectedType TokenType, expectedLiteral string) {
 	lexer := NewLexer(input)
-	token := lexer.NextToken()
 
-	// type
-	assert.Equal(t, expectedType, token.Type, fmt.Sprintf(
-		"Expected token with type %q, got type %q\n",
-		expectedType,
-		token.Type,
-	))
+	if lexer.HasNext() {
+		token := lexer.NextToken()
 
-	// literal
-	assert.Equal(t, expectedLiteral, token.Literal, fmt.Sprintf(
-		"Expected token with literal %q, got literal %q\n",
-		expectedLiteral,
-		token.Literal,
-	))
+		// type
+		assert.Equal(t, expectedType, token.Type, fmt.Sprintf(
+			"Expected token with type %q, got type %q\n",
+			expectedType,
+			token.Type,
+		))
+
+		// literal
+		assert.Equal(t, expectedLiteral, token.Literal, fmt.Sprintf(
+			"Expected token with literal %q, got literal %q\n",
+			expectedLiteral,
+			token.Literal,
+		))
+	}
 }
 
 func TestLexerNextToken(t *testing.T) {

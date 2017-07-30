@@ -1,5 +1,6 @@
 # go-cask
 
+[![Report Card](https://goreportcard.com/badge/github.com/victorpopkov/go-cask)](https://goreportcard.com/badge/github.com/victorpopkov/go-cask)
 [![GoDoc](https://godoc.org/github.com/victorpopkov/go-cask?status.svg)](https://godoc.org/github.com/victorpopkov/go-cask)
 
 **NOTICE:** Currently in development.

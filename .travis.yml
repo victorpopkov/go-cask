@@ -1,0 +1,31 @@
+language: go
+
+go:
+  - 1.7.x
+
+install:
+  # Glide (v0.12.3)
+  - go get -v github.com/Masterminds/glide
+  - cd "$(go env GOPATH | awk 'BEGIN{FS=":"} { print $1 }')/src/github.com/Masterminds/glide" && git checkout 84607742b10f492430762d038e954236bbaf23f7 && go install && cd -
+
+  # project dependencies
+  - glide install
+
+  # code coverage
+  - go get golang.org/x/tools/cmd/cover
+  - if [ "${TRAVIS_SECURE_ENV_VARS}" == "true" ]; then go get github.com/mattn/goveralls; fi
+
+script:
+  # code coverage
+  - go test -v -covermode=count -coverprofile=coverage.out
+  - if [ "${TRAVIS_SECURE_ENV_VARS}" == "true" ]; then $(go env GOPATH | awk 'BEGIN{FS=":"} { print $1 }')/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN; fi
+
+env:
+  # Coveralls
+  secure: "ZBOW+e7EC0BWoSg86QdtXa4+XOZyOnXx+OMcYfN/pStp6xMOQ3y1w7KlL2zGK/k7J9T+GRmzHGHT1NpKBpFyyxJSClNhoDGHXYAYwD5VEFTAQsUE9mzxOPeMq8SKVcDVWyscQ1Gj57Jm0VOXzJRnRTXUwYK0BlP4HF+9s3ycEVcuqxycdPWetzFTckUdwlughItYkio0EVgSZvx9vhHyKEnHIvJs4nRtcZJbhEgKPlEZ46qxXfDMeIQTl1BFjLvqXyZm/12B6eaDWYMhLZlTHG6vm+yPD+rWtawlnToNtjsW7lvB+NyylLVh1OH9+G/mbbniDkASy/BqvjO7d/oY1Wua5n3ddFcKyknsQy/CsOMu3wc0CifrTs2hh0wQ4+VgAc93045w5ictWam5cvGMDW6eJ83UF9wPr2a3suyIit94NWd3ryzgnLjVA1ReOu5lDl+F93NIZlSFL1vXJuf+NcBwxoPpBF1NlHgszs0KZI37U9wcGeLS6TABeECgpHxPj0zNgANLZt7r7aujTKxZdK1PfOMUbuT3YW8+XUIouuy8qQDNwJ9YYqV9GNUFwK23GnjQaYY0WtLj63QR9taUWjA7lw273XBGinYVuhg53xLk0Gsc4Ly6ZlUhaSXUXc1TmO0nywglc1Fy7/MUkEAcdfInk/4v4Aj370VhrBYdW/8="
+
+notifications:
+  email: false
+  slack:
+    rooms:
+      - secure: "YlipnkZGUB2SwYseM9VF1A7YJO0dq4hwi2w1Bo0eLlfXnn7KWrFK2b6hPM+IxMfTOXrLzHtIkjp9FxectSRPhRWVk/1sdlJBepOP5S2B8gVH4Ms+ljDPMDYMliJXuhYLMPJsTM9yCURq8vbbKyeY59UfKWYJOF3DbM7bd5Nr9ezMcJDB6AItXgiVKNePvoDEcu4PikTmGsLxbpc6vDaawXKwQsaNbycasFxhq+hk2VIez456jzrt9QYafZE2MlY/oLBSUgrq8O76izwfs4ogWgZXv8rBu7tEbHrg0rchJFKzGVwtOhzWvL0nmTQH+xfGD3V6tSKGBfQO1tpYXkYO1yPxcHv7ndrW1/RMYAdJ5wj0rkeMcw5lGCf8oGnqB8HwnpZfmYvkr3KgTCWQ6yKz9xuIzeW/1a98eR1aQZpfx08fIYaX2Lk4ZL+Kal1rK2gmEDOw5WNn7UOPLEU7qDWX8Uq91M2H1mU+QfqTNykhpq7SMhNMjKr0v63IotExKbyd/du723H9DJgTJMbuBF19tySf9xKB4EFZQq5uakcuEcI7OlNz/p/cRlgJ95LKAPNs8piiwQeggYf3QAOFQyBJc12uXioNDMry4cahXRIAi9rvTq7sG7gmdrFkiX48DxYRnzIcFH0NznZ57nMeYJgL6Q0nErGgCkEJQoQ1DqKP4K4="

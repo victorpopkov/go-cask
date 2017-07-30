@@ -7,7 +7,10 @@ import (
 )
 
 func TestNewArtifact(t *testing.T) {
+	// preparations
 	a := NewArtifact(ArtifactApp, "value")
+
+	// test
 	assert.IsType(t, Artifact{}, *a)
 	assert.Equal(t, ArtifactApp, a.Type)
 	assert.Equal(t, "value", a.Value)

@@ -7,7 +7,10 @@ import (
 )
 
 func TestNewToken(t *testing.T) {
+	// preparations
 	token := NewToken(EQ, "==", 0)
+
+	// test
 	assert.IsType(t, Token{}, *token)
 	assert.Equal(t, EQ, token.Type)
 	assert.Equal(t, "==", token.Literal)

@@ -1,6 +1,7 @@
 # go-cask
 
 [![Build Status](https://travis-ci.org/victorpopkov/go-cask.svg?branch=master)](https://travis-ci.org/victorpopkov/go-cask)
+[![Coverage Status](https://coveralls.io/repos/github/victorpopkov/go-cask/badge.svg?branch=master)](https://coveralls.io/github/victorpopkov/go-cask?branch=master)
 [![Report Card](https://goreportcard.com/badge/github.com/victorpopkov/go-cask)](https://goreportcard.com/badge/github.com/victorpopkov/go-cask)
 [![GoDoc](https://godoc.org/github.com/victorpopkov/go-cask?status.svg)](https://godoc.org/github.com/victorpopkov/go-cask)
 

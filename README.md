@@ -1,5 +1,7 @@
 # go-cask
 
+[![GoDoc](https://godoc.org/github.com/victorpopkov/go-cask?status.svg)](https://godoc.org/github.com/victorpopkov/go-cask)
+
 **NOTICE:** Currently in development.
 
 This library provides functionality for working with Homebrew-Cask casks.

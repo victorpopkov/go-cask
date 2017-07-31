@@ -23,8 +23,14 @@ func NewCask(content string) *Cask {
 
 	l := NewLexer(c.Content)
 	c.parser = NewParser(l)
+	c.parser.cask = c
 
 	return c
+}
+
+// Parse parses the cask.
+func (c *Cask) Parse() error {
+	return c.parser.ParseCask(c)
 }
 
 // AddVariant adds a new Variant to the Cask.Variants array.

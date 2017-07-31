@@ -47,6 +47,27 @@ func NewParser(lexer *Lexer) *Parser {
 	return p
 }
 
+// ParseCask parses the input from Parse.lexer into the Parse.cask.
+func (p *Parser) ParseCask(cask *Cask) error {
+	p.cask = cask
+
+	for !p.currentTokenIs(EOF) {
+		p.parseStatement()
+		p.nextToken()
+	}
+
+	if p.currentCaskVariant != nil {
+		p.cask.AddVariant(*p.currentCaskVariant)
+		p.currentCaskVariant = nil
+	}
+
+	if len(p.errors) != 0 {
+		return NewErrors("Parsing errors", p.errors...)
+	}
+
+	return nil
+}
+
 // parseStatement parses a single statement.
 func (p *Parser) parseStatement() {
 	switch p.currentToken.Type {

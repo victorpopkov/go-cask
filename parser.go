@@ -49,3 +49,35 @@ func (p *Parser) nextToken() {
 		p.peekToken = p.lexer.NextToken()
 	}
 }
+
+// currentTokenIs checks whether the current Token matches the specified
+// TokenType.
+func (p *Parser) currentTokenIs(t TokenType) bool {
+	return p.currentToken.Type == t
+}
+
+// currentTokenOneOf checks whether the current Token is from valid TokenType
+// set.
+func (p *Parser) currentTokenOneOf(types ...TokenType) bool {
+	for _, t := range types {
+		if p.currentToken.Type == t {
+			return true
+		}
+	}
+	return false
+}
+
+// peekTokenIs checks whether the next Token matches the specified TokenType.
+func (p *Parser) peekTokenIs(t TokenType) bool {
+	return p.peekToken.Type == t
+}
+
+// peekTokenOneOf checks whether the next Token is from valid TokenType set.
+func (p *Parser) peekTokenOneOf(types ...TokenType) bool {
+	for _, t := range types {
+		if p.peekToken.Type == t {
+			return true
+		}
+	}
+	return false
+}

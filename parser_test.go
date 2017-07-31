@@ -6,6 +6,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func createTokenTestParser() *Parser {
+	// preparations
+	p := &Parser{
+		lexer: NewLexer("five = 5"),
+	}
+
+	p.nextToken()
+	p.nextToken()
+
+	return p
+}
+
 func TestNewParser(t *testing.T) {
 	// preparations
 	l := NewLexer("cask 'example' do\nend\n")
@@ -20,8 +32,7 @@ func TestNewParser(t *testing.T) {
 func TestNextToken(t *testing.T) {
 	// preparations
 	p := &Parser{
-		lexer:  NewLexer("five = 5"),
-		errors: []error{},
+		lexer: NewLexer("five = 5"),
 	}
 
 	// test
@@ -31,4 +42,42 @@ func TestNextToken(t *testing.T) {
 	p.nextToken()
 	assert.Equal(t, IDENT, p.currentToken.Type)
 	assert.Equal(t, ASSIGN, p.peekToken.Type)
+}
+
+func TestCurrentTokenIs(t *testing.T) {
+	// preparations
+	p := createTokenTestParser()
+
+	// test
+	assert.False(t, p.currentTokenIs(EOF))
+	assert.True(t, p.currentTokenIs(IDENT))
+}
+
+func TestCurrentTokenOneOf(t *testing.T) {
+	// preparations
+	p := createTokenTestParser()
+
+	// test
+	assert.False(t, p.currentTokenOneOf(ASSIGN))
+	assert.True(t, p.currentTokenOneOf(IDENT))
+	assert.True(t, p.currentTokenOneOf(IDENT, ASSIGN))
+}
+
+func TestPeekTokenIs(t *testing.T) {
+	// preparations
+	p := createTokenTestParser()
+
+	// test
+	assert.False(t, p.peekTokenIs(IDENT))
+	assert.True(t, p.peekTokenIs(ASSIGN))
+}
+
+func TestPeekTokenOneOf(t *testing.T) {
+	// preparations
+	p := createTokenTestParser()
+
+	// test
+	assert.False(t, p.peekTokenOneOf(IDENT))
+	assert.True(t, p.peekTokenOneOf(ASSIGN))
+	assert.True(t, p.peekTokenOneOf(ASSIGN, IDENT))
 }

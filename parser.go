@@ -93,24 +93,26 @@ func (p *Parser) parseAppcast() (*Appcast, error) {
 	return nil, errors.New("appcast not found")
 }
 
-// parseArtifact parses the artifact if the Parser.currentToken matches one of
-// the supported artifacts.
-func (p *Parser) parseArtifact() (*Artifact, error) {
+// ParseArtifact parses the supported artifact if the Parser.currentToken
+// literal value matches the supported one. It runs the corresponding artifact
+// specific parsing function. Returns an "artifact not found" error if the
+// Parser.currentToken literal value doesn't match any supported one.
+func (p *Parser) ParseArtifact() (*Artifact, error) {
 	switch p.currentToken.Literal {
 	case "app":
-		return p.parseArtifactApp()
+		return p.ParseArtifactApp()
 	case "pkg":
-		return p.parseArtifactPkg()
+		return p.ParseArtifactPkg()
 	case "binary":
-		return p.parseArtifactBinary()
+		return p.ParseArtifactBinary()
 	default:
 		return nil, errors.New("artifact not found")
 	}
 }
 
-// parseArtifactApp parses the "app" artifact if the Parser.currentToken matches
+// ParseArtifactApp parses the "app" artifact if the Parser.currentToken matches
 // the requirements.
-func (p *Parser) parseArtifactApp() (*Artifact, error) {
+func (p *Parser) ParseArtifactApp() (*Artifact, error) {
 	if p.currentTokenIs(IDENT) && p.currentToken.Literal == "app" {
 		if p.peekTokenIs(STRING) {
 			p.accept(STRING)
@@ -142,9 +144,9 @@ func (p *Parser) parseArtifactApp() (*Artifact, error) {
 	return nil, errors.New(`error parsing "app" artifact`)
 }
 
-// parseArtifactPkg parses the "pkg" artifact if the Parser.currentToken matches
+// ParseArtifactPkg parses the "pkg" artifact if the Parser.currentToken matches
 // the requirements.
-func (p *Parser) parseArtifactPkg() (*Artifact, error) {
+func (p *Parser) ParseArtifactPkg() (*Artifact, error) {
 	if p.currentTokenIs(IDENT) && p.currentToken.Literal == "pkg" {
 		if p.peekTokenIs(STRING) {
 			p.accept(STRING)
@@ -176,9 +178,9 @@ func (p *Parser) parseArtifactPkg() (*Artifact, error) {
 	return nil, errors.New(`error parsing "pkg" artifact`)
 }
 
-// parseArtifactBinary parses the "binary" artifact if the Parser.currentToken
+// ParseArtifactBinary parses the "binary" artifact if the Parser.currentToken
 // matches the requirements.
-func (p *Parser) parseArtifactBinary() (*Artifact, error) {
+func (p *Parser) ParseArtifactBinary() (*Artifact, error) {
 	if p.currentTokenIs(IDENT) && p.currentToken.Literal == "binary" {
 		if p.peekTokenIs(STRING) {
 			p.accept(STRING)
@@ -210,8 +212,11 @@ func (p *Parser) parseArtifactBinary() (*Artifact, error) {
 	return nil, errors.New(`error parsing "binary" artifact`)
 }
 
-// parseConditionMacOS parses the "MacOS.release" condition statement.
-func (p *Parser) parseConditionMacOS() (min MacOS, max MacOS, err error) {
+// ParseConditionMacOS parses the "MacOS.release" condition statement. Returns
+// both the minimum and maximum macOS release. By default, the minimum is
+// MacOSTiger and the maximum matches the latest macOS release which is
+// MacOSHighSierra.
+func (p *Parser) ParseConditionMacOS() (min MacOS, max MacOS, err error) {
 	var comparison TokenType
 	var hasEqual bool
 	var mac MacOS

@@ -154,7 +154,7 @@ func TestParseArtifactApp(t *testing.T) {
 		p := NewParser(l)
 
 		// test
-		actual, err := p.parseArtifact()
+		actual, err := p.ParseArtifact()
 		assert.Nil(t, err)
 		assert.IsType(t, Artifact{}, *actual)
 		assert.Equal(t, expected.Type, actual.Type)
@@ -175,7 +175,7 @@ func TestParseArtifactApp(t *testing.T) {
 		p := NewParser(l)
 
 		// test
-		actual, err := p.parseArtifact()
+		actual, err := p.ParseArtifact()
 		assert.Nil(t, actual)
 		assert.Error(t, err)
 		assert.Equal(t, expected, err.Error())
@@ -214,7 +214,7 @@ func TestParseArtifactPkg(t *testing.T) {
 		p := NewParser(l)
 
 		// test
-		actual, err := p.parseArtifact()
+		actual, err := p.ParseArtifact()
 		assert.Nil(t, err)
 		assert.IsType(t, Artifact{}, *actual)
 		assert.Equal(t, expected.Type, actual.Type)
@@ -234,7 +234,7 @@ func TestParseArtifactPkg(t *testing.T) {
 		p := NewParser(l)
 
 		// test
-		actual, err := p.parseArtifact()
+		actual, err := p.ParseArtifact()
 		assert.Nil(t, actual)
 		assert.Error(t, err)
 		assert.Equal(t, expected, err.Error())
@@ -273,7 +273,7 @@ func TestParseArtifactBinary(t *testing.T) {
 		p := NewParser(l)
 
 		// test
-		actual, err := p.parseArtifact()
+		actual, err := p.ParseArtifact()
 		assert.Nil(t, err)
 		assert.IsType(t, Artifact{}, *actual)
 		assert.Equal(t, expected.Type, actual.Type)
@@ -293,7 +293,7 @@ func TestParseArtifactBinary(t *testing.T) {
 		p := NewParser(l)
 
 		// test
-		actual, err := p.parseArtifact()
+		actual, err := p.ParseArtifact()
 		assert.Nil(t, actual)
 		assert.Error(t, err)
 		assert.Equal(t, expected, err.Error())
@@ -338,7 +338,7 @@ func TestParseConditionMacOS(t *testing.T) {
 		p := NewParser(l)
 
 		// test
-		min, max, err := p.parseConditionMacOS()
+		min, max, err := p.ParseConditionMacOS()
 		assert.Nil(t, err)
 		assert.Equal(t, expected[0], min)
 		assert.Equal(t, expected[1], max)
@@ -356,7 +356,7 @@ func TestParseConditionMacOS(t *testing.T) {
 		p := NewParser(l)
 
 		// test
-		min, max, err := p.parseConditionMacOS()
+		min, max, err := p.ParseConditionMacOS()
 		assert.Equal(t, MacOSHighSierra, min)
 		assert.Equal(t, MacOSHighSierra, max)
 		assert.Error(t, err)

@@ -284,22 +284,22 @@ func TestParseArtifactPkg(t *testing.T) {
 	testCases := map[string]Artifact{
 		// app
 		`pkg "test.pkg"`: {
-			Type:           ArtifactApp,
+			Type:           ArtifactPkg,
 			Value:          "test.pkg",
 			AllowUntrusted: false,
 		},
 		"pkg 'test.pkg'": {
-			Type:           ArtifactApp,
+			Type:           ArtifactPkg,
 			Value:          "test.pkg",
 			AllowUntrusted: false,
 		},
 		"pkg 'test.pkg', allow_untrusted: true": {
-			Type:           ArtifactApp,
+			Type:           ArtifactPkg,
 			Value:          "test.pkg",
 			AllowUntrusted: true,
 		},
 		"pkg 'test.pkg',\nallow_untrusted: true": {
-			Type:           ArtifactApp,
+			Type:           ArtifactPkg,
 			Value:          "test.pkg",
 			AllowUntrusted: true,
 		},

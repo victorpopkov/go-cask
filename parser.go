@@ -332,7 +332,7 @@ func (p *Parser) parseArtifactPkg() (*Artifact, error) {
 		if p.peekTokenIs(STRING) {
 			p.accept(STRING)
 
-			a := NewArtifact(ArtifactApp, p.currentToken.Literal)
+			a := NewArtifact(ArtifactPkg, p.currentToken.Literal)
 
 			if p.peekTokenIs(COMMA) {
 				p.accept(COMMA)

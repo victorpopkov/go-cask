@@ -46,7 +46,7 @@ func (e *Errors) Error() string {
 // Error returns a string representation of the unexpectedTokenError.
 func (u *unexpectedTokenError) Error() string {
 	return fmt.Sprintf(
-		"expected next token to be of type %s, got %s instead",
+		"expected next token to be of type %v, got %s instead",
 		u.expectedTokens,
 		u.actualToken,
 	)

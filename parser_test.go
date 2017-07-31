@@ -70,21 +70,21 @@ func TestParseVersion(t *testing.T) {
 func TestParseAppcast(t *testing.T) {
 	// test (successful)
 	testCases := map[string]Appcast{
-		`appcast "https://example.com/appcast.xml"`: Appcast{
+		`appcast "https://example.com/appcast.xml"`: {
 			URL:        "https://example.com/appcast.xml",
 			Checkpoint: "",
 		},
-		"appcast 'https://example.com/appcast.xml'": Appcast{
+		"appcast 'https://example.com/appcast.xml'": {
 			URL:        "https://example.com/appcast.xml",
 			Checkpoint: "",
 		},
-		"appcast 'https://example.com/appcast.xml', checkpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'": Appcast{
+		"appcast 'https://example.com/appcast.xml', checkpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'": {
 			URL:        "https://example.com/appcast.xml",
 			Checkpoint: "2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1",
 		},
 		`appcast 'https://example.com/appcast.xml',
             checkpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'
-    `: Appcast{
+    `: {
 			URL:        "https://example.com/appcast.xml",
 			Checkpoint: "2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1",
 		},

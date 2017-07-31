@@ -1,5 +1,7 @@
 package cask
 
+import "fmt"
+
 // An ArtifactType represents a known artifact stanza type.
 type ArtifactType int
 
@@ -41,4 +43,29 @@ func NewArtifact(t ArtifactType, value string) *Artifact {
 // String returns the string representation of the ArtifactType.
 func (t ArtifactType) String() string {
 	return artifactTypeNames[t]
+}
+
+// String returns the string representation of the Artifact.
+func (a Artifact) String() (result string) {
+	switch a.Type {
+	case ArtifactApp:
+		result = fmt.Sprintf("%s, %s", a.Type.String(), a.Value)
+		if a.Target != "" {
+			result += fmt.Sprintf(" => %s", a.Target)
+		}
+	case ArtifactPkg:
+		result = fmt.Sprintf("%s, %s", a.Type.String(), a.Value)
+		if a.AllowUntrusted {
+			result += ", allow_untrusted: true"
+		}
+	case ArtifactBinary:
+		result = fmt.Sprintf("%s, %s", a.Type.String(), a.Value)
+		if a.Target != "" {
+			result += fmt.Sprintf(" => %s", a.Target)
+		}
+	default:
+		result = a.Type.String()
+	}
+
+	return result
 }

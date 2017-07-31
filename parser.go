@@ -1,6 +1,6 @@
 package cask
 
-import "errors"
+import "github.com/pkg/errors"
 
 // A Parser represents the parser that uses the emitted token provided by Lexer.
 type Parser struct {
@@ -57,7 +57,7 @@ func (p *Parser) parseVersion() (string, error) {
 		return "latest", nil
 	}
 
-	return "", errors.New("Parse version: not found")
+	return "", errors.New("version not found")
 }
 
 // parseAppcast parses the appcast if the Parser.peekToken matches the cask
@@ -71,6 +71,9 @@ func (p *Parser) parseAppcast() (*Appcast, error) {
 
 		if p.peekTokenIs(COMMA) {
 			p.accept(COMMA)
+		}
+
+		if p.peekTokenIs(NEWLINE) {
 			p.accept(NEWLINE)
 		}
 
@@ -87,7 +90,117 @@ func (p *Parser) parseAppcast() (*Appcast, error) {
 		return NewAppcast(url, checkpoint), nil
 	}
 
-	return nil, errors.New("Parse appcast: not found")
+	return nil, errors.New("appcast not found")
+}
+
+//
+func (p *Parser) parseArtifact() (*Artifact, error) {
+	switch p.currentToken.Literal {
+	case "app":
+		return p.parseArtifactApp()
+	case "pkg":
+		return p.parseArtifactPkg()
+	case "binary":
+		return p.parseArtifactBinary()
+	default:
+		return nil, errors.New("artifact not found")
+	}
+}
+
+func (p *Parser) parseArtifactApp() (*Artifact, error) {
+	if p.currentTokenIs(IDENT) && p.currentToken.Literal == "app" {
+		if p.peekTokenIs(STRING) {
+			p.accept(STRING)
+
+			a := NewArtifact(ArtifactApp, p.currentToken.Literal)
+
+			if p.peekTokenIs(COMMA) {
+				p.accept(COMMA)
+			}
+
+			if p.peekTokenIs(NEWLINE) {
+				p.accept(NEWLINE)
+			}
+
+			if p.peekTokenIs(IDENT) && p.peekToken.Literal == "target" {
+				p.accept(IDENT)
+				p.accept(SYMBOL)
+
+				if p.peekTokenIs(STRING) {
+					p.accept(STRING)
+					a.Target = p.currentToken.Literal
+				}
+			}
+
+			return a, nil
+		}
+	}
+
+	return nil, errors.New(`error parsing "app" artifact`)
+}
+
+func (p *Parser) parseArtifactPkg() (*Artifact, error) {
+	if p.currentTokenIs(IDENT) && p.currentToken.Literal == "pkg" {
+		if p.peekTokenIs(STRING) {
+			p.accept(STRING)
+
+			a := NewArtifact(ArtifactApp, p.currentToken.Literal)
+
+			if p.peekTokenIs(COMMA) {
+				p.accept(COMMA)
+			}
+
+			if p.peekTokenIs(NEWLINE) {
+				p.accept(NEWLINE)
+			}
+
+			if p.peekTokenIs(IDENT) && p.peekToken.Literal == "allow_untrusted" {
+				p.accept(IDENT)
+				p.accept(SYMBOL)
+
+				if p.peekTokenIs(TRUE) {
+					p.accept(TRUE)
+					a.AllowUntrusted = true
+				}
+			}
+
+			return a, nil
+		}
+	}
+
+	return nil, errors.New(`error parsing "pkg" artifact`)
+}
+
+func (p *Parser) parseArtifactBinary() (*Artifact, error) {
+	if p.currentTokenIs(IDENT) && p.currentToken.Literal == "binary" {
+		if p.peekTokenIs(STRING) {
+			p.accept(STRING)
+
+			a := NewArtifact(ArtifactBinary, p.currentToken.Literal)
+
+			if p.peekTokenIs(COMMA) {
+				p.accept(COMMA)
+			}
+
+			if p.peekTokenIs(NEWLINE) {
+				p.accept(NEWLINE)
+			}
+
+			if p.peekTokenIs(IDENT) && p.peekToken.Literal == "target" {
+				p.accept(IDENT)
+				p.accept(SYMBOL)
+
+				if p.peekTokenIs(STRING) {
+					p.accept(STRING)
+					a.Target = p.currentToken.Literal
+				}
+			}
+
+			return a, nil
+		}
+	}
+
+	return nil, errors.New(`error parsing "binary" artifact`)
 }
 
 // parseConditionMacOS parses the "MacOS.release" condition statement.
@@ -139,7 +252,7 @@ func (p *Parser) parseConditionMacOS() (min MacOS, max MacOS, err error) {
 				case "tiger":
 					mac = MacOSTiger
 				default:
-					return MacOSHighSierra, MacOSHighSierra, errors.New("Parse MacOS condition: unknown")
+					return MacOSHighSierra, MacOSHighSierra, errors.New("MacOS condition is unknown")
 				}
 			}
 
@@ -166,7 +279,7 @@ func (p *Parser) parseConditionMacOS() (min MacOS, max MacOS, err error) {
 	}
 
 	// by default should return the latest
-	return MacOSHighSierra, MacOSHighSierra, errors.New("Parse MacOS condition: not found")
+	return MacOSHighSierra, MacOSHighSierra, errors.New("MacOS condition not found")
 }
 
 // nextToken updates the Parser.currentToken and Parser.peekToken values to
@@ -178,14 +291,14 @@ func (p *Parser) nextToken() {
 	}
 }
 
-// currentTokenIs checks whether the current Token matches the specified
+// currentTokenIs checks whether the current Token.Type matches the specified
 // TokenType.
 func (p *Parser) currentTokenIs(t TokenType) bool {
 	return p.currentToken.Type == t
 }
 
-// currentTokenOneOf checks whether the current Token is from valid TokenType
-// set.
+// currentTokenOneOf checks whether the current Token.Type is from valid
+// TokenType set.
 func (p *Parser) currentTokenOneOf(types ...TokenType) bool {
 	for _, t := range types {
 		if p.currentToken.Type == t {
@@ -195,12 +308,31 @@ func (p *Parser) currentTokenOneOf(types ...TokenType) bool {
 	return false
 }
 
-// peekTokenIs checks whether the next Token matches the specified TokenType.
+// currentTokenLiteralIs checks whether the current Token.Literal matches the
+// specified value.
+func (p *Parser) currentTokenLiteralIs(l string) bool {
+	return p.currentToken.Literal == l
+}
+
+// currentTokenLiteralOneOf checks whether the current Token.Literal is from
+// valid values set.
+func (p *Parser) currentTokenLiteralOneOf(literals ...string) bool {
+	for _, l := range literals {
+		if p.currentToken.Literal == l {
+			return true
+		}
+	}
+	return false
+}
+
+// peekTokenIs checks whether the next Token.Type matches the specified
+// TokenType.
 func (p *Parser) peekTokenIs(t TokenType) bool {
 	return p.peekToken.Type == t
 }
 
-// peekTokenOneOf checks whether the next Token is from valid TokenType set.
+// peekTokenOneOf checks whether the next Token.Type is from valid TokenType
+// set.
 func (p *Parser) peekTokenOneOf(types ...TokenType) bool {
 	for _, t := range types {
 		if p.peekToken.Type == t {

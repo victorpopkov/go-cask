@@ -81,3 +81,43 @@ func TestPeekTokenOneOf(t *testing.T) {
 	assert.True(t, p.peekTokenOneOf(ASSIGN))
 	assert.True(t, p.peekTokenOneOf(ASSIGN, IDENT))
 }
+
+func TestAccept(t *testing.T) {
+	// preparations
+	p := createTokenTestParser()
+
+	// test (successful)
+	assert.True(t, p.peekTokenIs(ASSIGN))
+	p.accept(ASSIGN)
+	assert.True(t, p.peekTokenIs(INT))
+
+	// test (error)
+	assert.Len(t, p.errors, 0)
+	p.accept(GLOBAL)
+	assert.Len(t, p.errors, 1)
+	assert.Equal(t, "expected next token to be of type [GLOBAL], got INT instead", p.errors[0].Error())
+}
+
+func TestAcceptOneOf(t *testing.T) {
+	// preparations
+	p := createTokenTestParser()
+
+	// test
+	assert.True(t, p.peekTokenIs(ASSIGN))
+	p.acceptOneOf(ASSIGN, IDENT)
+	assert.True(t, p.peekTokenIs(INT))
+
+	// test (error)
+	assert.Len(t, p.errors, 0)
+	p.acceptOneOf(GLOBAL, IDENT)
+	assert.Len(t, p.errors, 1)
+	assert.Equal(t, "expected next token to be of type [GLOBAL IDENT], got INT instead", p.errors[0].Error())
+}
+
+func TestParserErrors(t *testing.T) {
+	// preparations
+	p := createTokenTestParser()
+
+	// test
+	assert.IsType(t, []error{}, p.Errors())
+}

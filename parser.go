@@ -81,3 +81,38 @@ func (p *Parser) peekTokenOneOf(types ...TokenType) bool {
 	}
 	return false
 }
+
+// accept moves to the next Token if it's from the valid TokenType set.
+func (p *Parser) accept(t TokenType) bool {
+	if p.peekTokenIs(t) {
+		p.nextToken()
+		return true
+	}
+
+	p.peekError(t)
+	return false
+}
+
+// acceptOneOf moves to the next Token if it's from the valid TokenType set.
+func (p *Parser) acceptOneOf(t ...TokenType) bool {
+	if p.peekTokenOneOf(t...) {
+		p.nextToken()
+		return true
+	}
+
+	p.peekError(t...)
+	return false
+}
+
+// peekError adds a new unexpectedTokenError to Parser.errors.
+func (p *Parser) peekError(t ...TokenType) {
+	p.errors = append(p.errors, &unexpectedTokenError{
+		expectedTokens: t,
+		actualToken:    p.peekToken.Type,
+	})
+}
+
+// Errors returns all errors which happened during the Parser.input parsing.
+func (p *Parser) Errors() []error {
+	return p.errors
+}

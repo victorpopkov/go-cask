@@ -10,6 +10,13 @@ type Artifact struct {
 
 	// Value specifies the artifact value.
 	Value string
+
+	// Target specifies the "target:" value. By default, it's empty string.
+	Target string
+
+	// AllowUntrusted specifies the "allow_untrusted:" value. By default, it's
+	// false. This should be true only if the Artifact.Type is ArtifactPkg.
+	AllowUntrusted bool
 }
 
 // Different supported artifact types.
@@ -20,15 +27,15 @@ const (
 )
 
 var artifactTypeNames = [...]string{
-	"App",
-	"Pkg",
-	"Binary",
+	"app",
+	"pkg",
+	"binary",
 }
 
 // NewArtifact creates a new Artifact instance and returns its pointer. Requires
 // both Artifact.Type and Artifact.Value to be passed as arguments.
 func NewArtifact(t ArtifactType, value string) *Artifact {
-	return &Artifact{t, value}
+	return &Artifact{t, value, "", false}
 }
 
 // String returns the string representation of the ArtifactType.

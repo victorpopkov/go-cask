@@ -14,10 +14,12 @@ func TestNewArtifact(t *testing.T) {
 	assert.IsType(t, Artifact{}, *a)
 	assert.Equal(t, ArtifactApp, a.Type)
 	assert.Equal(t, "value", a.Value)
+	assert.Empty(t, a.Target)
+	assert.False(t, a.AllowUntrusted)
 }
 
 func TestArtifactTypeString(t *testing.T) {
-	assert.Equal(t, "App", ArtifactApp.String())
-	assert.Equal(t, "Pkg", ArtifactPkg.String())
-	assert.Equal(t, "Binary", ArtifactBinary.String())
+	assert.Equal(t, "app", ArtifactApp.String())
+	assert.Equal(t, "pkg", ArtifactPkg.String())
+	assert.Equal(t, "binary", ArtifactBinary.String())
 }

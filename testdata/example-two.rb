@@ -20,7 +20,7 @@ cask 'example-two' do
   homepage 'https://example.com/'
   license :commercial
 
-  pkg "app_#{version}.pkg"
+  pkg "app_#{version}.pkg", allow_untrusted: true
 
   uninstall pkgutil: 'com.example.pkg.*'
 end

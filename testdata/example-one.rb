@@ -14,5 +14,5 @@ cask 'example-one' do
 
   app 'Example One.app', target: 'Example.app'
   app 'Example One Uninstaller.app'
-  binary 'example-one', target: 'example'
+  binary "#{appdir}/Example One.app/Contents/MacOS/example-one", target: 'example'
 end

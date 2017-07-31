@@ -1,6 +1,10 @@
 package cask
 
-import "github.com/pkg/errors"
+import (
+	"fmt"
+
+	"github.com/pkg/errors"
+)
 
 // A Parser represents the parser that uses the emitted token provided by Lexer.
 type Parser struct {
@@ -41,6 +45,162 @@ func NewParser(lexer *Lexer) *Parser {
 	p.nextToken()
 
 	return p
+}
+
+// parseStatement parses a single statement.
+func (p *Parser) parseStatement() {
+	switch p.currentToken.Type {
+	case ILLEGAL:
+		p.errors = append(p.errors, fmt.Errorf("%s", p.currentToken.Literal))
+	case EOF:
+		p.errors = append(p.errors, &unexpectedTokenError{
+			expectedTokens: []TokenType{NEWLINE},
+			actualToken:    EOF,
+		})
+	default:
+		p.parseExpressionStatement()
+	}
+}
+
+// parseExpressionStatement parses a single expression statement.
+func (p *Parser) parseExpressionStatement() {
+	if p.currentCaskVariant == nil {
+		p.currentCaskVariant = NewVariant()
+	}
+
+	switch p.currentToken.Type {
+	case IDENT:
+		if p.currentToken.Literal == "cask" {
+			if p.peekTokenIs(STRING) {
+				p.accept(STRING)
+				p.cask.Token = p.currentToken.Literal
+			}
+		}
+
+		if p.peekTokenIs(STRING) {
+			switch p.currentToken.Literal {
+			case "sha256":
+				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.SHA256)
+				p.currentCaskVariant.SHA256 = p.peekToken.Literal
+			case "url":
+				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.URL)
+				p.currentCaskVariant.URL = p.peekToken.Literal
+			case "appcast":
+				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Appcast.URL)
+				a, err := p.parseAppcast()
+				if err == nil && a != nil {
+					p.currentCaskVariant.Appcast = *a
+				}
+			case "name":
+				if p.currentIfVariant != nil {
+					p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Names)
+				}
+
+				p.currentCaskVariant.AddName(p.peekToken.Literal)
+			case "homepage":
+				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Homepage)
+				p.currentCaskVariant.Homepage = p.peekToken.Literal
+			case "version":
+				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Version)
+				p.currentCaskVariant.Version, _ = p.parseVersion()
+			}
+
+			// artifacts
+			if p.currentTokenLiteralOneOf("app", "pkg", "binary") {
+				if p.currentIfVariant != nil {
+					p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Artifacts)
+				}
+
+				a, err := p.ParseArtifact()
+				if err == nil && a != nil {
+					p.currentCaskVariant.AddArtifact(*a)
+				}
+			}
+		}
+
+		if p.peekTokenIs(SYMBOL) {
+			switch p.currentToken.Literal {
+			case "version":
+				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Version)
+				p.currentCaskVariant.Version, _ = p.parseVersion()
+			}
+		}
+	case IF:
+		p.parseIfExpression()
+	case ELSEIF:
+		p.parseIfExpression()
+	}
+
+	if p.peekTokenOneOf(SEMICOLON, NEWLINE, COMMA) {
+		p.nextToken()
+	}
+}
+
+func (p *Parser) parseIfExpression() {
+	p.nextToken()
+
+	p.parseIfCondition()
+
+	if p.peekTokenIs(THEN) {
+		p.accept(THEN)
+	}
+
+	if !p.peekTokenOneOf(NEWLINE, SEMICOLON) {
+		err := errors.Wrap(
+			&unexpectedTokenError{
+				expectedTokens: []TokenType{NEWLINE, SEMICOLON},
+				actualToken:    p.peekToken.Type,
+			},
+			fmt.Sprintf(
+				"could not parse if expression: unexpected token %s: '%s'",
+				p.peekToken.Type,
+				p.peekToken.Literal,
+			),
+		)
+
+		p.errors = append(p.errors, err)
+
+		return
+	}
+
+	p.parseBlockStatement(ELSE, ELSEIF)
+
+	if p.currentIfVariant != nil {
+		p.currentCaskVariant.MinimumSupportedMacOS = p.currentIfVariant.MinimumSupportedMacOS
+		p.currentCaskVariant.MaximumSupportedMacOS = p.currentIfVariant.MaximumSupportedMacOS
+		p.currentIfVariant = nil
+	}
+
+	return
+}
+
+// parseIfCondition parses the if condition if it's supported.
+func (p *Parser) parseIfCondition() {
+	p.currentIfVariant = NewVariant()
+
+	min, max, err := p.ParseConditionMacOS()
+	if err == nil {
+		p.currentIfVariant.MinimumSupportedMacOS = min
+		p.currentIfVariant.MaximumSupportedMacOS = max
+		return
+	}
+}
+
+// parseBlockStatement parses the block statement if the Parser.peekToken
+// matches the requirements.
+func (p *Parser) parseBlockStatement(t ...TokenType) {
+	terminatorTokens := append(
+		[]TokenType{
+			END,
+			EOF,
+		},
+		t...,
+	)
+
+	for !p.peekTokenOneOf(terminatorTokens...) {
+		p.nextToken()
+		p.parseExpressionStatement()
+	}
 }
 
 // parseVersion parses the version if the Parser.peekToken matches the cask

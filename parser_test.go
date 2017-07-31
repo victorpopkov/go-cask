@@ -1,6 +1,7 @@
 package cask
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -32,6 +33,97 @@ func TestNewParser(t *testing.T) {
 	assert.IsType(t, Parser{}, *p)
 	assert.Equal(t, l, p.lexer)
 	assert.Len(t, p.errors, 0)
+}
+
+func TestParseStatement(t *testing.T) {
+	testCases := map[string]interface{}{
+		// token
+		"cask 'example-one' do\nend": nil,
+
+		// cask stanzas
+		"version 'test'":  nil,
+		"version :latest": nil,
+		"sha256 'test'":   nil,
+		"url 'test'":      nil,
+		"appcast 'test'":  nil,
+		"name 'test'":     nil,
+		"homepage 'test'": nil,
+		"app 'test'":      nil,
+
+		// if/elsif
+		"if MacOS.release == :tiger\nfive = 5\nend":    nil,
+		"elsif MacOS.release == :tiger\nfive = 5\nend": nil,
+
+		// errors
+		"":   "expected next token to be of type [NEWLINE], got EOF instead",
+		"\\": "Illegal character at 0: '\\'",
+	}
+
+	// preparations
+	for input, err := range testCases {
+		// preparations
+		c := NewCask(input)
+		p := c.parser
+
+		// test
+		if err == nil {
+			assert.Len(t, p.errors, 0)
+			p.parseStatement()
+			assert.Len(t, p.errors, 0)
+		} else {
+			assert.Len(t, p.errors, 0)
+			p.parseStatement()
+			assert.Len(t, p.errors, 1)
+			assert.Error(t, p.errors[0])
+			assert.Equal(t, err, p.errors[0].Error())
+		}
+	}
+}
+
+func TestParseIfExpression(t *testing.T) {
+	testCases := map[string]*Token{
+		// successful
+		"if MacOS.release == :tiger\nfive = 5\nend":      nil,
+		"if MacOS.release == :tiger then\nfive = 5; end": nil,
+		"if MacOS.release == :tiger then; five = 5; end": nil,
+
+		// errors
+		"if": {EOF, "", 0},
+		"if MacOS.release == :tiger": {EOF, "", 0},
+
+		// unknown conditions
+		"if five == 5\nfive = 5\nend":      {EQ, "==", 0},
+		"if five == 5; then five = 5; end": {EQ, "==", 0},
+	}
+
+	// preparations
+	for input, err := range testCases {
+		// preparations
+		l := NewLexer(input)
+		p := NewParser(l)
+
+		// test
+		if err == nil {
+			assert.Len(t, p.errors, 0)
+			p.parseIfExpression()
+			assert.Len(t, p.errors, 0)
+		} else {
+			assert.Len(t, p.errors, 0)
+			p.parseIfExpression()
+			assert.Len(t, p.errors, 1)
+			assert.Error(t, p.errors[0])
+			assert.Equal(
+				t,
+				fmt.Sprintf(
+					"could not parse if expression: unexpected token %s: '%s': expected next token to be of type [NEWLINE SEMICOLON], got %s instead",
+					err.Type.String(),
+					err.Literal,
+					err.Type.String(),
+				),
+				p.errors[0].Error(),
+			)
+		}
+	}
 }
 
 func TestParseVersion(t *testing.T) {

@@ -90,6 +90,85 @@ func (p *Parser) parseAppcast() (*Appcast, error) {
 	return nil, errors.New("Parse appcast: not found")
 }
 
+// parseConditionMacOS parses the "MacOS.release" condition statement.
+func (p *Parser) parseConditionMacOS() (min MacOS, max MacOS, err error) {
+	var comparison TokenType
+	var hasEqual bool
+	var mac MacOS
+
+	if p.currentTokenIs(CONST) && p.currentToken.Literal == "MacOS" {
+		p.accept(DOT)
+
+		// release
+		if p.peekTokenIs(IDENT) && p.peekToken.Literal == "release" {
+			p.accept(IDENT)
+
+			// comparison
+			if p.peekTokenOneOf(EQ, GT, LT) {
+				p.acceptOneOf(EQ, GT, LT)
+				comparison = p.currentToken.Type
+
+				if p.peekTokenIs(ASSIGN) {
+					p.accept(ASSIGN)
+					hasEqual = true
+				}
+			}
+
+			// macOS
+			if p.peekTokenIs(SYMBOL) {
+				p.accept(SYMBOL)
+				switch p.currentToken.Literal {
+				case "high_sierra":
+					mac = MacOSHighSierra
+				case "sierra":
+					mac = MacOSSierra
+				case "el_capitan":
+					mac = MacOSElCapitan
+				case "yosemite":
+					mac = MacOSYosemite
+				case "mavericks":
+					mac = MacOSMavericks
+				case "mountain_lion":
+					mac = MacOSMountainLion
+				case "lion":
+					mac = MacOSLion
+				case "snow_leopard":
+					mac = MacOSSnowLeopard
+				case "leopard":
+					mac = MacOSLeopard
+				case "tiger":
+					mac = MacOSTiger
+				default:
+					return MacOSHighSierra, MacOSHighSierra, errors.New("Parse MacOS condition: unknown")
+				}
+			}
+
+			// comparison with macOS
+			switch comparison {
+			case EQ:
+				return mac, mac, nil
+			case GT:
+				min = mac - 1
+				max = MacOSHighSierra
+				if hasEqual || min < 0 {
+					min = mac
+				}
+				return min, max, nil
+			case LT:
+				min = MacOSTiger
+				max = mac + 1
+				if hasEqual || max > MacOSTiger {
+					max = mac
+				}
+				return min, max, nil
+			}
+		}
+	}
+
+	// by default should return the latest
+	return MacOSHighSierra, MacOSHighSierra, errors.New("Parse MacOS condition: not found")
+}
+
 // nextToken updates the Parser.currentToken and Parser.peekToken values to
 // match the next Lexer token.
 func (p *Parser) nextToken() {

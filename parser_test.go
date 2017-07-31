@@ -121,6 +121,70 @@ func TestParseAppcast(t *testing.T) {
 	}
 }
 
+func TestParseConditionMacOS(t *testing.T) {
+	// test (successful)
+	testCases := map[string][]MacOS{
+		// EQ (==)
+		"MacOS.release == :high_sierra":   {MacOSHighSierra, MacOSHighSierra},
+		"MacOS.release == :sierra":        {MacOSSierra, MacOSSierra},
+		"MacOS.release == :el_capitan":    {MacOSElCapitan, MacOSElCapitan},
+		"MacOS.release == :yosemite":      {MacOSYosemite, MacOSYosemite},
+		"MacOS.release == :mavericks":     {MacOSMavericks, MacOSMavericks},
+		"MacOS.release == :mountain_lion": {MacOSMountainLion, MacOSMountainLion},
+		"MacOS.release == :lion":          {MacOSLion, MacOSLion},
+		"MacOS.release == :snow_leopard":  {MacOSSnowLeopard, MacOSSnowLeopard},
+		"MacOS.release == :leopard":       {MacOSLeopard, MacOSLeopard},
+		"MacOS.release == :tiger":         {MacOSTiger, MacOSTiger},
+
+		// GT (>)
+		"MacOS.release > :el_capitan":  {MacOSSierra, MacOSHighSierra},
+		"MacOS.release > :high_sierra": {MacOSHighSierra, MacOSHighSierra},
+
+		// LT (<)
+		"MacOS.release < :el_capitan": {MacOSTiger, MacOSYosemite},
+		"MacOS.release < :tiger":      {MacOSTiger, MacOSTiger},
+
+		// GT and EQ (>=)
+		"MacOS.release >= :el_capitan":  {MacOSElCapitan, MacOSHighSierra},
+		"MacOS.release >= :high_sierra": {MacOSHighSierra, MacOSHighSierra},
+
+		// LT and EQ (<=)
+		"MacOS.release <= :el_capitan": {MacOSTiger, MacOSElCapitan},
+		"MacOS.release <= :tiger":      {MacOSTiger, MacOSTiger},
+	}
+
+	for testCase, expected := range testCases {
+		// preparations
+		l := NewLexer(testCase)
+		p := NewParser(l)
+
+		// test
+		min, max, err := p.parseConditionMacOS()
+		assert.Nil(t, err)
+		assert.Equal(t, expected[0], min)
+		assert.Equal(t, expected[1], max)
+	}
+
+	// test (error)
+	testCasesErrors := map[string]string{
+		"MacOS.release == :invalid": "Parse MacOS condition: unknown",
+		"invalid":                   "Parse MacOS condition: not found",
+	}
+
+	for testCase, expected := range testCasesErrors {
+		// preparations
+		l := NewLexer(testCase)
+		p := NewParser(l)
+
+		// test
+		min, max, err := p.parseConditionMacOS()
+		assert.Equal(t, MacOSHighSierra, min)
+		assert.Equal(t, MacOSHighSierra, max)
+		assert.Error(t, err)
+		assert.Equal(t, expected, err.Error())
+	}
+}
+
 func TestNextToken(t *testing.T) {
 	// preparations
 	p := &Parser{

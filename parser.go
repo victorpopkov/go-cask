@@ -100,19 +100,19 @@ func (p *Parser) parseAppcast() (*Appcast, error) {
 func (p *Parser) ParseArtifact() (*Artifact, error) {
 	switch p.currentToken.Literal {
 	case "app":
-		return p.ParseArtifactApp()
+		return p.parseArtifactApp()
 	case "pkg":
-		return p.ParseArtifactPkg()
+		return p.parseArtifactPkg()
 	case "binary":
-		return p.ParseArtifactBinary()
+		return p.parseArtifactBinary()
 	default:
 		return nil, errors.New("artifact not found")
 	}
 }
 
-// ParseArtifactApp parses the "app" artifact if the Parser.currentToken matches
+// parseArtifactApp parses the "app" artifact if the Parser.currentToken matches
 // the requirements.
-func (p *Parser) ParseArtifactApp() (*Artifact, error) {
+func (p *Parser) parseArtifactApp() (*Artifact, error) {
 	if p.currentTokenIs(IDENT) && p.currentToken.Literal == "app" {
 		if p.peekTokenIs(STRING) {
 			p.accept(STRING)
@@ -144,9 +144,9 @@ func (p *Parser) ParseArtifactApp() (*Artifact, error) {
 	return nil, errors.New(`error parsing "app" artifact`)
 }
 
-// ParseArtifactPkg parses the "pkg" artifact if the Parser.currentToken matches
+// parseArtifactPkg parses the "pkg" artifact if the Parser.currentToken matches
 // the requirements.
-func (p *Parser) ParseArtifactPkg() (*Artifact, error) {
+func (p *Parser) parseArtifactPkg() (*Artifact, error) {
 	if p.currentTokenIs(IDENT) && p.currentToken.Literal == "pkg" {
 		if p.peekTokenIs(STRING) {
 			p.accept(STRING)
@@ -178,9 +178,9 @@ func (p *Parser) ParseArtifactPkg() (*Artifact, error) {
 	return nil, errors.New(`error parsing "pkg" artifact`)
 }
 
-// ParseArtifactBinary parses the "binary" artifact if the Parser.currentToken
+// parseArtifactBinary parses the "binary" artifact if the Parser.currentToken
 // matches the requirements.
-func (p *Parser) ParseArtifactBinary() (*Artifact, error) {
+func (p *Parser) parseArtifactBinary() (*Artifact, error) {
 	if p.currentTokenIs(IDENT) && p.currentToken.Literal == "binary" {
 		if p.peekTokenIs(STRING) {
 			p.accept(STRING)

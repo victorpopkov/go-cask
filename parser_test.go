@@ -29,6 +29,44 @@ func TestNewParser(t *testing.T) {
 	assert.Len(t, p.errors, 0)
 }
 
+func TestParseVersion(t *testing.T) {
+	// test (successful)
+	testCases := map[string]string{
+		`version "1.0.0"`: "1.0.0",
+		"version '1.0.0'": "1.0.0",
+		"version :latest": "latest",
+	}
+
+	for testCase, expected := range testCases {
+		// preparations
+		l := NewLexer(testCase)
+		p := NewParser(l)
+
+		// test
+		actual, err := p.parseVersion()
+		assert.Nil(t, err)
+		assert.Equal(t, expected, actual)
+	}
+
+	// test (error)
+	testCasesErrors := map[string]string{
+		"invalid":       "Parse version: not found",
+		"version 1.0.0": "Parse version: not found",
+	}
+
+	for testCase, expected := range testCasesErrors {
+		// preparations
+		l := NewLexer(testCase)
+		p := NewParser(l)
+
+		// test
+		actual, err := p.parseVersion()
+		assert.Empty(t, actual)
+		assert.Error(t, err)
+		assert.Equal(t, expected, err.Error())
+	}
+}
+
 func TestNextToken(t *testing.T) {
 	// preparations
 	p := &Parser{

@@ -1,5 +1,7 @@
 package cask
 
+import "errors"
+
 // A Parser represents the parser that uses the emitted token provided by Lexer.
 type Parser struct {
 	// cask specifies the parsed Cask.
@@ -39,6 +41,23 @@ func NewParser(lexer *Lexer) *Parser {
 	p.nextToken()
 
 	return p
+}
+
+// parseVersion parses the version if the Parser.peekToken matches the cask
+// requirements. If the ":latest" symbol is found, the version will become the
+// "latest" string.
+func (p *Parser) parseVersion() (string, error) {
+	if p.peekTokenIs(STRING) {
+		p.accept(STRING)
+		return p.currentToken.Literal, nil
+	}
+
+	if p.peekTokenIs(SYMBOL) && p.peekToken.Literal == "latest" {
+		p.accept(SYMBOL)
+		return "latest", nil
+	}
+
+	return "", errors.New("Parse version: not found")
 }
 
 // nextToken updates the Parser.currentToken and Parser.peekToken values to

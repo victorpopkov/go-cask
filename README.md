@@ -29,8 +29,8 @@ creates the corresponding `cask.Cask` struct.
 ### Features
 
 - [ ] Supports version string interpolations
-- [ ] Supports conditional statements
-  - [ ] MacOS.version
+- [x] Supports conditional statements
+  - [x] MacOS.version
 
 ## Supported stanzas
 
@@ -43,20 +43,20 @@ stanza is not ticked, that stanza is not supported yet.
 
 ### Required
 
-- [ ] `version`
-- [ ] `sha256`
-- [ ] `url`
-- [ ] `name`
-- [ ] `homepage`
+- [x] `version`
+- [x] `sha256`
+- [x] `url`
+- [x] `name`
+- [x] `homepage`
 
 ### Artifacts
 
-- [ ] `app`
-  - [ ] `target:`
-- [ ] `pkg`
-  - [ ] `allow_untrusted:`
-- [ ] `binary`
-  - [ ] `target:`
+- [x] `app`
+  - [x] `target:`
+- [x] `pkg`
+  - [x] `allow_untrusted:`
+- [x] `binary`
+  - [x] `target:`
 - [ ] `colorpicker`
 - [ ] `dictionary`
 - [ ] `font`
@@ -78,8 +78,8 @@ stanza is not ticked, that stanza is not supported yet.
 
 - [ ] `uninstall`
 - [ ] `zap`
-- [ ] `appcast`
-  - [ ] `checkpoint:`
+- [x] `appcast`
+  - [x] `checkpoint:`
 - [ ] `depends_on`
 - [ ] `conflicts_with`
 - [ ] `caveats`

@@ -7,7 +7,6 @@ import (
 )
 
 func createTokenTestParser() *Parser {
-	// preparations
 	p := &Parser{
 		lexer: NewLexer("five = 5"),
 	}
@@ -16,6 +15,12 @@ func createTokenTestParser() *Parser {
 	p.nextToken()
 
 	return p
+}
+
+func createCaskTestParser() *Parser {
+	c := NewCask("cask 'example' do\nend\n")
+
+	return c.parser
 }
 
 func TestNewParser(t *testing.T) {
@@ -362,6 +367,28 @@ func TestParseConditionMacOS(t *testing.T) {
 		assert.Error(t, err)
 		assert.Equal(t, expected, err.Error())
 	}
+}
+
+func TestMergeCurrentCaskVariantIfNotEmpty(t *testing.T) {
+	// preparations
+	p := createCaskTestParser()
+	p.currentCaskVariant = NewVariant()
+
+	// test (string)
+	assert.Len(t, p.cask.Variants, 0)
+	p.mergeCurrentCaskVariantIfNotEmpty("test")
+	assert.Len(t, p.cask.Variants, 1)
+
+	// test (strings array)
+	p.mergeCurrentCaskVariantIfNotEmpty([]string{"test", "test"})
+	assert.Len(t, p.cask.Variants, 2)
+
+	// test (strings array)
+	p.mergeCurrentCaskVariantIfNotEmpty([]Artifact{
+		*NewArtifact(ArtifactApp, "test"),
+		*NewArtifact(ArtifactApp, "test"),
+	})
+	assert.Len(t, p.cask.Variants, 3)
 }
 
 func TestNextToken(t *testing.T) {

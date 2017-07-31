@@ -294,6 +294,30 @@ func (p *Parser) ParseConditionMacOS() (min MacOS, max MacOS, err error) {
 	return MacOSHighSierra, MacOSHighSierra, errors.New("MacOS condition not found")
 }
 
+// mergeCurrentCaskVariantIfNotEmpty is a Parser.mergeCurrentCaskVariant
+// convenience function for checking if the provided interface is not
+// empty. Supported types: string, []string, []Artifact.
+func (p *Parser) mergeCurrentCaskVariantIfNotEmpty(i interface{}) {
+	switch i.(type) {
+	case string:
+		p.mergeCurrentCaskVariant(i.(string) != "")
+	case []string:
+		p.mergeCurrentCaskVariant(len(i.([]string)) > 0)
+	case []Artifact:
+		p.mergeCurrentCaskVariant(len(i.([]Artifact)) > 0)
+	}
+}
+
+// mergeCurrentCaskVariant adds Parser.currentCaskVariant to the Cask.Variants
+// array and create a new empty Parser.currentCaskVariant if the provided
+// condition is true.
+func (p *Parser) mergeCurrentCaskVariant(condition bool) {
+	if condition {
+		p.cask.AddVariant(*p.currentCaskVariant)
+		p.currentCaskVariant = NewVariant()
+	}
+}
+
 // nextToken updates the Parser.currentToken and Parser.peekToken values to
 // match the next Lexer token.
 func (p *Parser) nextToken() {

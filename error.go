@@ -48,6 +48,6 @@ func (u *unexpectedTokenError) Error() string {
 	return fmt.Sprintf(
 		"expected next token to be of type %v, got %s instead",
 		u.expectedTokens,
-		u.actualToken,
+		u.actualToken.String(),
 	)
 }

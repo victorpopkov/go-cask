@@ -60,6 +60,36 @@ func (p *Parser) parseVersion() (string, error) {
 	return "", errors.New("Parse version: not found")
 }
 
+// parseAppcast parses the appcast if the Parser.peekToken matches the cask
+// requirements. Supports both with and without checkpoint.
+func (p *Parser) parseAppcast() (*Appcast, error) {
+	if p.peekTokenIs(STRING) {
+		p.accept(STRING)
+
+		url := p.currentToken.Literal
+		checkpoint := ""
+
+		if p.peekTokenIs(COMMA) {
+			p.accept(COMMA)
+			p.accept(NEWLINE)
+		}
+
+		if p.peekTokenIs(IDENT) && p.peekToken.Literal == "checkpoint" {
+			p.accept(IDENT)
+			p.accept(SYMBOL)
+
+			if p.peekTokenIs(STRING) {
+				p.accept(STRING)
+				checkpoint = p.currentToken.Literal
+			}
+		}
+
+		return NewAppcast(url, checkpoint), nil
+	}
+
+	return nil, errors.New("Parse appcast: not found")
+}
+
 // nextToken updates the Parser.currentToken and Parser.peekToken values to
 // match the next Lexer token.
 func (p *Parser) nextToken() {

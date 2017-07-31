@@ -67,6 +67,60 @@ func TestParseVersion(t *testing.T) {
 	}
 }
 
+func TestParseAppcast(t *testing.T) {
+	// test (successful)
+	testCases := map[string]Appcast{
+		`appcast "https://example.com/appcast.xml"`: Appcast{
+			URL:        "https://example.com/appcast.xml",
+			Checkpoint: "",
+		},
+		"appcast 'https://example.com/appcast.xml'": Appcast{
+			URL:        "https://example.com/appcast.xml",
+			Checkpoint: "",
+		},
+		"appcast 'https://example.com/appcast.xml', checkpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'": Appcast{
+			URL:        "https://example.com/appcast.xml",
+			Checkpoint: "2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1",
+		},
+		`appcast 'https://example.com/appcast.xml',
+            checkpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'
+    `: Appcast{
+			URL:        "https://example.com/appcast.xml",
+			Checkpoint: "2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1",
+		},
+	}
+
+	for testCase, expected := range testCases {
+		// preparations
+		l := NewLexer(testCase)
+		p := NewParser(l)
+
+		// test
+		actual, err := p.parseAppcast()
+		assert.Nil(t, err)
+		assert.Equal(t, expected.URL, actual.URL)
+		assert.Equal(t, expected.Checkpoint, actual.Checkpoint)
+	}
+
+	// test (error)
+	testCasesErrors := map[string]string{
+		"invalid": "Parse appcast: not found",
+		"appcast https://example.com/appcast.xml": "Parse appcast: not found",
+	}
+
+	for testCase, expected := range testCasesErrors {
+		// preparations
+		l := NewLexer(testCase)
+		p := NewParser(l)
+
+		// test
+		actual, err := p.parseAppcast()
+		assert.Nil(t, actual)
+		assert.Error(t, err)
+		assert.Equal(t, expected, err.Error())
+	}
+}
+
 func TestNextToken(t *testing.T) {
 	// preparations
 	p := &Parser{

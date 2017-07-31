@@ -12,7 +12,7 @@ cask 'example-one' do
 
   auto_updates true
 
-  app 'Example One.app'
+  app 'Example One.app', target: 'Example.app'
   app 'Example One Uninstaller.app'
-  binary 'example-one'
+  binary 'example-one', target: 'example'
 end

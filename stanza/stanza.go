@@ -1,4 +1,4 @@
-package cask
+package stanza
 
 // A Stanza represents a cask stanza itself. Shouldn't be used as is, but
 // inherited by type specific stanzas.

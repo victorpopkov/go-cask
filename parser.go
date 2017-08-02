@@ -2,6 +2,7 @@ package cask
 
 import (
 	"fmt"
+	"stanza"
 
 	"github.com/pkg/errors"
 )
@@ -304,11 +305,11 @@ func (p *Parser) parseBlockStatement(t ...TokenType) {
 // parseVersion parses the version if the Parser.peekToken matches the cask
 // requirements. If the ":latest" symbol is found, the Version will have the
 // "latest" string value.
-func (p *Parser) parseVersion() (*Version, error) {
+func (p *Parser) parseVersion() (*stanza.Version, error) {
 	if p.peekTokenIs(STRING) {
 		p.accept(STRING)
-		return &Version{
-			Stanza: Stanza{
+		return &stanza.Version{
+			Stanza: stanza.Stanza{
 				Value: p.currentToken.Literal,
 			},
 		}, nil
@@ -316,8 +317,8 @@ func (p *Parser) parseVersion() (*Version, error) {
 
 	if p.peekTokenIs(SYMBOL) && p.peekToken.Literal == "latest" {
 		p.accept(SYMBOL)
-		return &Version{
-			Stanza: Stanza{
+		return &stanza.Version{
+			Stanza: stanza.Stanza{
 				Value: "latest",
 			},
 		}, nil
@@ -328,7 +329,7 @@ func (p *Parser) parseVersion() (*Version, error) {
 
 // parseAppcast parses the appcast if the Parser.peekToken matches the cask
 // requirements. Supports both with and without checkpoint.
-func (p *Parser) parseAppcast() (*Appcast, error) {
+func (p *Parser) parseAppcast() (*stanza.Appcast, error) {
 	if p.peekTokenIs(STRING) {
 		p.accept(STRING)
 
@@ -353,8 +354,8 @@ func (p *Parser) parseAppcast() (*Appcast, error) {
 			}
 		}
 
-		return &Appcast{
-			Stanza: Stanza{
+		return &stanza.Appcast{
+			Stanza: stanza.Stanza{
 				Value: url,
 			},
 			Checkpoint: checkpoint,

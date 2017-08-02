@@ -1,9 +1,11 @@
 package cask
 
+import "stanza"
+
 // A Variant represents a single cask variant.
 type Variant struct {
 	// Version specifies the current cask version as Version pointer.
-	Version *Version
+	Version *stanza.Version
 
 	// SHA256 specifies the SHA256 version checksum.
 	SHA256 string
@@ -12,7 +14,7 @@ type Variant struct {
 	URL string
 
 	// Appcast specifies the appcast info represented as Appcast struct.
-	Appcast *Appcast
+	Appcast *stanza.Appcast
 
 	// Names specify the application names. Each cask can have multiple names.
 	Names []string

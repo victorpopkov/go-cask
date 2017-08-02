@@ -2,6 +2,7 @@ package cask
 
 import (
 	"fmt"
+	"stanza"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -142,7 +143,7 @@ func TestParseVersion(t *testing.T) {
 		// test
 		actual, err := p.parseVersion()
 		assert.Nil(t, err)
-		assert.IsType(t, &Version{}, actual)
+		assert.IsType(t, &stanza.Version{}, actual)
 		assert.Equal(t, expected, actual.Value)
 	}
 
@@ -167,30 +168,30 @@ func TestParseVersion(t *testing.T) {
 
 func TestParseAppcast(t *testing.T) {
 	// test (successful)
-	testCases := map[string]Appcast{
+	testCases := map[string]stanza.Appcast{
 		`appcast "https://example.com/appcast.xml"`: {
-			Stanza: Stanza{
+			Stanza: stanza.Stanza{
 				Value:    "https://example.com/appcast.xml",
 				IsGlobal: true,
 			},
 			Checkpoint: "",
 		},
 		"appcast 'https://example.com/appcast.xml'": {
-			Stanza: Stanza{
+			Stanza: stanza.Stanza{
 				Value:    "https://example.com/appcast.xml",
 				IsGlobal: true,
 			},
 			Checkpoint: "",
 		},
 		"appcast 'https://example.com/appcast.xml', checkpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'": {
-			Stanza: Stanza{
+			Stanza: stanza.Stanza{
 				Value:    "https://example.com/appcast.xml",
 				IsGlobal: true,
 			},
 			Checkpoint: "2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1",
 		},
 		"appcast 'https://example.com/appcast.xml',\ncheckpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'": {
-			Stanza: Stanza{
+			Stanza: stanza.Stanza{
 				Value:    "https://example.com/appcast.xml",
 				IsGlobal: true,
 			},
@@ -206,7 +207,7 @@ func TestParseAppcast(t *testing.T) {
 		// test
 		actual, err := p.parseAppcast()
 		assert.Nil(t, err)
-		assert.IsType(t, Appcast{}, *actual)
+		assert.IsType(t, stanza.Appcast{}, *actual)
 		assert.Equal(t, expected.Value, actual.Value)
 		assert.Equal(t, expected.Checkpoint, actual.Checkpoint)
 	}

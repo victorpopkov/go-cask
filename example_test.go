@@ -54,7 +54,7 @@ func Example_one() {
 	//   homepage: https://example.com/
 	//  artifacts: app, Example One.app => Example.app
 	//             app, Example One Uninstaller.app
-	//             binary, #{appdir}/Example One.app/Contents/MacOS/example-one => example
+	//             binary, #{appdir}/Example.app/Contents/MacOS/example-one => example
 	//      macOS: macOS High Sierra (10.13) [minimum]
 	//             macOS High Sierra (10.13) [maximum]
 }
@@ -77,7 +77,7 @@ func Example_two() {
 			fmt.Printf("%10s: %s\n", "appcast", v.Appcast.URL)
 			fmt.Printf("%12s%s\n", "", v.Appcast.Checkpoint)
 			fmt.Printf("%10s: %v\n", "names", v.Names)
-			// fmt.Printf("%10s: %s\n", "homepage", v.Homepage)
+			fmt.Printf("%10s: %s\n", "homepage", v.Homepage)
 
 			// artifacts
 			fmt.Printf("%10s: ", "artifacts")
@@ -107,8 +107,9 @@ func Example_two() {
 	//        url: https://example.com/app_#{version}.pkg
 	//    appcast: https://example.com/sparkle/#{version}/el_capitan.xml
 	//             93ef3101ca730028d70524f71b7f6f17cbdb8d26906299f90c38b7079e1d03a4
-	//      names: []
-	//  artifacts: []
+	//      names: [Example Example Two]
+	//   homepage: https://example.com/
+	//  artifacts: pkg, app_#{version}.pkg, allow_untrusted: true
 	//      macOS: Mac OS X Tiger (10.4) [minimum]
 	//             OS X El Capitan (10.11) [maximum]
 	// Variant #2:
@@ -118,6 +119,7 @@ func Example_two() {
 	//    appcast: https://example.com/sparkle/#{version.major}/appcast.xml
 	//             57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7
 	//      names: [Example Example Two]
+	//   homepage: https://example.com/
 	//  artifacts: pkg, app_#{version}.pkg, allow_untrusted: true
 	//      macOS: macOS High Sierra (10.13) [minimum]
 	//             macOS High Sierra (10.13) [maximum]

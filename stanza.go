@@ -11,6 +11,21 @@ type Stanza struct {
 	global bool
 }
 
+// A Version represents a version cask stanza.
+type Version struct {
+	Stanza
+}
+
+// A SHA256 represents a sha256 cask stanza.
+type SHA256 struct {
+	Stanza
+}
+
+// An URL represents an url cask stanza.
+type URL struct {
+	Stanza
+}
+
 // An Appcast represents an appcast cask stanza.
 type Appcast struct {
 	Stanza
@@ -19,14 +34,12 @@ type Appcast struct {
 	Checkpoint string
 }
 
-// NewAppcast creates a new Appcast instance and returns its pointer. Requires
-// both Appcast.Value and Appcast.Checkpoint to be passed as arguments.
-func NewAppcast(value string, checkpoint string) *Appcast {
-	return &Appcast{
-		Stanza: Stanza{
-			Value:  value,
-			global: false,
-		},
-		Checkpoint: checkpoint,
-	}
+// A Name represents a name cask stanza.
+type Name struct {
+	Stanza
+}
+
+// A Homepage represents a homepage cask stanza.
+type Homepage struct {
+	Stanza
 }

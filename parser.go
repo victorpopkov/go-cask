@@ -320,7 +320,13 @@ func (p *Parser) parseAppcast() (*Appcast, error) {
 			}
 		}
 
-		return NewAppcast(url, checkpoint), nil
+		return &Appcast{
+			Stanza: Stanza{
+				Value:  url,
+				global: false,
+			},
+			Checkpoint: checkpoint,
+		}, nil
 	}
 
 	return nil, errors.New("appcast not found")

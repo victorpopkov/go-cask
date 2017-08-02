@@ -12,7 +12,7 @@ type Variant struct {
 	URL string
 
 	// Appcast specifies the appcast info represented as Appcast struct.
-	Appcast Appcast
+	Appcast *Appcast
 
 	// Names specify the application names. Each cask can have multiple names.
 	Names []string

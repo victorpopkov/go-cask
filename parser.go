@@ -74,9 +74,8 @@ func (p *Parser) ParseCask(cask *Cask) error {
 		}
 
 		// appcast
-		if last.Appcast.global && v.Appcast.Value == "" {
+		if v.Appcast == nil && last.Appcast != nil && last.Appcast.global {
 			v.Appcast = last.Appcast
-			p.cask.Variants[i] = v
 		}
 
 		// homepage
@@ -148,13 +147,16 @@ func (p *Parser) parseExpressionStatement() {
 				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.URL)
 				p.currentCaskVariant.URL = p.peekToken.Literal
 			case "appcast":
-				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Appcast.Value)
+				if p.currentCaskVariant.Appcast != nil {
+					p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Appcast.Value)
+				}
+
 				a, err := p.parseAppcast()
-				if err == nil && a != nil {
+				if err == nil {
 					if !p.insideIfElse {
 						a.global = true
 					}
-					p.currentCaskVariant.Appcast = *a
+					p.currentCaskVariant.Appcast = a
 				}
 			case "name":
 				if p.currentIfVariant != nil {
@@ -322,8 +324,7 @@ func (p *Parser) parseAppcast() (*Appcast, error) {
 
 		return &Appcast{
 			Stanza: Stanza{
-				Value:  url,
-				global: false,
+				Value: url,
 			},
 			Checkpoint: checkpoint,
 		}, nil

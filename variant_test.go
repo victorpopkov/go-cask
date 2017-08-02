@@ -1,6 +1,7 @@
 package cask
 
 import (
+	"stanza"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -29,7 +30,17 @@ func TestAddName(t *testing.T) {
 
 	// test
 	assert.Len(t, v.Names, 0)
-	v.AddName("test")
+	v.AddName(stanza.NewName("test"))
+	assert.Len(t, v.Names, 1)
+}
+
+func TestAddNameString(t *testing.T) {
+	// preparations
+	v := NewVariant()
+
+	// test
+	assert.Len(t, v.Names, 0)
+	v.AddNameString("test")
 	assert.Len(t, v.Names, 1)
 }
 

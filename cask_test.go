@@ -66,9 +66,19 @@ func TestParse(t *testing.T) {
 						URL:        "https://example.com/sparkle/#{version}/snowleopard.xml",
 						Checkpoint: "a93e9e53c90ab95e1ce83cbc1cbd76102da1bce5330b649872dbd95a1793a03e",
 					},
-					Names: []string{
-						"Example",
-						"Example (if-six-versions-six-appcasts)",
+					Names: []*stanza.Name{
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (if-six-versions-six-appcasts)",
+						},
 					},
 					Homepage: "https://example.com/",
 					Artifacts: []Artifact{
@@ -96,9 +106,19 @@ func TestParse(t *testing.T) {
 						URL:        "https://example.com/sparkle/#{version}/lion.xml",
 						Checkpoint: "13dfb3758d65d265e4c12336815b2db327683ad38b2a1162cc88ab3579bbfaa1",
 					},
-					Names: []string{
-						"Example",
-						"Example (if-six-versions-six-appcasts)",
+					Names: []*stanza.Name{
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (if-six-versions-six-appcasts)",
+						},
 					},
 					Homepage: "https://example.com/",
 					Artifacts: []Artifact{
@@ -126,9 +146,19 @@ func TestParse(t *testing.T) {
 						URL:        "https://example.com/sparkle/#{version}/mountainlion.xml",
 						Checkpoint: "00af55f25d0c6e53f017a972b77fe4def95f9bb4ec4dc217c520e875fa0071a9",
 					},
-					Names: []string{
-						"Example",
-						"Example (if-six-versions-six-appcasts)",
+					Names: []*stanza.Name{
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (if-six-versions-six-appcasts)",
+						},
 					},
 					Homepage: "https://example.com/",
 					Artifacts: []Artifact{
@@ -156,9 +186,19 @@ func TestParse(t *testing.T) {
 						URL:        "https://example.com/sparkle/#{version}/mavericks.xml",
 						Checkpoint: "9cbe5cfd22b0eb5f159ae634acf615d9c8032699b5a79d37a3046bdaf5677c84",
 					},
-					Names: []string{
-						"Example",
-						"Example (if-six-versions-six-appcasts)",
+					Names: []*stanza.Name{
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (if-six-versions-six-appcasts)",
+						},
 					},
 					Homepage: "https://example.com/",
 					Artifacts: []Artifact{
@@ -186,9 +226,19 @@ func TestParse(t *testing.T) {
 						URL:        "https://example.com/sparkle/#{version}/yosemite.xml",
 						Checkpoint: "f309466aea57120e04b214292d54a9d5e32d018582344b3a62021a91ed8dd69d",
 					},
-					Names: []string{
-						"Example",
-						"Example (if-six-versions-six-appcasts)",
+					Names: []*stanza.Name{
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (if-six-versions-six-appcasts)",
+						},
 					},
 					Homepage: "https://example.com/",
 					Artifacts: []Artifact{
@@ -216,9 +266,19 @@ func TestParse(t *testing.T) {
 						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
 						Checkpoint: "57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7",
 					},
-					Names: []string{
-						"Example",
-						"Example (if-six-versions-six-appcasts)",
+					Names: []*stanza.Name{
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (if-six-versions-six-appcasts)",
+						},
 					},
 					Homepage: "https://example.com/",
 					Artifacts: []Artifact{
@@ -249,9 +309,19 @@ func TestParse(t *testing.T) {
 					SHA256:  "30c99e8b103eacbe6f6d6e1b54b06ca6d5f3164b4f50094334a517ae95ca8fba",
 					URL:     "https://example.com/app_#{version}.dmg",
 					Appcast: nil,
-					Names: []string{
-						"Example",
-						"Example (if-three-versions-one-appcast)",
+					Names: []*stanza.Name{
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (if-three-versions-one-appcast)",
+						},
 					},
 					Homepage: "https://example.com/",
 					Artifacts: []Artifact{
@@ -276,9 +346,19 @@ func TestParse(t *testing.T) {
 					SHA256:  "92521fc3cbd964bdc9f584a991b89fddaa5754ed1cc96d6d42445338669c1305",
 					URL:     "https://example.com/app_#{version}.dmg",
 					Appcast: nil,
-					Names: []string{
-						"Example",
-						"Example (if-three-versions-one-appcast)",
+					Names: []*stanza.Name{
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (if-three-versions-one-appcast)",
+						},
 					},
 					Homepage: "https://example.com/",
 					Artifacts: []Artifact{
@@ -306,9 +386,19 @@ func TestParse(t *testing.T) {
 						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
 						Checkpoint: "8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d",
 					},
-					Names: []string{
-						"Example",
-						"Example (if-three-versions-one-appcast)",
+					Names: []*stanza.Name{
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (if-three-versions-one-appcast)",
+						},
 					},
 					Homepage: "https://example.com/",
 					Artifacts: []Artifact{
@@ -345,9 +435,19 @@ func TestParse(t *testing.T) {
 						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
 						Checkpoint: "8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d",
 					},
-					Names: []string{
-						"Example",
-						"Example (if-two-versions-one-global-appcast)",
+					Names: []*stanza.Name{
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (if-two-versions-one-global-appcast)",
+						},
 					},
 					Homepage: "https://example.com/",
 					Artifacts: []Artifact{
@@ -378,9 +478,19 @@ func TestParse(t *testing.T) {
 						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
 						Checkpoint: "8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d",
 					},
-					Names: []string{
-						"Example",
-						"Example (if-two-versions-one-global-appcast)",
+					Names: []*stanza.Name{
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (if-two-versions-one-global-appcast)",
+						},
 					},
 					Homepage: "https://example.com/",
 					Artifacts: []Artifact{
@@ -406,17 +516,27 @@ func TestParse(t *testing.T) {
 			Variants: []Variant{
 				{
 					Version: &stanza.Version{
-						Value: "latest",
 						BaseStanza: stanza.BaseStanza{
 							IsGlobal: true,
 						},
+						Value: "latest",
 					},
 					SHA256:  "5e1e2bcac305958b27077ca136f35f0abae7cf38c9af678f7d220ed0cb51d4f8",
 					URL:     "https://example.com/app_#{version}.dmg",
 					Appcast: nil,
-					Names: []string{
-						"Example",
-						"Example (latest)",
+					Names: []*stanza.Name{
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: stanza.BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (latest)",
+						},
 					},
 					Homepage: "https://example.com/",
 					Artifacts: []Artifact{
@@ -461,13 +581,18 @@ func TestParse(t *testing.T) {
 		))
 
 		if len(expectedCask.Variants) == len(actualCask.Variants) {
-			for key, actualVariant := range actualCask.Variants {
-				expectedVariant := expectedCask.Variants[key]
+			for keyVariant, actualVariant := range actualCask.Variants {
+				expectedVariant := expectedCask.Variants[keyVariant]
 				assert.IsType(t, Variant{}, actualVariant, filename)
 				assert.Equal(t, expectedVariant.Version, actualVariant.Version, filename)
 				assert.Equal(t, expectedVariant.SHA256, actualVariant.SHA256, filename)
 				assert.Equal(t, expectedVariant.URL, actualVariant.URL, filename)
-				assert.Equal(t, expectedVariant.Names, actualVariant.Names, filename)
+
+				// names
+				for keyName, name := range actualVariant.Names {
+					assert.Equal(t, expectedVariant.Names[keyName], name, filename)
+				}
+
 				assert.Equal(t, expectedVariant.Homepage, actualVariant.Homepage, filename)
 				assert.Equal(t, expectedVariant.Appcast, actualVariant.Appcast, filename)
 				assert.Equal(t, expectedVariant.Artifacts, actualVariant.Artifacts, filename)

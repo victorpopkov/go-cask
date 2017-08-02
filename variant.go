@@ -17,7 +17,7 @@ type Variant struct {
 	Appcast *stanza.Appcast
 
 	// Names specify the application names. Each cask can have multiple names.
-	Names []string
+	Names []*stanza.Name
 
 	// Homepage specifies the application vendor homepage stanza.
 	Homepage string
@@ -39,9 +39,15 @@ func NewVariant() *Variant {
 	return &Variant{}
 }
 
-// AddName adds a new name string to the Variant.Names array.
-func (v *Variant) AddName(name string) {
+// AddName adds a new *stanza.Name to the Variant.Names array.
+func (v *Variant) AddName(name *stanza.Name) {
 	v.Names = append(v.Names, name)
+}
+
+// AddNameString creates a new *stanza.Name instance and adds its pointer to the
+// Variant.Names array.
+func (v *Variant) AddNameString(name string) {
+	v.Names = append(v.Names, stanza.NewName(name))
 }
 
 // AddArtifact adds a new Artifact to the Variant.Artifacts array.

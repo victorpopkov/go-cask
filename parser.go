@@ -91,11 +91,12 @@ func (p *Parser) ParseCask(cask *Cask) error {
 		}
 
 		// names
-		if len(v.Names) == 0 {
+		if len(v.Names) == 0 && len(last.Names) != 0 {
 			for _, n := range last.Names {
-				v.AddName(n)
+				if n.IsGlobal {
+					v.Names = last.Names
+				}
 			}
-			p.cask.Variants[i] = v
 		}
 
 		// artifacts
@@ -165,11 +166,13 @@ func (p *Parser) parseExpressionStatement() {
 					p.currentCaskVariant.Appcast = a
 				}
 			case "name":
-				if p.currentIfVariant != nil {
-					p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Names)
-				}
+				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Names)
 
-				p.currentCaskVariant.AddName(p.peekToken.Literal)
+				n := stanza.NewName(p.peekToken.Literal)
+				if !p.insideIfElse {
+					n.IsGlobal = true
+				}
+				p.currentCaskVariant.AddName(n)
 			case "homepage":
 				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Homepage)
 				p.currentCaskVariant.Homepage = p.peekToken.Literal

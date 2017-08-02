@@ -67,6 +67,11 @@ func (p *Parser) ParseCask(cask *Cask) error {
 
 	last := p.cask.Variants[len(p.cask.Variants)-1]
 	for i, v := range p.cask.Variants {
+		// version
+		if v.Version == nil && last.Version != nil && last.Version.global {
+			v.Version = last.Version
+		}
+
 		// url
 		if v.URL == "" {
 			v.URL = last.URL
@@ -168,8 +173,17 @@ func (p *Parser) parseExpressionStatement() {
 				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Homepage)
 				p.currentCaskVariant.Homepage = p.peekToken.Literal
 			case "version":
-				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Version)
-				p.currentCaskVariant.Version, _ = p.parseVersion()
+				if p.currentCaskVariant.Version != nil {
+					p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Version.Value)
+				}
+
+				v, err := p.parseVersion()
+				if err == nil {
+					if !p.insideIfElse {
+						v.global = true
+					}
+					p.currentCaskVariant.Version = v
+				}
 			}
 
 			// artifacts
@@ -188,8 +202,17 @@ func (p *Parser) parseExpressionStatement() {
 		if p.peekTokenIs(SYMBOL) {
 			switch p.currentToken.Literal {
 			case "version":
-				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Version)
-				p.currentCaskVariant.Version, _ = p.parseVersion()
+				if p.currentCaskVariant.Version != nil {
+					p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Version.Value)
+				}
+
+				v, err := p.parseVersion()
+				if err == nil {
+					if !p.insideIfElse {
+						v.global = true
+					}
+					p.currentCaskVariant.Version = v
+				}
 			}
 		}
 	case IF:
@@ -279,20 +302,28 @@ func (p *Parser) parseBlockStatement(t ...TokenType) {
 }
 
 // parseVersion parses the version if the Parser.peekToken matches the cask
-// requirements. If the ":latest" symbol is found, the version will become the
-// "latest" string.
-func (p *Parser) parseVersion() (string, error) {
+// requirements. If the ":latest" symbol is found, the Version will have the
+// "latest" string value.
+func (p *Parser) parseVersion() (*Version, error) {
 	if p.peekTokenIs(STRING) {
 		p.accept(STRING)
-		return p.currentToken.Literal, nil
+		return &Version{
+			Stanza: Stanza{
+				Value: p.currentToken.Literal,
+			},
+		}, nil
 	}
 
 	if p.peekTokenIs(SYMBOL) && p.peekToken.Literal == "latest" {
 		p.accept(SYMBOL)
-		return "latest", nil
+		return &Version{
+			Stanza: Stanza{
+				Value: "latest",
+			},
+		}, nil
 	}
 
-	return "", errors.New("version not found")
+	return nil, errors.New("version not found")
 }
 
 // parseAppcast parses the appcast if the Parser.peekToken matches the cask

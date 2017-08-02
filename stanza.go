@@ -43,3 +43,9 @@ type Name struct {
 type Homepage struct {
 	Stanza
 }
+
+// String returns a string representation of the Stanza struct which is the
+// value.
+func (s Stanza) String() string {
+	return s.Value
+}

@@ -2,8 +2,8 @@ package cask
 
 // A Variant represents a single cask variant.
 type Variant struct {
-	// Current specifies the current cask version string.
-	Version string
+	// Version specifies the current cask version as Version pointer.
+	Version *Version
 
 	// SHA256 specifies the SHA256 version checksum.
 	SHA256 string

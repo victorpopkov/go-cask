@@ -56,9 +56,13 @@ func TestParse(t *testing.T) {
 			Content: string(getTestdata("if-six-versions-six-appcasts.rb")),
 			Variants: []Variant{
 				{
-					Version: "0.1.0",
-					SHA256:  "6ad9613a455798d6d92e5f5f390ab4baa70596bc869ed6b17f5cdd2b28635f06",
-					URL:     "https://example.com/snowleopard/app_#{version}.dmg",
+					Version: &Version{
+						Stanza: Stanza{
+							Value: "0.1.0",
+						},
+					},
+					SHA256: "6ad9613a455798d6d92e5f5f390ab4baa70596bc869ed6b17f5cdd2b28635f06",
+					URL:    "https://example.com/snowleopard/app_#{version}.dmg",
 					Appcast: &Appcast{
 						Stanza: Stanza{
 							Value: "https://example.com/sparkle/#{version}/snowleopard.xml",
@@ -86,9 +90,13 @@ func TestParse(t *testing.T) {
 					},
 				},
 				{
-					Version: "0.2.0",
-					SHA256:  "911fc0c48cb0c70601db5775a9bef1b740dc4cc9f9b46389b9f0563fe7eb94d7",
-					URL:     "https://example.com/lion/app_#{version}.dmg",
+					Version: &Version{
+						Stanza: Stanza{
+							Value: "0.2.0",
+						},
+					},
+					SHA256: "911fc0c48cb0c70601db5775a9bef1b740dc4cc9f9b46389b9f0563fe7eb94d7",
+					URL:    "https://example.com/lion/app_#{version}.dmg",
 					Appcast: &Appcast{
 						Stanza: Stanza{
 							Value: "https://example.com/sparkle/#{version}/lion.xml",
@@ -116,9 +124,13 @@ func TestParse(t *testing.T) {
 					},
 				},
 				{
-					Version: "0.3.0",
-					SHA256:  "550613537fc488f3b372af74a4001879f012c8465b816f1b85c6d3446b2cfb49",
-					URL:     "https://example.com/mountainlion/app_#{version}.dmg",
+					Version: &Version{
+						Stanza: Stanza{
+							Value: "0.3.0",
+						},
+					},
+					SHA256: "550613537fc488f3b372af74a4001879f012c8465b816f1b85c6d3446b2cfb49",
+					URL:    "https://example.com/mountainlion/app_#{version}.dmg",
 					Appcast: &Appcast{
 						Stanza: Stanza{
 							Value: "https://example.com/sparkle/#{version}/mountainlion.xml",
@@ -146,9 +158,13 @@ func TestParse(t *testing.T) {
 					},
 				},
 				{
-					Version: "0.4.0",
-					SHA256:  "cd78534ed15ad46912b71339d1417d0d043d8309c2b94415f3ed1b9d1fdfaed0",
-					URL:     "https://example.com/mavericks/app_#{version}.dmg",
+					Version: &Version{
+						Stanza: Stanza{
+							Value: "0.4.0",
+						},
+					},
+					SHA256: "cd78534ed15ad46912b71339d1417d0d043d8309c2b94415f3ed1b9d1fdfaed0",
+					URL:    "https://example.com/mavericks/app_#{version}.dmg",
 					Appcast: &Appcast{
 						Stanza: Stanza{
 							Value: "https://example.com/sparkle/#{version}/mavericks.xml",
@@ -176,9 +192,13 @@ func TestParse(t *testing.T) {
 					},
 				},
 				{
-					Version: "0.5.0",
-					SHA256:  "d1f62539db82b51da84bda2f4885db5e847db8389183be41389efd0ae6edab94",
-					URL:     "https://example.com/yosemite/app_#{version}.dmg",
+					Version: &Version{
+						Stanza: Stanza{
+							Value: "0.5.0",
+						},
+					},
+					SHA256: "d1f62539db82b51da84bda2f4885db5e847db8389183be41389efd0ae6edab94",
+					URL:    "https://example.com/yosemite/app_#{version}.dmg",
 					Appcast: &Appcast{
 						Stanza: Stanza{
 							Value: "https://example.com/sparkle/#{version}/yosemite.xml",
@@ -206,9 +226,13 @@ func TestParse(t *testing.T) {
 					},
 				},
 				{
-					Version: "2.0.0",
-					SHA256:  "f22abd6773ab232869321ad4b1e47ac0c908febf4f3a2bd10c8066140f741261",
-					URL:     "https://example.com/elcapitan/app_#{version}.dmg",
+					Version: &Version{
+						Stanza: Stanza{
+							Value: "2.0.0",
+						},
+					},
+					SHA256: "f22abd6773ab232869321ad4b1e47ac0c908febf4f3a2bd10c8066140f741261",
+					URL:    "https://example.com/elcapitan/app_#{version}.dmg",
 					Appcast: &Appcast{
 						Stanza: Stanza{
 							Value: "https://example.com/sparkle/#{version.major}/appcast.xml",
@@ -242,7 +266,11 @@ func TestParse(t *testing.T) {
 			Content: string(getTestdata("if-three-versions-one-appcast.rb")),
 			Variants: []Variant{
 				{
-					Version: "0.9.0",
+					Version: &Version{
+						Stanza: Stanza{
+							Value: "0.9.0",
+						},
+					},
 					SHA256:  "30c99e8b103eacbe6f6d6e1b54b06ca6d5f3164b4f50094334a517ae95ca8fba",
 					URL:     "https://example.com/app_#{version}.dmg",
 					Appcast: nil,
@@ -267,7 +295,11 @@ func TestParse(t *testing.T) {
 					},
 				},
 				{
-					Version: "1.0.0",
+					Version: &Version{
+						Stanza: Stanza{
+							Value: "1.0.0",
+						},
+					},
 					SHA256:  "92521fc3cbd964bdc9f584a991b89fddaa5754ed1cc96d6d42445338669c1305",
 					URL:     "https://example.com/app_#{version}.dmg",
 					Appcast: nil,
@@ -292,9 +324,13 @@ func TestParse(t *testing.T) {
 					},
 				},
 				{
-					Version: "2.0.0",
-					SHA256:  "f22abd6773ab232869321ad4b1e47ac0c908febf4f3a2bd10c8066140f741261",
-					URL:     "https://example.com/app_#{version}.dmg",
+					Version: &Version{
+						Stanza: Stanza{
+							Value: "2.0.0",
+						},
+					},
+					SHA256: "f22abd6773ab232869321ad4b1e47ac0c908febf4f3a2bd10c8066140f741261",
+					URL:    "https://example.com/app_#{version}.dmg",
 					Appcast: &Appcast{
 						Stanza: Stanza{
 							Value: "https://example.com/sparkle/#{version.major}/appcast.xml",
@@ -328,9 +364,13 @@ func TestParse(t *testing.T) {
 			Content: string(getTestdata("if-two-versions-one-global-appcast.rb")),
 			Variants: []Variant{
 				{
-					Version: "1.0.0",
-					SHA256:  "92521fc3cbd964bdc9f584a991b89fddaa5754ed1cc96d6d42445338669c1305",
-					URL:     "https://example.com/app_#{version}.dmg",
+					Version: &Version{
+						Stanza: Stanza{
+							Value: "1.0.0",
+						},
+					},
+					SHA256: "92521fc3cbd964bdc9f584a991b89fddaa5754ed1cc96d6d42445338669c1305",
+					URL:    "https://example.com/app_#{version}.dmg",
 					Appcast: &Appcast{
 						Stanza: Stanza{
 							Value:  "https://example.com/sparkle/#{version.major}/appcast.xml",
@@ -359,9 +399,13 @@ func TestParse(t *testing.T) {
 					},
 				},
 				{
-					Version: "2.0.0",
-					SHA256:  "f22abd6773ab232869321ad4b1e47ac0c908febf4f3a2bd10c8066140f741261",
-					URL:     "https://example.com/app_#{version}.dmg",
+					Version: &Version{
+						Stanza: Stanza{
+							Value: "2.0.0",
+						},
+					},
+					SHA256: "f22abd6773ab232869321ad4b1e47ac0c908febf4f3a2bd10c8066140f741261",
+					URL:    "https://example.com/app_#{version}.dmg",
 					Appcast: &Appcast{
 						Stanza: Stanza{
 							Value:  "https://example.com/sparkle/#{version.major}/appcast.xml",
@@ -396,7 +440,12 @@ func TestParse(t *testing.T) {
 			Content: string(getTestdata("latest.rb")),
 			Variants: []Variant{
 				{
-					Version: "latest",
+					Version: &Version{
+						Stanza: Stanza{
+							Value:  "latest",
+							global: true,
+						},
+					},
 					SHA256:  "5e1e2bcac305958b27077ca136f35f0abae7cf38c9af678f7d220ed0cb51d4f8",
 					URL:     "https://example.com/app_#{version}.dmg",
 					Appcast: nil,

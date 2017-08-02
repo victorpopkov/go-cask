@@ -142,7 +142,8 @@ func TestParseVersion(t *testing.T) {
 		// test
 		actual, err := p.parseVersion()
 		assert.Nil(t, err)
-		assert.Equal(t, expected, actual)
+		assert.IsType(t, &Version{}, actual)
+		assert.Equal(t, expected, actual.Value)
 	}
 
 	// test (error)

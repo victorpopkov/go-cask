@@ -8,11 +8,11 @@ type Variant struct {
 	// SHA256 specifies the SHA256 version checksum.
 	SHA256 string
 
-	// Appcast specifies the appcast info represented as Appcast struct.
-	Appcast Appcast
-
 	// URL specifies the url stanza value.
 	URL string
+
+	// Appcast specifies the appcast info represented as Appcast struct.
+	Appcast Appcast
 
 	// Names specify the application names. Each cask can have multiple names.
 	Names []string

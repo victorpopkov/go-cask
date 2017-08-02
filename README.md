@@ -29,9 +29,12 @@ creates the corresponding `cask.Cask` struct.
 
 ### Features
 
-- [ ] Supports version string interpolations
-- [x] Supports conditional statements
+- [x] Conditional statements
   - [x] MacOS.version
+- [ ] Language blocks
+- [ ] String interpolations
+  - [ ] `#{version}`
+  - [ ] `#{language}`
 
 ## Supported stanzas
 

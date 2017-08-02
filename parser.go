@@ -154,7 +154,7 @@ func (p *Parser) parseExpressionStatement() {
 				p.currentCaskVariant.URL = p.peekToken.Literal
 			case "appcast":
 				if p.currentCaskVariant.Appcast != nil {
-					p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Appcast.Value)
+					p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Appcast.URL)
 				}
 
 				a, err := p.parseAppcast()
@@ -308,20 +308,12 @@ func (p *Parser) parseBlockStatement(t ...TokenType) {
 func (p *Parser) parseVersion() (*stanza.Version, error) {
 	if p.peekTokenIs(STRING) {
 		p.accept(STRING)
-		return &stanza.Version{
-			Stanza: stanza.Stanza{
-				Value: p.currentToken.Literal,
-			},
-		}, nil
+		return stanza.NewVersion(p.currentToken.Literal), nil
 	}
 
 	if p.peekTokenIs(SYMBOL) && p.peekToken.Literal == "latest" {
 		p.accept(SYMBOL)
-		return &stanza.Version{
-			Stanza: stanza.Stanza{
-				Value: "latest",
-			},
-		}, nil
+		return stanza.NewVersion("latest"), nil
 	}
 
 	return nil, errors.New("version not found")
@@ -354,12 +346,7 @@ func (p *Parser) parseAppcast() (*stanza.Appcast, error) {
 			}
 		}
 
-		return &stanza.Appcast{
-			Stanza: stanza.Stanza{
-				Value: url,
-			},
-			Checkpoint: checkpoint,
-		}, nil
+		return stanza.NewAppcast(url, checkpoint), nil
 	}
 
 	return nil, errors.New("appcast not found")

@@ -58,16 +58,12 @@ func TestParse(t *testing.T) {
 			Variants: []Variant{
 				{
 					Version: &stanza.Version{
-						Stanza: stanza.Stanza{
-							Value: "0.1.0",
-						},
+						Value: "0.1.0",
 					},
 					SHA256: "6ad9613a455798d6d92e5f5f390ab4baa70596bc869ed6b17f5cdd2b28635f06",
 					URL:    "https://example.com/snowleopard/app_#{version}.dmg",
 					Appcast: &stanza.Appcast{
-						Stanza: stanza.Stanza{
-							Value: "https://example.com/sparkle/#{version}/snowleopard.xml",
-						},
+						URL:        "https://example.com/sparkle/#{version}/snowleopard.xml",
 						Checkpoint: "a93e9e53c90ab95e1ce83cbc1cbd76102da1bce5330b649872dbd95a1793a03e",
 					},
 					Names: []string{
@@ -92,16 +88,12 @@ func TestParse(t *testing.T) {
 				},
 				{
 					Version: &stanza.Version{
-						Stanza: stanza.Stanza{
-							Value: "0.2.0",
-						},
+						Value: "0.2.0",
 					},
 					SHA256: "911fc0c48cb0c70601db5775a9bef1b740dc4cc9f9b46389b9f0563fe7eb94d7",
 					URL:    "https://example.com/lion/app_#{version}.dmg",
 					Appcast: &stanza.Appcast{
-						Stanza: stanza.Stanza{
-							Value: "https://example.com/sparkle/#{version}/lion.xml",
-						},
+						URL:        "https://example.com/sparkle/#{version}/lion.xml",
 						Checkpoint: "13dfb3758d65d265e4c12336815b2db327683ad38b2a1162cc88ab3579bbfaa1",
 					},
 					Names: []string{
@@ -126,16 +118,12 @@ func TestParse(t *testing.T) {
 				},
 				{
 					Version: &stanza.Version{
-						Stanza: stanza.Stanza{
-							Value: "0.3.0",
-						},
+						Value: "0.3.0",
 					},
 					SHA256: "550613537fc488f3b372af74a4001879f012c8465b816f1b85c6d3446b2cfb49",
 					URL:    "https://example.com/mountainlion/app_#{version}.dmg",
 					Appcast: &stanza.Appcast{
-						Stanza: stanza.Stanza{
-							Value: "https://example.com/sparkle/#{version}/mountainlion.xml",
-						},
+						URL:        "https://example.com/sparkle/#{version}/mountainlion.xml",
 						Checkpoint: "00af55f25d0c6e53f017a972b77fe4def95f9bb4ec4dc217c520e875fa0071a9",
 					},
 					Names: []string{
@@ -160,16 +148,12 @@ func TestParse(t *testing.T) {
 				},
 				{
 					Version: &stanza.Version{
-						Stanza: stanza.Stanza{
-							Value: "0.4.0",
-						},
+						Value: "0.4.0",
 					},
 					SHA256: "cd78534ed15ad46912b71339d1417d0d043d8309c2b94415f3ed1b9d1fdfaed0",
 					URL:    "https://example.com/mavericks/app_#{version}.dmg",
 					Appcast: &stanza.Appcast{
-						Stanza: stanza.Stanza{
-							Value: "https://example.com/sparkle/#{version}/mavericks.xml",
-						},
+						URL:        "https://example.com/sparkle/#{version}/mavericks.xml",
 						Checkpoint: "9cbe5cfd22b0eb5f159ae634acf615d9c8032699b5a79d37a3046bdaf5677c84",
 					},
 					Names: []string{
@@ -194,16 +178,12 @@ func TestParse(t *testing.T) {
 				},
 				{
 					Version: &stanza.Version{
-						Stanza: stanza.Stanza{
-							Value: "0.5.0",
-						},
+						Value: "0.5.0",
 					},
 					SHA256: "d1f62539db82b51da84bda2f4885db5e847db8389183be41389efd0ae6edab94",
 					URL:    "https://example.com/yosemite/app_#{version}.dmg",
 					Appcast: &stanza.Appcast{
-						Stanza: stanza.Stanza{
-							Value: "https://example.com/sparkle/#{version}/yosemite.xml",
-						},
+						URL:        "https://example.com/sparkle/#{version}/yosemite.xml",
 						Checkpoint: "f309466aea57120e04b214292d54a9d5e32d018582344b3a62021a91ed8dd69d",
 					},
 					Names: []string{
@@ -228,16 +208,12 @@ func TestParse(t *testing.T) {
 				},
 				{
 					Version: &stanza.Version{
-						Stanza: stanza.Stanza{
-							Value: "2.0.0",
-						},
+						Value: "2.0.0",
 					},
 					SHA256: "f22abd6773ab232869321ad4b1e47ac0c908febf4f3a2bd10c8066140f741261",
 					URL:    "https://example.com/elcapitan/app_#{version}.dmg",
 					Appcast: &stanza.Appcast{
-						Stanza: stanza.Stanza{
-							Value: "https://example.com/sparkle/#{version.major}/appcast.xml",
-						},
+						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
 						Checkpoint: "57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7",
 					},
 					Names: []string{
@@ -268,9 +244,7 @@ func TestParse(t *testing.T) {
 			Variants: []Variant{
 				{
 					Version: &stanza.Version{
-						Stanza: stanza.Stanza{
-							Value: "0.9.0",
-						},
+						Value: "0.9.0",
 					},
 					SHA256:  "30c99e8b103eacbe6f6d6e1b54b06ca6d5f3164b4f50094334a517ae95ca8fba",
 					URL:     "https://example.com/app_#{version}.dmg",
@@ -297,9 +271,7 @@ func TestParse(t *testing.T) {
 				},
 				{
 					Version: &stanza.Version{
-						Stanza: stanza.Stanza{
-							Value: "1.0.0",
-						},
+						Value: "1.0.0",
 					},
 					SHA256:  "92521fc3cbd964bdc9f584a991b89fddaa5754ed1cc96d6d42445338669c1305",
 					URL:     "https://example.com/app_#{version}.dmg",
@@ -326,16 +298,12 @@ func TestParse(t *testing.T) {
 				},
 				{
 					Version: &stanza.Version{
-						Stanza: stanza.Stanza{
-							Value: "2.0.0",
-						},
+						Value: "2.0.0",
 					},
 					SHA256: "f22abd6773ab232869321ad4b1e47ac0c908febf4f3a2bd10c8066140f741261",
 					URL:    "https://example.com/app_#{version}.dmg",
 					Appcast: &stanza.Appcast{
-						Stanza: stanza.Stanza{
-							Value: "https://example.com/sparkle/#{version.major}/appcast.xml",
-						},
+						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
 						Checkpoint: "8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d",
 					},
 					Names: []string{
@@ -366,17 +334,15 @@ func TestParse(t *testing.T) {
 			Variants: []Variant{
 				{
 					Version: &stanza.Version{
-						Stanza: stanza.Stanza{
-							Value: "1.0.0",
-						},
+						Value: "1.0.0",
 					},
 					SHA256: "92521fc3cbd964bdc9f584a991b89fddaa5754ed1cc96d6d42445338669c1305",
 					URL:    "https://example.com/app_#{version}.dmg",
 					Appcast: &stanza.Appcast{
-						Stanza: stanza.Stanza{
-							Value:    "https://example.com/sparkle/#{version.major}/appcast.xml",
+						BaseStanza: stanza.BaseStanza{
 							IsGlobal: true,
 						},
+						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
 						Checkpoint: "8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d",
 					},
 					Names: []string{
@@ -401,17 +367,15 @@ func TestParse(t *testing.T) {
 				},
 				{
 					Version: &stanza.Version{
-						Stanza: stanza.Stanza{
-							Value: "2.0.0",
-						},
+						Value: "2.0.0",
 					},
 					SHA256: "f22abd6773ab232869321ad4b1e47ac0c908febf4f3a2bd10c8066140f741261",
 					URL:    "https://example.com/app_#{version}.dmg",
 					Appcast: &stanza.Appcast{
-						Stanza: stanza.Stanza{
-							Value:    "https://example.com/sparkle/#{version.major}/appcast.xml",
+						BaseStanza: stanza.BaseStanza{
 							IsGlobal: true,
 						},
+						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
 						Checkpoint: "8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d",
 					},
 					Names: []string{
@@ -442,8 +406,8 @@ func TestParse(t *testing.T) {
 			Variants: []Variant{
 				{
 					Version: &stanza.Version{
-						Stanza: stanza.Stanza{
-							Value:    "latest",
+						Value: "latest",
+						BaseStanza: stanza.BaseStanza{
 							IsGlobal: true,
 						},
 					},

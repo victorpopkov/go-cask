@@ -7,7 +7,8 @@
 
 **NOTICE:** Currently in development.
 
-This library provides functionality for working with Homebrew-Cask casks.
+This library provides functionality for working with [Homebrew-Cask](https://github.com/caskroom/homebrew-cask)
+casks.
 
 - [What "cask" means?](#what-cask-means)
 - [Why is this library needed and what it does?](#why-is-this-library-needed-and-what-it-does)
@@ -129,7 +130,7 @@ func main() {
 			fmt.Printf("%10s: %s\n", "version", v.Version)
 			fmt.Printf("%10s: %s\n", "sha256", v.SHA256)
 			fmt.Printf("%10s: %s\n", "url", v.URL)
-			fmt.Printf("%10s: %s\n", "appcast", v.Appcast.Value)
+			fmt.Printf("%10s: %s\n", "appcast", v.Appcast.URL)
 			fmt.Printf("%12s%s\n", "", v.Appcast.Checkpoint)
 			fmt.Printf("%10s: %v\n", "names", v.Names)
 			fmt.Printf("%10s: %s\n", "homepage", v.Homepage)
@@ -201,7 +202,7 @@ func main() {
 			fmt.Printf("%10s: %s\n", "version", v.Version)
 			fmt.Printf("%10s: %s\n", "sha256", v.SHA256)
 			fmt.Printf("%10s: %s\n", "url", v.URL)
-			fmt.Printf("%10s: %s\n", "appcast", v.Appcast.Value)
+			fmt.Printf("%10s: %s\n", "appcast", v.Appcast.URL)
 			fmt.Printf("%12s%s\n", "", v.Appcast.Checkpoint)
 			fmt.Printf("%10s: %v\n", "names", v.Names)
 			fmt.Printf("%10s: %s\n", "homepage", v.Homepage)

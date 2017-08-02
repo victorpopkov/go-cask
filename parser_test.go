@@ -168,21 +168,31 @@ func TestParseAppcast(t *testing.T) {
 	// test (successful)
 	testCases := map[string]Appcast{
 		`appcast "https://example.com/appcast.xml"`: {
-			URL:        "https://example.com/appcast.xml",
+			Stanza: Stanza{
+				Value:  "https://example.com/appcast.xml",
+				global: true,
+			},
 			Checkpoint: "",
 		},
 		"appcast 'https://example.com/appcast.xml'": {
-			URL:        "https://example.com/appcast.xml",
+			Stanza: Stanza{
+				Value:  "https://example.com/appcast.xml",
+				global: true,
+			},
 			Checkpoint: "",
 		},
 		"appcast 'https://example.com/appcast.xml', checkpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'": {
-			URL:        "https://example.com/appcast.xml",
+			Stanza: Stanza{
+				Value:  "https://example.com/appcast.xml",
+				global: true,
+			},
 			Checkpoint: "2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1",
 		},
-		`appcast 'https://example.com/appcast.xml',
-		         checkpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'
-    `: {
-			URL:        "https://example.com/appcast.xml",
+		"appcast 'https://example.com/appcast.xml',\ncheckpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'": {
+			Stanza: Stanza{
+				Value:  "https://example.com/appcast.xml",
+				global: true,
+			},
 			Checkpoint: "2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1",
 		},
 	}
@@ -196,7 +206,7 @@ func TestParseAppcast(t *testing.T) {
 		actual, err := p.parseAppcast()
 		assert.Nil(t, err)
 		assert.IsType(t, Appcast{}, *actual)
-		assert.Equal(t, expected.URL, actual.URL)
+		assert.Equal(t, expected.Value, actual.Value)
 		assert.Equal(t, expected.Checkpoint, actual.Checkpoint)
 	}
 

@@ -74,7 +74,7 @@ func (p *Parser) ParseCask(cask *Cask) error {
 		}
 
 		// appcast
-		if last.Appcast.global && v.Appcast.URL == "" {
+		if last.Appcast.global && v.Appcast.Value == "" {
 			v.Appcast = last.Appcast
 			p.cask.Variants[i] = v
 		}
@@ -148,7 +148,7 @@ func (p *Parser) parseExpressionStatement() {
 				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.URL)
 				p.currentCaskVariant.URL = p.peekToken.Literal
 			case "appcast":
-				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Appcast.URL)
+				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Appcast.Value)
 				a, err := p.parseAppcast()
 				if err == nil && a != nil {
 					if !p.insideIfElse {

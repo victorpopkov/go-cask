@@ -6,9 +6,10 @@ type Stanza struct {
 	// Value specifies the stanza value.
 	Value string
 
-	// global specifies if the appcast wasn't found inside if, which means that it
-	// matches all Cask.Variants. By default, this value is "false".
-	global bool
+	// IsGlobal specifies if the appcast belongs to all Cask.Variants. If the
+	// stanza wasn't found inside if statement, the stanza should be considered as
+	// global and this value should be true. By default, this value is "false".
+	IsGlobal bool
 }
 
 // A Version represents a version cask stanza.

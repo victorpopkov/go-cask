@@ -170,29 +170,29 @@ func TestParseAppcast(t *testing.T) {
 	testCases := map[string]Appcast{
 		`appcast "https://example.com/appcast.xml"`: {
 			Stanza: Stanza{
-				Value:  "https://example.com/appcast.xml",
-				global: true,
+				Value:    "https://example.com/appcast.xml",
+				IsGlobal: true,
 			},
 			Checkpoint: "",
 		},
 		"appcast 'https://example.com/appcast.xml'": {
 			Stanza: Stanza{
-				Value:  "https://example.com/appcast.xml",
-				global: true,
+				Value:    "https://example.com/appcast.xml",
+				IsGlobal: true,
 			},
 			Checkpoint: "",
 		},
 		"appcast 'https://example.com/appcast.xml', checkpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'": {
 			Stanza: Stanza{
-				Value:  "https://example.com/appcast.xml",
-				global: true,
+				Value:    "https://example.com/appcast.xml",
+				IsGlobal: true,
 			},
 			Checkpoint: "2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1",
 		},
 		"appcast 'https://example.com/appcast.xml',\ncheckpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'": {
 			Stanza: Stanza{
-				Value:  "https://example.com/appcast.xml",
-				global: true,
+				Value:    "https://example.com/appcast.xml",
+				IsGlobal: true,
 			},
 			Checkpoint: "2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1",
 		},

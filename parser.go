@@ -68,7 +68,7 @@ func (p *Parser) ParseCask(cask *Cask) error {
 	last := p.cask.Variants[len(p.cask.Variants)-1]
 	for i, v := range p.cask.Variants {
 		// version
-		if v.Version == nil && last.Version != nil && last.Version.global {
+		if v.Version == nil && last.Version != nil && last.Version.IsGlobal {
 			v.Version = last.Version
 		}
 
@@ -79,7 +79,7 @@ func (p *Parser) ParseCask(cask *Cask) error {
 		}
 
 		// appcast
-		if v.Appcast == nil && last.Appcast != nil && last.Appcast.global {
+		if v.Appcast == nil && last.Appcast != nil && last.Appcast.IsGlobal {
 			v.Appcast = last.Appcast
 		}
 
@@ -159,7 +159,7 @@ func (p *Parser) parseExpressionStatement() {
 				a, err := p.parseAppcast()
 				if err == nil {
 					if !p.insideIfElse {
-						a.global = true
+						a.IsGlobal = true
 					}
 					p.currentCaskVariant.Appcast = a
 				}
@@ -180,7 +180,7 @@ func (p *Parser) parseExpressionStatement() {
 				v, err := p.parseVersion()
 				if err == nil {
 					if !p.insideIfElse {
-						v.global = true
+						v.IsGlobal = true
 					}
 					p.currentCaskVariant.Version = v
 				}
@@ -209,7 +209,7 @@ func (p *Parser) parseExpressionStatement() {
 				v, err := p.parseVersion()
 				if err == nil {
 					if !p.insideIfElse {
-						v.global = true
+						v.IsGlobal = true
 					}
 					p.currentCaskVariant.Version = v
 				}

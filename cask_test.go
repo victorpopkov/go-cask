@@ -373,8 +373,8 @@ func TestParse(t *testing.T) {
 					URL:    "https://example.com/app_#{version}.dmg",
 					Appcast: &Appcast{
 						Stanza: Stanza{
-							Value:  "https://example.com/sparkle/#{version.major}/appcast.xml",
-							global: true,
+							Value:    "https://example.com/sparkle/#{version.major}/appcast.xml",
+							IsGlobal: true,
 						},
 						Checkpoint: "8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d",
 					},
@@ -408,8 +408,8 @@ func TestParse(t *testing.T) {
 					URL:    "https://example.com/app_#{version}.dmg",
 					Appcast: &Appcast{
 						Stanza: Stanza{
-							Value:  "https://example.com/sparkle/#{version.major}/appcast.xml",
-							global: true,
+							Value:    "https://example.com/sparkle/#{version.major}/appcast.xml",
+							IsGlobal: true,
 						},
 						Checkpoint: "8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d",
 					},
@@ -442,8 +442,8 @@ func TestParse(t *testing.T) {
 				{
 					Version: &Version{
 						Stanza: Stanza{
-							Value:  "latest",
-							global: true,
+							Value:    "latest",
+							IsGlobal: true,
 						},
 					},
 					SHA256:  "5e1e2bcac305958b27077ca136f35f0abae7cf38c9af678f7d220ed0cb51d4f8",

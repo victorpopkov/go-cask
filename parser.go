@@ -30,6 +30,10 @@ type Parser struct {
 	// currentIfVariant specifies the temporary cask Variant that holds data
 	// extracted in if condition.
 	currentIfVariant *Variant
+
+	// insideIfElse specifies if the parser is currently inside of the if
+	// statement.
+	insideIfElse bool
 }
 
 // NewParser creates a new Parser instance and returns its pointer. Requires a
@@ -59,6 +63,43 @@ func (p *Parser) ParseCask(cask *Cask) error {
 	if p.currentCaskVariant != nil {
 		p.cask.AddVariant(*p.currentCaskVariant)
 		p.currentCaskVariant = nil
+	}
+
+	last := p.cask.Variants[len(p.cask.Variants)-1]
+	for i, v := range p.cask.Variants {
+		// url
+		if v.URL == "" {
+			v.URL = last.URL
+			p.cask.Variants[i] = v
+		}
+
+		// appcast
+		if last.Appcast.global && v.Appcast.URL == "" {
+			v.Appcast = last.Appcast
+			p.cask.Variants[i] = v
+		}
+
+		// homepage
+		if v.Homepage == "" {
+			v.Homepage = last.Homepage
+			p.cask.Variants[i] = v
+		}
+
+		// names
+		if len(v.Names) == 0 {
+			for _, n := range last.Names {
+				v.AddName(n)
+			}
+			p.cask.Variants[i] = v
+		}
+
+		// artifacts
+		if len(v.Artifacts) == 0 {
+			for _, a := range last.Artifacts {
+				v.AddArtifact(a)
+			}
+			p.cask.Variants[i] = v
+		}
 	}
 
 	if len(p.errors) != 0 {
@@ -110,6 +151,9 @@ func (p *Parser) parseExpressionStatement() {
 				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Appcast.URL)
 				a, err := p.parseAppcast()
 				if err == nil && a != nil {
+					if !p.insideIfElse {
+						a.global = true
+					}
 					p.currentCaskVariant.Appcast = *a
 				}
 			case "name":
@@ -150,6 +194,9 @@ func (p *Parser) parseExpressionStatement() {
 		p.parseIfExpression()
 	case ELSEIF:
 		p.parseIfExpression()
+	case ELSE:
+		p.insideIfElse = true
+		p.parseBlockStatement()
 	}
 
 	if p.peekTokenOneOf(SEMICOLON, NEWLINE, COMMA) {
@@ -192,12 +239,15 @@ func (p *Parser) parseIfExpression() {
 		p.currentIfVariant = nil
 	}
 
+	p.insideIfElse = false
+
 	return
 }
 
 // parseIfCondition parses the if condition if it's supported.
 func (p *Parser) parseIfCondition() {
 	p.currentIfVariant = NewVariant()
+	p.insideIfElse = true
 
 	min, max, err := p.ParseConditionMacOS()
 	if err == nil {
@@ -222,6 +272,8 @@ func (p *Parser) parseBlockStatement(t ...TokenType) {
 		p.nextToken()
 		p.parseExpressionStatement()
 	}
+
+	p.insideIfElse = false
 }
 
 // parseVersion parses the version if the Parser.peekToken matches the cask

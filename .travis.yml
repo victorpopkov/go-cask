@@ -14,7 +14,6 @@ install:
   # code coverage
   - go get golang.org/x/tools/cmd/cover
   - if [ "${TRAVIS_SECURE_ENV_VARS}" == "true" ]; then go get github.com/mattn/goveralls; fi
-  - export GOPATH="$HOME/gopath/src/github.com/victorpopkov/go-cask:$GOPATH"
 
 script:
   # code coverage

@@ -54,7 +54,7 @@ func TestParse(t *testing.T) {
 		"if-global-version-two-sha256.rb": {
 			Token:   "if-global-version-two-sha256",
 			Content: string(getTestdata("if-global-version-two-sha256.rb")),
-			Variants: []Variant{
+			Variants: []*Variant{
 				{
 					Version: &Version{
 						BaseStanza: BaseStanza{
@@ -86,7 +86,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (if-global-version-two-sha256).app",
@@ -132,7 +132,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (if-global-version-two-sha256).app",
@@ -152,7 +152,7 @@ func TestParse(t *testing.T) {
 		"if-six-versions-six-appcasts.rb": {
 			Token:   "if-six-versions-six-appcasts",
 			Content: string(getTestdata("if-six-versions-six-appcasts.rb")),
-			Variants: []Variant{
+			Variants: []*Variant{
 				{
 					Version: &Version{
 						Value: "0.1.0",
@@ -178,7 +178,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (if-six-versions-six-appcasts).app",
@@ -218,7 +218,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (if-six-versions-six-appcasts).app",
@@ -258,7 +258,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (if-six-versions-six-appcasts).app",
@@ -298,7 +298,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (if-six-versions-six-appcasts).app",
@@ -338,7 +338,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (if-six-versions-six-appcasts).app",
@@ -378,7 +378,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (if-six-versions-six-appcasts).app",
@@ -398,7 +398,7 @@ func TestParse(t *testing.T) {
 		"if-three-versions-one-appcast.rb": {
 			Token:   "if-three-versions-one-appcast",
 			Content: string(getTestdata("if-three-versions-one-appcast.rb")),
-			Variants: []Variant{
+			Variants: []*Variant{
 				{
 					Version: &Version{
 						Value: "0.9.0",
@@ -421,7 +421,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (if-three-versions-one-appcast).app",
@@ -458,7 +458,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (if-three-versions-one-appcast).app",
@@ -498,7 +498,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (if-three-versions-one-appcast).app",
@@ -518,7 +518,7 @@ func TestParse(t *testing.T) {
 		"if-two-versions-one-global-appcast.rb": {
 			Token:   "if-two-versions-one-global-appcast",
 			Content: string(getTestdata("if-two-versions-one-global-appcast.rb")),
-			Variants: []Variant{
+			Variants: []*Variant{
 				{
 					Version: &Version{
 						Value: "1.0.0",
@@ -547,7 +547,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (if-two-versions-one-global-appcast).app",
@@ -590,7 +590,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (if-two-versions-one-global-appcast).app",
@@ -610,7 +610,7 @@ func TestParse(t *testing.T) {
 		"latest.rb": {
 			Token:   "latest",
 			Content: string(getTestdata("latest.rb")),
-			Variants: []Variant{
+			Variants: []*Variant{
 				{
 					Version: &Version{
 						BaseStanza: BaseStanza{
@@ -636,7 +636,7 @@ func TestParse(t *testing.T) {
 						},
 					},
 					Homepage: "https://example.com/",
-					Artifacts: []Artifact{
+					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
 							Value:          "Example (latest).app",
@@ -680,7 +680,7 @@ func TestParse(t *testing.T) {
 		if len(expectedCask.Variants) == len(actualCask.Variants) {
 			for keyVariant, actualVariant := range actualCask.Variants {
 				expectedVariant := expectedCask.Variants[keyVariant]
-				assert.IsType(t, Variant{}, actualVariant, filename)
+				assert.IsType(t, &Variant{}, actualVariant, filename)
 				assert.Equal(t, expectedVariant.Version, actualVariant.Version, filename)
 				assert.Equal(t, expectedVariant.SHA256, actualVariant.SHA256, filename)
 				assert.Equal(t, expectedVariant.URL, actualVariant.URL, filename)
@@ -704,7 +704,7 @@ func TestAddVariant(t *testing.T) {
 
 	// test
 	assert.Len(t, c.Variants, 0)
-	c.AddVariant(*NewVariant())
+	c.AddVariant(NewVariant())
 	assert.Len(t, c.Variants, 1)
 }
 

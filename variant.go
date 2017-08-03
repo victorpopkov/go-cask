@@ -21,7 +21,7 @@ type Variant struct {
 	Homepage string
 
 	// Artifacts specify artifact stanzas.
-	Artifacts []Artifact
+	Artifacts []*Artifact
 
 	// MinimumSupportedMacOS specifies the minimum supported macOS release. By
 	// default each cask uses the latest stable macOS release.
@@ -37,18 +37,18 @@ func NewVariant() *Variant {
 	return &Variant{}
 }
 
-// AddName adds a new *Name to the Variant.Names array.
+// AddName adds a new *Name to the Variant.Names slice.
 func (v *Variant) AddName(name *Name) {
 	v.Names = append(v.Names, name)
 }
 
 // AddNameString creates a new *Name instance and adds its pointer to the
-// Variant.Names array.
+// Variant.Names slice.
 func (v *Variant) AddNameString(name string) {
 	v.Names = append(v.Names, NewName(name))
 }
 
-// AddArtifact adds a new Artifact to the Variant.Artifacts array.
-func (v *Variant) AddArtifact(artifact Artifact) {
+// AddArtifact adds a new Artifact pointer to the Variant.Artifacts slice.
+func (v *Variant) AddArtifact(artifact *Artifact) {
 	v.Artifacts = append(v.Artifacts, artifact)
 }

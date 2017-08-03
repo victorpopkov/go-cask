@@ -8,9 +8,9 @@ type Cask struct {
 	// Content specifies the string content of the loaded cask.
 	Content string
 
-	// Variants specifies all cask variants represented as an array of Variant
-	// structs.
-	Variants []Variant
+	// Variants specifies all cask variants represented as a slice of Variant
+	// pointers.
+	Variants []*Variant
 
 	// parser specifies the Parser to be used for parsing the cask.
 	parser *Parser
@@ -33,8 +33,8 @@ func (c *Cask) Parse() error {
 	return c.parser.ParseCask(c)
 }
 
-// AddVariant adds a new Variant to the Cask.Variants array.
-func (c *Cask) AddVariant(variant Variant) {
+// AddVariant adds a new Variant pointer to the Cask.Variants slice.
+func (c *Cask) AddVariant(variant *Variant) {
 	c.Variants = append(c.Variants, variant)
 }
 

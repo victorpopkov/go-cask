@@ -49,6 +49,6 @@ func TestAddArtifact(t *testing.T) {
 
 	// test
 	assert.Len(t, v.Artifacts, 0)
-	v.AddArtifact(*NewArtifact(ArtifactApp, "test"))
+	v.AddArtifact(NewArtifact(ArtifactApp, "test"))
 	assert.Len(t, v.Artifacts, 1)
 }

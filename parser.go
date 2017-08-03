@@ -61,37 +61,33 @@ func (p *Parser) ParseCask(cask *Cask) error {
 	}
 
 	if p.currentCaskVariant != nil {
-		p.cask.AddVariant(*p.currentCaskVariant)
+		p.cask.AddVariant(p.currentCaskVariant)
 		p.currentCaskVariant = nil
 	}
 
 	first := p.cask.Variants[0]
 	last := p.cask.Variants[len(p.cask.Variants)-1]
-	for i, v := range p.cask.Variants {
+	for _, v := range p.cask.Variants {
 		// version
 		if v.Version == nil && last.Version != nil && last.Version.IsGlobal {
 			v.Version = last.Version
 		} else if v.Version == nil && first.Version != nil && first.Version.IsGlobal {
 			v.Version = first.Version
-			p.cask.Variants[i] = v
 		}
 
 		// url
 		if v.URL == "" {
 			v.URL = last.URL
-			p.cask.Variants[i] = v
 		}
 
 		// appcast
 		if v.Appcast == nil && last.Appcast != nil && last.Appcast.IsGlobal {
 			v.Appcast = last.Appcast
-			p.cask.Variants[i] = v
 		}
 
 		// homepage
 		if v.Homepage == "" {
 			v.Homepage = last.Homepage
-			p.cask.Variants[i] = v
 		}
 
 		// names
@@ -108,7 +104,6 @@ func (p *Parser) ParseCask(cask *Cask) error {
 			for _, a := range last.Artifacts {
 				v.AddArtifact(a)
 			}
-			p.cask.Variants[i] = v
 		}
 	}
 
@@ -202,7 +197,7 @@ func (p *Parser) parseExpressionStatement() {
 
 				a, err := p.ParseArtifact()
 				if err == nil && a != nil {
-					p.currentCaskVariant.AddArtifact(*a)
+					p.currentCaskVariant.AddArtifact(a)
 				}
 			}
 		}
@@ -579,7 +574,7 @@ func (p *Parser) mergeCurrentCaskVariantIfNotEmpty(i interface{}) {
 // condition is true.
 func (p *Parser) mergeCurrentCaskVariant(condition bool) {
 	if condition {
-		p.cask.AddVariant(*p.currentCaskVariant)
+		p.cask.AddVariant(p.currentCaskVariant)
 		p.currentCaskVariant = NewVariant()
 	}
 }

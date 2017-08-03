@@ -5,8 +5,8 @@ type Variant struct {
 	// Version specifies the version
 	Version *Version
 
-	// SHA256 specifies the SHA256 version checksum.
-	SHA256 string
+	// SHA256 specifies the SHA256 checksum for the downloaded Variant.URL file.
+	SHA256 *SHA256
 
 	// URL specifies the url stanza value.
 	URL string

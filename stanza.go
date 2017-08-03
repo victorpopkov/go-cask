@@ -14,6 +14,50 @@ type BaseStanza struct {
 	IsGlobal bool
 }
 
+// A Version represents a version cask stanza.
+type Version struct {
+	BaseStanza
+
+	// Value specifies the stanza value.
+	Value string
+}
+
+// NewVersion creates a new Version instance and returns its pointer. Requires
+// Version.Value to be passed as argument.
+func NewVersion(value string) *Version {
+	return &Version{
+		Value: value,
+	}
+}
+
+// String returns a string representation of the Version struct which is the
+// Version.Value.
+func (v Version) String() string {
+	return v.Value
+}
+
+// A SHA256 represents a sha256 cask stanza.
+type SHA256 struct {
+	BaseStanza
+
+	// Value specifies the stanza value.
+	Value string
+}
+
+// NewSHA256 creates a new SHA256 instance and returns its pointer. Requires
+// SHA256.Value to be passed as argument.
+func NewSHA256(value string) *SHA256 {
+	return &SHA256{
+		Value: value,
+	}
+}
+
+// String returns a string representation of the SHA256 struct which is the
+// SHA256.Value.
+func (s SHA256) String() string {
+	return s.Value
+}
+
 // An Appcast represents an appcast cask stanza.
 type Appcast struct {
 	BaseStanza
@@ -25,22 +69,6 @@ type Appcast struct {
 	Checkpoint string
 }
 
-// A Name represents a name cask stanza.
-type Name struct {
-	BaseStanza
-
-	// Value specifies the stanza value.
-	Value string
-}
-
-// A Version represents a version cask stanza.
-type Version struct {
-	BaseStanza
-
-	// Value specifies the stanza value.
-	Value string
-}
-
 // NewAppcast creates a new Appcast instance and returns its pointer. Requires
 // both Appcast.URL and Appcast.Checkpoint to be passed as arguments.
 func NewAppcast(url string, checkpoint string) *Appcast {
@@ -48,6 +76,20 @@ func NewAppcast(url string, checkpoint string) *Appcast {
 		URL:        url,
 		Checkpoint: checkpoint,
 	}
+}
+
+// String returns a string representation of the Appcast struct which is the
+// Appcast.URL.
+func (a Appcast) String() string {
+	return a.URL
+}
+
+// A Name represents a name cask stanza.
+type Name struct {
+	BaseStanza
+
+	// Value specifies the stanza value.
+	Value string
 }
 
 // NewName creates a new Name instance and returns its pointer. Requires
@@ -58,28 +100,8 @@ func NewName(value string) *Name {
 	}
 }
 
-// NewVersion creates a new Version instance and returns its pointer. Requires
-// Version.Value to be passed as argument.
-func NewVersion(value string) *Version {
-	return &Version{
-		Value: value,
-	}
-}
-
-// String returns a string representation of the Appcast struct which is the
-// Appcast.URL.
-func (a Appcast) String() string {
-	return a.URL
-}
-
 // String returns a string representation of the Name struct which is the
 // Name.Value.
 func (n Name) String() string {
 	return n.Value
-}
-
-// String returns a string representation of the Version struct which is the
-// Version.Value.
-func (v Version) String() string {
-	return v.Value
 }

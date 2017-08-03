@@ -75,6 +75,11 @@ func (p *Parser) ParseCask(cask *Cask) error {
 			v.Version = first.Version
 		}
 
+		// sha256
+		if v.SHA256 == nil && last.SHA256 != nil && last.SHA256.IsGlobal {
+			v.SHA256 = last.SHA256
+		}
+
 		// url
 		if v.URL == "" {
 			v.URL = last.URL
@@ -147,8 +152,15 @@ func (p *Parser) parseExpressionStatement() {
 		if p.peekTokenIs(STRING) {
 			switch p.currentToken.Literal {
 			case "sha256":
-				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.SHA256)
-				p.currentCaskVariant.SHA256 = p.peekToken.Literal
+				if p.currentCaskVariant.SHA256 != nil {
+					p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.SHA256.Value)
+				}
+
+				s := NewSHA256(p.peekToken.Literal)
+				if !p.insideIfElse {
+					s.IsGlobal = true
+				}
+				p.currentCaskVariant.SHA256 = s
 			case "url":
 				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.URL)
 				p.currentCaskVariant.URL = p.peekToken.Literal

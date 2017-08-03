@@ -149,6 +149,80 @@ func TestParse(t *testing.T) {
 				},
 			},
 		},
+		"if-no-global.rb": {
+			Token:   "if-no-global",
+			Content: string(getTestdata("if-no-global.rb")),
+			Variants: []*Variant{
+				{
+					Version: &Version{
+						Value: "1.0.0",
+					},
+					SHA256: "92521fc3cbd964bdc9f584a991b89fddaa5754ed1cc96d6d42445338669c1305",
+					URL:    "https://example.com/app_mavericks_#{version}.dmg",
+					Appcast: &Appcast{
+						URL:        "https://example.com/sparkle/#{version.major}/mavericks.xml",
+						Checkpoint: "f505fa398c62a9f6d26a3097352c924f9730381b0af65127d76160c96a00ae3d",
+					},
+					Names: []*Name{
+						{
+							Value: "Example",
+						},
+						{
+							Value: "Example (if-no-global)",
+						},
+					},
+					Homepage: "https://example.com/",
+					Artifacts: []*Artifact{
+						{
+							Type:           ArtifactApp,
+							Value:          "Example (if-no-global).app",
+							Target:         "Example.app",
+							AllowUntrusted: false,
+						},
+						{
+							Type:           ArtifactBinary,
+							Value:          "#{appdir}/Example.app/Contents/MacOS/example-if",
+							Target:         "example",
+							AllowUntrusted: false,
+						},
+					},
+				},
+				{
+					Version: &Version{
+						Value: "2.0.0",
+					},
+					SHA256: "f22abd6773ab232869321ad4b1e47ac0c908febf4f3a2bd10c8066140f741261",
+					URL:    "https://example.com/app_#{version}.dmg",
+					Appcast: &Appcast{
+						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
+						Checkpoint: "8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d",
+					},
+					Names: []*Name{
+						{
+							Value: "Example",
+						},
+						{
+							Value: "Example (if-no-global)",
+						},
+					},
+					Homepage: "https://example.com/",
+					Artifacts: []*Artifact{
+						{
+							Type:           ArtifactApp,
+							Value:          "Example (if-no-global).app",
+							Target:         "Example.app",
+							AllowUntrusted: false,
+						},
+						{
+							Type:           ArtifactBinary,
+							Value:          "#{appdir}/Example.app/Contents/MacOS/example-if",
+							Target:         "example",
+							AllowUntrusted: false,
+						},
+					},
+				},
+			},
+		},
 		"if-six-versions-six-appcasts.rb": {
 			Token:   "if-six-versions-six-appcasts",
 			Content: string(getTestdata("if-six-versions-six-appcasts.rb")),

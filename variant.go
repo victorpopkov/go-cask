@@ -2,22 +2,22 @@ package cask
 
 // A Variant represents a single cask variant.
 type Variant struct {
-	// Version specifies the version
+	// Version specifies the version stanza.
 	Version *Version
 
 	// SHA256 specifies the SHA256 checksum for the downloaded Variant.URL file.
 	SHA256 *SHA256
 
-	// URL specifies the url stanza value.
-	URL string
+	// URL specifies the url stanza.
+	URL *URL
 
-	// Appcast specifies the appcast
+	// Appcast specifies the appcast stanza.
 	Appcast *Appcast
 
 	// Names specify the application names. Each cask can have multiple names.
 	Names []*Name
 
-	// Homepage specifies the application vendor homepage
+	// Homepage specifies the application vendor homepage stanza.
 	Homepage string
 
 	// Artifacts specify artifact stanzas.

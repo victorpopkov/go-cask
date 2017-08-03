@@ -58,6 +58,28 @@ func (s SHA256) String() string {
 	return s.Value
 }
 
+// A URL represents an url cask stanza.
+type URL struct {
+	BaseStanza
+
+	// Value specifies the stanza value.
+	Value string
+}
+
+// NewURL creates a new URL instance and returns its pointer. Requires URL.Value
+// to be passed as argument.
+func NewURL(value string) *URL {
+	return &URL{
+		Value: value,
+	}
+}
+
+// String returns a string representation of the URL struct which is the
+// URL.Value.
+func (u URL) String() string {
+	return u.Value
+}
+
 // An Appcast represents an appcast cask stanza.
 type Appcast struct {
 	BaseStanza

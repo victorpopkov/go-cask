@@ -81,7 +81,7 @@ func (p *Parser) ParseCask(cask *Cask) error {
 		}
 
 		// url
-		if v.URL == "" {
+		if v.URL == nil && last.URL != nil && last.URL.IsGlobal {
 			v.URL = last.URL
 		}
 
@@ -162,8 +162,15 @@ func (p *Parser) parseExpressionStatement() {
 				}
 				p.currentCaskVariant.SHA256 = s
 			case "url":
-				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.URL)
-				p.currentCaskVariant.URL = p.peekToken.Literal
+				if p.currentCaskVariant.URL != nil {
+					p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.URL.Value)
+				}
+
+				u := NewURL(p.peekToken.Literal)
+				if !p.insideIfElse {
+					u.IsGlobal = true
+				}
+				p.currentCaskVariant.URL = u
 			case "appcast":
 				if p.currentCaskVariant.Appcast != nil {
 					p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Appcast.URL)

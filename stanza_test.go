@@ -28,6 +28,17 @@ func TestNewSHA256(t *testing.T) {
 	assert.Equal(t, "92521fc3cbd964bdc9f584a991b89fddaa5754ed1cc96d6d42445338669c1305", s.String())
 }
 
+func TestNewURL(t *testing.T) {
+	// preparations
+	u := NewURL("http://example.com/")
+
+	// test
+	assert.IsType(t, URL{}, *u)
+	assert.False(t, u.IsGlobal)
+	assert.Equal(t, "http://example.com/", u.Value)
+	assert.Equal(t, "http://example.com/", u.String())
+}
+
 func TestNewAppcast(t *testing.T) {
 	// preparations
 	a := NewAppcast(

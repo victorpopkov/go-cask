@@ -1,11 +1,9 @@
 package cask
 
-import "stanza"
-
 // A Variant represents a single cask variant.
 type Variant struct {
-	// Version specifies the current cask version as Version pointer.
-	Version *stanza.Version
+	// Version specifies the version
+	Version *Version
 
 	// SHA256 specifies the SHA256 version checksum.
 	SHA256 string
@@ -13,13 +11,13 @@ type Variant struct {
 	// URL specifies the url stanza value.
 	URL string
 
-	// Appcast specifies the appcast info represented as Appcast struct.
-	Appcast *stanza.Appcast
+	// Appcast specifies the appcast
+	Appcast *Appcast
 
 	// Names specify the application names. Each cask can have multiple names.
-	Names []*stanza.Name
+	Names []*Name
 
-	// Homepage specifies the application vendor homepage stanza.
+	// Homepage specifies the application vendor homepage
 	Homepage string
 
 	// Artifacts specify artifact stanzas.
@@ -39,15 +37,15 @@ func NewVariant() *Variant {
 	return &Variant{}
 }
 
-// AddName adds a new *stanza.Name to the Variant.Names array.
-func (v *Variant) AddName(name *stanza.Name) {
+// AddName adds a new *Name to the Variant.Names array.
+func (v *Variant) AddName(name *Name) {
 	v.Names = append(v.Names, name)
 }
 
-// AddNameString creates a new *stanza.Name instance and adds its pointer to the
+// AddNameString creates a new *Name instance and adds its pointer to the
 // Variant.Names array.
 func (v *Variant) AddNameString(name string) {
-	v.Names = append(v.Names, stanza.NewName(name))
+	v.Names = append(v.Names, NewName(name))
 }
 
 // AddArtifact adds a new Artifact to the Variant.Artifacts array.

@@ -2,7 +2,6 @@ package cask
 
 import (
 	"fmt"
-	"stanza"
 
 	"github.com/pkg/errors"
 )
@@ -168,7 +167,7 @@ func (p *Parser) parseExpressionStatement() {
 			case "name":
 				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Names)
 
-				n := stanza.NewName(p.peekToken.Literal)
+				n := NewName(p.peekToken.Literal)
 				if !p.insideIfElse {
 					n.IsGlobal = true
 				}
@@ -250,7 +249,7 @@ func (p *Parser) parseIfExpression() {
 			},
 			fmt.Sprintf(
 				"could not parse if expression: unexpected token %s: '%s'",
-				p.peekToken.Type,
+				p.peekToken.Type.String(),
 				p.peekToken.Literal,
 			),
 		)
@@ -308,15 +307,15 @@ func (p *Parser) parseBlockStatement(t ...TokenType) {
 // parseVersion parses the version if the Parser.peekToken matches the cask
 // requirements. If the ":latest" symbol is found, the Version will have the
 // "latest" string value.
-func (p *Parser) parseVersion() (*stanza.Version, error) {
+func (p *Parser) parseVersion() (*Version, error) {
 	if p.peekTokenIs(STRING) {
 		p.accept(STRING)
-		return stanza.NewVersion(p.currentToken.Literal), nil
+		return NewVersion(p.currentToken.Literal), nil
 	}
 
 	if p.peekTokenIs(SYMBOL) && p.peekToken.Literal == "latest" {
 		p.accept(SYMBOL)
-		return stanza.NewVersion("latest"), nil
+		return NewVersion("latest"), nil
 	}
 
 	return nil, errors.New("version not found")
@@ -324,7 +323,7 @@ func (p *Parser) parseVersion() (*stanza.Version, error) {
 
 // parseAppcast parses the appcast if the Parser.peekToken matches the cask
 // requirements. Supports both with and without checkpoint.
-func (p *Parser) parseAppcast() (*stanza.Appcast, error) {
+func (p *Parser) parseAppcast() (*Appcast, error) {
 	if p.peekTokenIs(STRING) {
 		p.accept(STRING)
 
@@ -349,7 +348,7 @@ func (p *Parser) parseAppcast() (*stanza.Appcast, error) {
 			}
 		}
 
-		return stanza.NewAppcast(url, checkpoint), nil
+		return NewAppcast(url, checkpoint), nil
 	}
 
 	return nil, errors.New("appcast not found")

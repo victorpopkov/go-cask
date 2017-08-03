@@ -90,12 +90,7 @@ func (p *Parser) ParseCask(cask *Cask) error {
 			v.Appcast = last.Appcast
 		}
 
-		// homepage
-		if v.Homepage == "" {
-			v.Homepage = last.Homepage
-		}
-
-		// names
+		// name
 		if len(v.Names) == 0 && len(last.Names) != 0 {
 			for _, n := range last.Names {
 				if n.IsGlobal {
@@ -104,7 +99,12 @@ func (p *Parser) ParseCask(cask *Cask) error {
 			}
 		}
 
-		// artifacts
+		// homepage
+		if v.Homepage == nil && last.Homepage != nil && last.Homepage.IsGlobal {
+			v.Homepage = last.Homepage
+		}
+
+		// artifact
 		if len(v.Artifacts) == 0 {
 			for _, a := range last.Artifacts {
 				v.AddArtifact(a)
@@ -192,8 +192,15 @@ func (p *Parser) parseExpressionStatement() {
 				}
 				p.currentCaskVariant.AddName(n)
 			case "homepage":
-				p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Homepage)
-				p.currentCaskVariant.Homepage = p.peekToken.Literal
+				if p.currentCaskVariant.Homepage != nil {
+					p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Homepage.Value)
+				}
+
+				h := NewHomepage(p.peekToken.Literal)
+				if !p.insideIfElse {
+					h.IsGlobal = true
+				}
+				p.currentCaskVariant.Homepage = h
 			case "version":
 				if p.currentCaskVariant.Version != nil {
 					p.mergeCurrentCaskVariantIfNotEmpty(p.currentCaskVariant.Version.Value)

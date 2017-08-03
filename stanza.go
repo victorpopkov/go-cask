@@ -58,7 +58,7 @@ func (s SHA256) String() string {
 	return s.Value
 }
 
-// A URL represents an url cask stanza.
+// An URL represents an url cask stanza.
 type URL struct {
 	BaseStanza
 
@@ -126,4 +126,26 @@ func NewName(value string) *Name {
 // Name.Value.
 func (n Name) String() string {
 	return n.Value
+}
+
+// A Homepage represents a homepage cask stanza.
+type Homepage struct {
+	BaseStanza
+
+	// Value specifies the stanza value.
+	Value string
+}
+
+// NewHomepage creates a new Homepage instance and returns its pointer. Requires
+// Homepage.Value to be passed as argument.
+func NewHomepage(value string) *Homepage {
+	return &Homepage{
+		Value: value,
+	}
+}
+
+// String returns a string representation of the Homepage struct which is the
+// Homepage.Value.
+func (h Homepage) String() string {
+	return h.Value
 }

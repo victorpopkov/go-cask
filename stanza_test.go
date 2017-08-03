@@ -64,3 +64,14 @@ func TestNewName(t *testing.T) {
 	assert.Equal(t, "test", n.Value)
 	assert.Equal(t, "test", n.String())
 }
+
+func TestNewHomepage(t *testing.T) {
+	// preparations
+	h := NewHomepage("http://example.com/")
+
+	// test
+	assert.IsType(t, Homepage{}, *h)
+	assert.False(t, h.IsGlobal)
+	assert.Equal(t, "http://example.com/", h.Value)
+	assert.Equal(t, "http://example.com/", h.String())
+}

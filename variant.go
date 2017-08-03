@@ -18,7 +18,7 @@ type Variant struct {
 	Names []*Name
 
 	// Homepage specifies the application vendor homepage stanza.
-	Homepage string
+	Homepage *Homepage
 
 	// Artifacts specify artifact stanzas.
 	Artifacts []*Artifact

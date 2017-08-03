@@ -89,7 +89,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-global-version-two-sha256)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -139,7 +144,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-global-version-two-sha256)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -183,7 +193,9 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-no-global)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -221,7 +233,9 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-no-global)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -271,7 +285,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-six-versions-six-appcasts)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -315,7 +334,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-six-versions-six-appcasts)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -359,7 +383,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-six-versions-six-appcasts)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -403,7 +432,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-six-versions-six-appcasts)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -447,7 +481,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-six-versions-six-appcasts)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -491,7 +530,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-six-versions-six-appcasts)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -541,7 +585,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-three-versions-one-appcast)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -585,7 +634,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-three-versions-one-appcast)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -632,7 +686,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-three-versions-one-appcast)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -688,7 +747,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-two-versions-one-global-appcast)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -738,7 +802,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (if-two-versions-one-global-appcast)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
@@ -794,7 +863,12 @@ func TestParse(t *testing.T) {
 							Value: "Example (latest)",
 						},
 					},
-					Homepage: "https://example.com/",
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,

@@ -42,12 +42,6 @@ func (v *Variant) AddName(name *Name) {
 	v.Names = append(v.Names, name)
 }
 
-// AddNameString creates a new *Name instance and adds its pointer to the
-// Variant.Names slice.
-func (v *Variant) AddNameString(name string) {
-	v.Names = append(v.Names, NewName(name))
-}
-
 // AddArtifact adds a new Artifact pointer to the Variant.Artifacts slice.
 func (v *Variant) AddArtifact(artifact *Artifact) {
 	v.Artifacts = append(v.Artifacts, artifact)

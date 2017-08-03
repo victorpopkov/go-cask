@@ -33,16 +33,6 @@ func TestAddName(t *testing.T) {
 	assert.Len(t, v.Names, 1)
 }
 
-func TestAddNameString(t *testing.T) {
-	// preparations
-	v := NewVariant()
-
-	// test
-	assert.Len(t, v.Names, 0)
-	v.AddNameString("test")
-	assert.Len(t, v.Names, 1)
-}
-
 func TestAddArtifact(t *testing.T) {
 	// preparations
 	v := NewVariant()

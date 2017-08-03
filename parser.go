@@ -65,11 +65,15 @@ func (p *Parser) ParseCask(cask *Cask) error {
 		p.currentCaskVariant = nil
 	}
 
+	first := p.cask.Variants[0]
 	last := p.cask.Variants[len(p.cask.Variants)-1]
 	for i, v := range p.cask.Variants {
 		// version
 		if v.Version == nil && last.Version != nil && last.Version.IsGlobal {
 			v.Version = last.Version
+		} else if v.Version == nil && first.Version != nil && first.Version.IsGlobal {
+			v.Version = first.Version
+			p.cask.Variants[i] = v
 		}
 
 		// url
@@ -81,6 +85,7 @@ func (p *Parser) ParseCask(cask *Cask) error {
 		// appcast
 		if v.Appcast == nil && last.Appcast != nil && last.Appcast.IsGlobal {
 			v.Appcast = last.Appcast
+			p.cask.Variants[i] = v
 		}
 
 		// homepage

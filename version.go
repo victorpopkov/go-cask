@@ -3,6 +3,7 @@ package cask
 import (
 	"fmt"
 	"regexp"
+	"strings"
 )
 
 // A Version represents a version cask stanza.
@@ -138,6 +139,121 @@ func (v Version) DotsToHyphens() (string, error) {
 		return re.ReplaceAllString(v.Value, "-"), nil
 	}
 	return "", fmt.Errorf(`version "%s": no DotsToHyphens() match`, v.Value)
+}
+
+// InterpolateIntoString interpolates existing version into the provided string
+// with Ruby interpolation syntax.
+func (v Version) InterpolateIntoString(str string) (result string) {
+	result = str
+
+	regexInterpolations := regexp.MustCompile(`(#{version})|(#{version\.[^}]*.[^{]*})`)
+	regexAllMethods := regexp.MustCompile(`(?:^#{version\.)(.*)}`)
+
+	// find all version interpolations
+	matches := regexInterpolations.FindAllStringSubmatch(str, -1)
+
+	// for every version interpolation
+	for _, m := range matches {
+		match := m[0]
+
+		// extract all methods
+		methodsAll := regexAllMethods.FindAllStringSubmatch(match, -1)
+		if len(methodsAll) < 1 {
+			// when no methods, then it's just a version replace
+			re := regexp.MustCompile(regexp.QuoteMeta(match))
+			result = re.ReplaceAllString(result, v.Value)
+			continue
+		}
+
+		methods := strings.Split(methodsAll[0][1], ".")
+
+		// for every method
+		part := v.Value
+		for _, method := range methods {
+			switch method {
+			case "major":
+				r, err := NewVersion(part).Major()
+				if err == nil {
+					part = r
+				}
+				break
+			case "minor":
+				r, err := NewVersion(part).Minor()
+				if err == nil {
+					part = r
+				}
+				break
+			case "patch":
+				r, err := NewVersion(part).Patch()
+				if err == nil {
+					part = r
+				}
+				break
+			case "major_minor":
+				r, err := NewVersion(part).MajorMinor()
+				if err == nil {
+					part = r
+				}
+				break
+			case "major_minor_patch":
+				r, err := NewVersion(part).MajorMinorPatch()
+				if err == nil {
+					part = r
+				}
+				break
+			case "before_comma":
+				r, err := NewVersion(part).BeforeComma()
+				if err == nil {
+					part = r
+				}
+				break
+			case "after_comma":
+				r, err := NewVersion(part).AfterComma()
+				if err == nil {
+					part = r
+				}
+				break
+			case "before_colon":
+				r, err := NewVersion(part).BeforeColon()
+				if err == nil {
+					part = r
+				}
+				break
+			case "after_colon":
+				r, err := NewVersion(part).AfterColon()
+				if err == nil {
+					part = r
+				}
+				break
+			case "no_dots":
+				r, err := NewVersion(part).NoDots()
+				if err == nil {
+					part = r
+				}
+				break
+			case "dots_to_underscores":
+				r, err := NewVersion(part).DotsToUnderscores()
+				if err == nil {
+					part = r
+				}
+				break
+			case "dots_to_hyphens":
+				r, err := NewVersion(part).DotsToHyphens()
+				if err == nil {
+					part = r
+				}
+				break
+			default:
+				// if one of the methods is unknown, then return full string without any replacements
+				return result
+			}
+		}
+
+		re := regexp.MustCompile(regexp.QuoteMeta(match))
+		result = re.ReplaceAllString(result, part)
+	}
+
+	return result
 }
 
 // String returns a string representation of the Version struct which is the

@@ -180,3 +180,42 @@ func TestDotsToHyphens(t *testing.T) {
 	assert.Error(t, err)
 	assert.Equal(t, `version "invalid": no DotsToHyphens() match`, err.Error())
 }
+
+func TestInterpolateIntoString(t *testing.T) {
+	testCases := map[string]string{
+		"#{version}": "1.2.3,1000:400",
+
+		// semantic
+		"#{version.major}":             "1",
+		"#{version.minor}":             "2",
+		"#{version.patch}":             "3",
+		"#{version.major_minor}":       "1.2",
+		"#{version.major_minor_patch}": "1.2.3",
+
+		// before & after
+		"#{version.before_comma}": "1.2.3",
+		"#{version.after_comma}":  "1000:400",
+		"#{version.before_colon}": "1.2.3,1000",
+		"#{version.after_colon}":  "400",
+
+		// dots
+		"#{version.no_dots}":             "123,1000:400",
+		"#{version.dots_to_underscores}": "1_2_3,1000:400",
+		"#{version.dots_to_hyphens}":     "1-2-3,1000:400",
+
+		// multiple
+		"#{version.major} #{version.minor} #{version.patch}": "1 2 3",
+
+		// chained
+		"#{version.before_colon.before_comma.no_dots}": "123",
+
+		// when unknown method (shouldn't change at all)
+		"#{version.unknown}":                      "#{version.unknown}",
+		"#{version.before_colon.unknown.no_dots}": "#{version.before_colon.unknown.no_dots}",
+	}
+
+	for content, interpolated := range testCases {
+		actual := createTestVersion().InterpolateIntoString(content)
+		assert.Equal(t, interpolated, actual)
+	}
+}

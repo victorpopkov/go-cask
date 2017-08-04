@@ -1,6 +1,7 @@
 package cask
 
-// Stanza is the interface which represents stanza.
+// A Stanza represents the interface that each stanza Type specific stanza
+// should implement.
 type Stanza interface {
 	String() string
 }
@@ -12,28 +13,6 @@ type BaseStanza struct {
 	// stanza wasn't found inside if statement, the stanza should be considered as
 	// global and this value should be true. By default, this value is "false".
 	IsGlobal bool
-}
-
-// A Version represents a version cask stanza.
-type Version struct {
-	BaseStanza
-
-	// Value specifies the stanza value.
-	Value string
-}
-
-// NewVersion creates a new Version instance and returns its pointer. Requires
-// Version.Value to be passed as argument.
-func NewVersion(value string) *Version {
-	return &Version{
-		Value: value,
-	}
-}
-
-// String returns a string representation of the Version struct which is the
-// Version.Value.
-func (v Version) String() string {
-	return v.Value
 }
 
 // A SHA256 represents a sha256 cask stanza.

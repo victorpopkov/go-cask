@@ -6,17 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewVersion(t *testing.T) {
-	// preparations
-	v := NewVersion("1.0.0")
-
-	// test
-	assert.IsType(t, Version{}, *v)
-	assert.False(t, v.IsGlobal)
-	assert.Equal(t, "1.0.0", v.Value)
-	assert.Equal(t, "1.0.0", v.String())
-}
-
 func TestNewSHA256(t *testing.T) {
 	// preparations
 	s := NewSHA256("92521fc3cbd964bdc9f584a991b89fddaa5754ed1cc96d6d42445338669c1305")

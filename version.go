@@ -22,6 +22,17 @@ func NewVersion(value string) *Version {
 	}
 }
 
+// HasVersionStringInterpolation check whether the provided string has a Ruby
+// syntax version string interpolation.
+func (v Version) HasVersionStringInterpolation(str string) bool {
+	re := regexp.MustCompile(`#{version.*}`)
+	if re.MatchString(str) {
+		return true
+	}
+
+	return false
+}
+
 // Major extracts the major semantic version part from Version.Value and returns
 // the result string.
 func (v Version) Major() (string, error) {

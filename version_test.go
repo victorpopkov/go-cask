@@ -25,6 +25,25 @@ func TestNewVersion(t *testing.T) {
 	assert.Equal(t, "1.0.0", v.String())
 }
 
+func TestHasVersionStringInterpolation(t *testing.T) {
+	var testCases = map[string]bool{
+		"#{version}":       true,
+		"#{version.major}": true,
+
+		"#{version": false,
+		"#version":  false,
+		"invalid":   false,
+	}
+
+	for testCase, expected := range testCases {
+		// preparations
+		v := NewVersion("1.0.0")
+
+		// test
+		assert.Equal(t, expected, v.HasVersionStringInterpolation(testCase))
+	}
+}
+
 func TestMajor(t *testing.T) {
 	// test
 	actual, err := createTestVersion().Major()

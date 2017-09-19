@@ -18,7 +18,6 @@ cask 'example-two' do
   name 'Example'
   name 'Example Two'
   homepage 'https://example.com/'
-  license :commercial
 
   pkg "app_#{version}.pkg", allow_untrusted: true
 

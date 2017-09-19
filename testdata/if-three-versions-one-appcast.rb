@@ -17,7 +17,6 @@ cask 'if-three-versions-one-appcast' do
   name 'Example'
   name 'Example (if-three-versions-one-appcast)'
   homepage 'https://example.com/'
-  license :commercial
 
   auto_updates true
 

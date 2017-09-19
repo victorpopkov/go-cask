@@ -14,7 +14,6 @@ cask 'if-global-version-two-sha256' do
   name 'Example'
   name 'Example (if-global-version-two-sha256)'
   homepage 'https://example.com/'
-  license :commercial
 
   auto_updates true
 

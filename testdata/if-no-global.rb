@@ -9,7 +9,6 @@ cask 'if-no-global' do
     name 'Example'
     name 'Example (if-no-global)'
     homepage 'https://example.com/'
-    license :commercial
 
     auto_updates true
 

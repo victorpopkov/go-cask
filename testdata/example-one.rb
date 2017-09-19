@@ -8,7 +8,6 @@ cask 'example-one' do
   name 'Example'
   name 'Example One'
   homepage 'https://example.com/'
-  license :commercial
 
   auto_updates true
 

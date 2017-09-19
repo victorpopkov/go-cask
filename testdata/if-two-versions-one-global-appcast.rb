@@ -13,7 +13,6 @@ cask 'if-two-versions-one-global-appcast' do
   name 'Example'
   name 'Example (if-two-versions-one-global-appcast)'
   homepage 'https://example.com/'
-  license :commercial
 
   auto_updates true
 

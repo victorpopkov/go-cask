@@ -6,7 +6,6 @@ cask 'latest' do
   name 'Example'
   name 'Example (latest)'
   homepage 'https://example.com/'
-  license :commercial
 
   app 'Example (latest).app', target: 'Example.app'
   binary "#{appdir}/Example.app/Contents/MacOS/example-latest", target: 'example'

@@ -46,7 +46,6 @@ cask 'if-six-versions-six-appcasts' do
   name 'Example'
   name 'Example (if-six-versions-six-appcasts)'
   homepage 'https://example.com/'
-  license :commercial
 
   app 'Example (if-six-versions-six-appcasts).app', target: 'Example.app'
   binary "#{appdir}/Example.app/Contents/MacOS/example-if", target: 'example'

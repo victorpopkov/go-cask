@@ -46,3 +46,9 @@ func (v *Variant) AddName(name *Name) {
 func (v *Variant) AddArtifact(artifact *Artifact) {
 	v.Artifacts = append(v.Artifacts, artifact)
 }
+
+// GetVersion returns the Version struct from the existing Variant.Version
+// struct pointer.
+func (v *Variant) GetVersion() Version {
+	return *(v.Version)
+}

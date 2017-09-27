@@ -42,3 +42,15 @@ func TestAddArtifact(t *testing.T) {
 	v.AddArtifact(NewArtifact(ArtifactApp, "test"))
 	assert.Len(t, v.Artifacts, 1)
 }
+
+func TestGetVersion(t *testing.T) {
+	// preparations
+	v := NewVariant()
+	v.Version = NewVersion("2.0.0")
+
+	// test
+	actual := v.GetVersion()
+	assert.IsType(t, &Version{}, v.Version)
+	assert.IsType(t, Version{}, actual)
+	assert.Equal(t, v.Version.Value, actual.Value)
+}

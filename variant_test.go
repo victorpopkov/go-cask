@@ -54,3 +54,15 @@ func TestGetVersion(t *testing.T) {
 	assert.IsType(t, Version{}, actual)
 	assert.Equal(t, v.Version.Value, actual.Value)
 }
+
+func TestGetSHA256(t *testing.T) {
+	// preparations
+	v := NewVariant()
+	v.SHA256 = NewSHA256("92521fc3cbd964bdc9f584a991b89fddaa5754ed1cc96d6d42445338669c1305")
+
+	// test
+	actual := v.GetSHA256()
+	assert.IsType(t, &SHA256{}, v.SHA256)
+	assert.IsType(t, SHA256{}, actual)
+	assert.Equal(t, v.SHA256.Value, actual.Value)
+}

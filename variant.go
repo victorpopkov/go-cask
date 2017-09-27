@@ -52,3 +52,9 @@ func (v *Variant) AddArtifact(artifact *Artifact) {
 func (v *Variant) GetVersion() Version {
 	return *(v.Version)
 }
+
+// GetSHA256 returns the SHA256 struct from the existing Variant.SHA256 struct
+// pointer.
+func (v *Variant) GetSHA256() SHA256 {
+	return *(v.SHA256)
+}

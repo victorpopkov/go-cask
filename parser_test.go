@@ -51,8 +51,8 @@ func TestParseStatement(t *testing.T) {
 		"app 'test'":      nil,
 
 		// if/elsif
-		"if MacOS.release == :tiger\nfive = 5\nend":    nil,
-		"elsif MacOS.release == :tiger\nfive = 5\nend": nil,
+		"if MacOS.version == :tiger\nfive = 5\nend":    nil,
+		"elsif MacOS.version == :tiger\nfive = 5\nend": nil,
 
 		// errors
 		"":   "expected next token to be of type [NEWLINE], got EOF instead",
@@ -83,13 +83,13 @@ func TestParseStatement(t *testing.T) {
 func TestParseIfExpression(t *testing.T) {
 	testCases := map[string]*Token{
 		// successful
-		"if MacOS.release == :tiger\nfive = 5\nend":      nil,
-		"if MacOS.release == :tiger then\nfive = 5; end": nil,
-		"if MacOS.release == :tiger then; five = 5; end": nil,
+		"if MacOS.version == :tiger\nfive = 5\nend":      nil,
+		"if MacOS.version == :tiger then\nfive = 5; end": nil,
+		"if MacOS.version == :tiger then; five = 5; end": nil,
 
 		// errors
 		"if": {EOF, "", 0},
-		"if MacOS.release == :tiger": {EOF, "", 0},
+		"if MacOS.version == :tiger": {EOF, "", 0},
 
 		// unknown conditions
 		"if five == 5\nfive = 5\nend":      {EQ, "==", 0},
@@ -412,32 +412,32 @@ func TestParseConditionMacOS(t *testing.T) {
 	// test (successful)
 	testCases := map[string][]MacOS{
 		// EQ (==)
-		"MacOS.release == :high_sierra":   {MacOSHighSierra, MacOSHighSierra},
-		"MacOS.release == :sierra":        {MacOSSierra, MacOSSierra},
-		"MacOS.release == :el_capitan":    {MacOSElCapitan, MacOSElCapitan},
-		"MacOS.release == :yosemite":      {MacOSYosemite, MacOSYosemite},
-		"MacOS.release == :mavericks":     {MacOSMavericks, MacOSMavericks},
-		"MacOS.release == :mountain_lion": {MacOSMountainLion, MacOSMountainLion},
-		"MacOS.release == :lion":          {MacOSLion, MacOSLion},
-		"MacOS.release == :snow_leopard":  {MacOSSnowLeopard, MacOSSnowLeopard},
-		"MacOS.release == :leopard":       {MacOSLeopard, MacOSLeopard},
-		"MacOS.release == :tiger":         {MacOSTiger, MacOSTiger},
+		"MacOS.version == :high_sierra":   {MacOSHighSierra, MacOSHighSierra},
+		"MacOS.version == :sierra":        {MacOSSierra, MacOSSierra},
+		"MacOS.version == :el_capitan":    {MacOSElCapitan, MacOSElCapitan},
+		"MacOS.version == :yosemite":      {MacOSYosemite, MacOSYosemite},
+		"MacOS.version == :mavericks":     {MacOSMavericks, MacOSMavericks},
+		"MacOS.version == :mountain_lion": {MacOSMountainLion, MacOSMountainLion},
+		"MacOS.version == :lion":          {MacOSLion, MacOSLion},
+		"MacOS.version == :snow_leopard":  {MacOSSnowLeopard, MacOSSnowLeopard},
+		"MacOS.version == :leopard":       {MacOSLeopard, MacOSLeopard},
+		"MacOS.version == :tiger":         {MacOSTiger, MacOSTiger},
 
 		// GT (>)
-		"MacOS.release > :el_capitan":  {MacOSSierra, MacOSHighSierra},
-		"MacOS.release > :high_sierra": {MacOSHighSierra, MacOSHighSierra},
+		"MacOS.version > :el_capitan":  {MacOSSierra, MacOSHighSierra},
+		"MacOS.version > :high_sierra": {MacOSHighSierra, MacOSHighSierra},
 
 		// LT (<)
-		"MacOS.release < :el_capitan": {MacOSTiger, MacOSYosemite},
-		"MacOS.release < :tiger":      {MacOSTiger, MacOSTiger},
+		"MacOS.version < :el_capitan": {MacOSTiger, MacOSYosemite},
+		"MacOS.version < :tiger":      {MacOSTiger, MacOSTiger},
 
 		// GT and EQ (>=)
-		"MacOS.release >= :el_capitan":  {MacOSElCapitan, MacOSHighSierra},
-		"MacOS.release >= :high_sierra": {MacOSHighSierra, MacOSHighSierra},
+		"MacOS.version >= :el_capitan":  {MacOSElCapitan, MacOSHighSierra},
+		"MacOS.version >= :high_sierra": {MacOSHighSierra, MacOSHighSierra},
 
 		// LT and EQ (<=)
-		"MacOS.release <= :el_capitan": {MacOSTiger, MacOSElCapitan},
-		"MacOS.release <= :tiger":      {MacOSTiger, MacOSTiger},
+		"MacOS.version <= :el_capitan": {MacOSTiger, MacOSElCapitan},
+		"MacOS.version <= :tiger":      {MacOSTiger, MacOSTiger},
 	}
 
 	for testCase, expected := range testCases {
@@ -454,7 +454,7 @@ func TestParseConditionMacOS(t *testing.T) {
 
 	// test (error)
 	testCasesErrors := map[string]string{
-		"MacOS.release == :invalid": "MacOS condition is unknown",
+		"MacOS.version == :invalid": "MacOS condition is unknown",
 		"invalid":                   "MacOS condition not found",
 	}
 

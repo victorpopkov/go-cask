@@ -109,3 +109,25 @@ func TestGetAppcast(t *testing.T) {
 	assert.Equal(t, "http://example.com/2.0.0/appcast.xml", actual.URL)
 	assert.Equal(t, v.Appcast.Checkpoint, actual.Checkpoint)
 }
+
+func TestGetNames(t *testing.T) {
+	// preparations
+	v := NewVariant()
+	v.Names = append(v.Names, NewName("Name"))
+	v.Names = append(v.Names, NewName("Name #{version}"))
+
+	// test (without version)
+	actual := v.GetNames()
+	assert.Len(t, actual, len(v.Names))
+	assert.IsType(t, []Name{}, actual)
+	assert.Equal(t, v.Names[0].Value, actual[0].Value)
+	assert.Equal(t, v.Names[1].Value, actual[1].Value)
+
+	// test (with version)
+	v.Version = NewVersion("2.0.0")
+	actual = v.GetNames()
+	assert.Len(t, actual, len(v.Names))
+	assert.IsType(t, []Name{}, actual)
+	assert.Equal(t, v.Names[0].Value, actual[0].Value)
+	assert.Equal(t, "Name 2.0.0", actual[1].Value)
+}

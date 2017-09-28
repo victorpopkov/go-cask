@@ -83,3 +83,17 @@ func (v *Variant) GetAppcast() (a Appcast) {
 
 	return a
 }
+
+// GetNames returns the []Name slice from the existing []Variant.Names slice
+// pointer. and interpolates the version into each name if available.
+func (v *Variant) GetNames() (n []Name) {
+	for _, name := range v.Names {
+		if v.Version != nil && v.Version.HasVersionStringInterpolation(name.Value) {
+			name.Value = v.Version.InterpolateIntoString(name.Value)
+		}
+
+		n = append(n, *name)
+	}
+
+	return n
+}

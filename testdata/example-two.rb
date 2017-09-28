@@ -1,5 +1,5 @@
 cask 'example-two' do
-  if MacOS.release <= :el_capitan
+  if MacOS.version <= :el_capitan
     version '1.5.0'
     sha256 '1f4dc096d58f7d21e3875671aee6f29b120ab84218fa47db2cb53bc9eb5b4dac'
 

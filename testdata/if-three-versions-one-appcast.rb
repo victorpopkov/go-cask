@@ -1,8 +1,8 @@
 cask 'if-three-versions-one-appcast' do
-  if MacOS.release <= :tiger
+  if MacOS.version <= :tiger
     version '0.9.0'
     sha256 '30c99e8b103eacbe6f6d6e1b54b06ca6d5f3164b4f50094334a517ae95ca8fba'
-  elsif MacOS.release <= :leopard
+  elsif MacOS.version <= :leopard
     version '1.0.0'
     sha256 '92521fc3cbd964bdc9f584a991b89fddaa5754ed1cc96d6d42445338669c1305'
   else

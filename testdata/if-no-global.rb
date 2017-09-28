@@ -1,5 +1,5 @@
 cask 'if-no-global' do
-  if MacOS.release == :mavericks
+  if MacOS.version == :mavericks
     version '1.0.0'
     sha256 '92521fc3cbd964bdc9f584a991b89fddaa5754ed1cc96d6d42445338669c1305'
 

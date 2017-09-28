@@ -4,7 +4,7 @@ cask 'example-two' do
     sha256 '1f4dc096d58f7d21e3875671aee6f29b120ab84218fa47db2cb53bc9eb5b4dac'
 
     url "https://example.com/app_#{version}.pkg"
-    appcast "https://example.com/sparkle/#{version}/el_capitan.xml",
+    appcast "https://example.com/sparkle/#{version.major}/el_capitan.xml",
             checkpoint: '93ef3101ca730028d70524f71b7f6f17cbdb8d26906299f90c38b7079e1d03a4'
   else
     version '2.0.0'

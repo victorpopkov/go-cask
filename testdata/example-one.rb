@@ -11,7 +11,7 @@ cask 'example-one' do
 
   auto_updates true
 
-  app 'Example One.app', target: 'Example.app'
-  app 'Example One Uninstaller.app'
-  binary "#{appdir}/Example.app/Contents/MacOS/example-one", target: 'example'
+  app "Example #{version.major_minor}.app", target: 'Example.app'
+  app "Example #{version.major_minor} Uninstaller.app"
+  binary "#{appdir}/Example #{version.major_minor}.app/Contents/MacOS/example-one", target: 'example'
 end

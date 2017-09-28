@@ -58,3 +58,15 @@ func (v *Variant) GetVersion() Version {
 func (v *Variant) GetSHA256() SHA256 {
 	return *(v.SHA256)
 }
+
+// GetURL returns the URL struct from the existing Variant.URL struct pointer
+// and interpolates the version into the Variant.URL.Value if available.
+func (v *Variant) GetURL() (u URL) {
+	u = *(v.URL)
+
+	if v.Version != nil && v.Version.HasVersionStringInterpolation(u.Value) {
+		u.Value = v.Version.InterpolateIntoString(u.Value)
+	}
+
+	return u
+}

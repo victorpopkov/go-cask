@@ -66,3 +66,22 @@ func TestGetSHA256(t *testing.T) {
 	assert.IsType(t, SHA256{}, actual)
 	assert.Equal(t, v.SHA256.Value, actual.Value)
 }
+
+func TestGetURL(t *testing.T) {
+	// preparations
+	v := NewVariant()
+	v.URL = NewURL("http://example.com/#{version}.dmg")
+
+	// test (without version)
+	actual := v.GetURL()
+	assert.IsType(t, &URL{}, v.URL)
+	assert.IsType(t, URL{}, actual)
+	assert.Equal(t, v.URL.Value, actual.Value)
+
+	// test (with version)
+	v.Version = NewVersion("2.0.0")
+	actual = v.GetURL()
+	assert.IsType(t, &URL{}, v.URL)
+	assert.IsType(t, URL{}, actual)
+	assert.Equal(t, "http://example.com/2.0.0.dmg", actual.Value)
+}

@@ -97,3 +97,16 @@ func (v *Variant) GetNames() (n []Name) {
 
 	return n
 }
+
+// GetHomepage returns the Homepage struct from the existing Variant.Homepage
+// struct pointer and interpolates the version into the Variant.Homepage.Value
+// if available.
+func (v *Variant) GetHomepage() (h Homepage) {
+	h = *(v.Homepage)
+
+	if v.Version != nil && v.Version.HasVersionStringInterpolation(h.Value) {
+		h.Value = v.Version.InterpolateIntoString(h.Value)
+	}
+
+	return h
+}

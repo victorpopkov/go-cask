@@ -131,3 +131,22 @@ func TestGetNames(t *testing.T) {
 	assert.Equal(t, v.Names[0].Value, actual[0].Value)
 	assert.Equal(t, "Name 2.0.0", actual[1].Value)
 }
+
+func TestGetHomepage(t *testing.T) {
+	// preparations
+	v := NewVariant()
+	v.Homepage = NewHomepage("http://example.com/#{version}/")
+
+	// test (without version)
+	actual := v.GetHomepage()
+	assert.IsType(t, &Homepage{}, v.Homepage)
+	assert.IsType(t, Homepage{}, actual)
+	assert.Equal(t, v.Homepage.Value, actual.Value)
+
+	// test (with version)
+	v.Version = NewVersion("2.0.0")
+	actual = v.GetHomepage()
+	assert.IsType(t, &Homepage{}, v.Homepage)
+	assert.IsType(t, Homepage{}, actual)
+	assert.Equal(t, "http://example.com/2.0.0/", actual.Value)
+}

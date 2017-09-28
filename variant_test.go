@@ -150,3 +150,25 @@ func TestGetHomepage(t *testing.T) {
 	assert.IsType(t, Homepage{}, actual)
 	assert.Equal(t, "http://example.com/2.0.0/", actual.Value)
 }
+
+func TestGetArtifacts(t *testing.T) {
+	// preparations
+	v := NewVariant()
+	v.Artifacts = append(v.Artifacts, NewArtifact(ArtifactApp, "Test.app"))
+	v.Artifacts = append(v.Artifacts, NewArtifact(ArtifactApp, "Test #{version}.app"))
+
+	// test (without version)
+	actual := v.GetArtifacts()
+	assert.Len(t, actual, len(v.Artifacts))
+	assert.IsType(t, []Artifact{}, actual)
+	assert.Equal(t, v.Artifacts[0].Value, actual[0].Value)
+	assert.Equal(t, v.Artifacts[1].Value, actual[1].Value)
+
+	// test (with version)
+	v.Version = NewVersion("2.0.0")
+	actual = v.GetArtifacts()
+	assert.Len(t, actual, len(v.Artifacts))
+	assert.IsType(t, []Artifact{}, actual)
+	assert.Equal(t, v.Artifacts[0].Value, actual[0].Value)
+	assert.Equal(t, "Test 2.0.0.app", actual[1].Value)
+}

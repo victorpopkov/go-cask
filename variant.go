@@ -85,7 +85,7 @@ func (v *Variant) GetAppcast() (a Appcast) {
 }
 
 // GetNames returns the []Name slice from the existing []Variant.Names slice
-// pointer. and interpolates the version into each name if available.
+// pointer and interpolates the version into each name if available.
 func (v *Variant) GetNames() (n []Name) {
 	for _, name := range v.Names {
 		if v.Version != nil && v.Version.HasVersionStringInterpolation(name.Value) {
@@ -109,4 +109,19 @@ func (v *Variant) GetHomepage() (h Homepage) {
 	}
 
 	return h
+}
+
+// GetArtifacts returns the []Artifacts slice from the existing
+// []Variant.Artifacts slice pointer and interpolates the version into each
+// artifact value if available.
+func (v *Variant) GetArtifacts() (a []Artifact) {
+	for _, artifact := range v.Artifacts {
+		if v.Version != nil && v.Version.HasVersionStringInterpolation(artifact.Value) {
+			artifact.Value = v.Version.InterpolateIntoString(artifact.Value)
+		}
+
+		a = append(a, *artifact)
+	}
+
+	return a
 }

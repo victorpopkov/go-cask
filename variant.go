@@ -88,11 +88,13 @@ func (v *Variant) GetAppcast() (a Appcast) {
 // pointer and interpolates the version into each name if available.
 func (v *Variant) GetNames() (n []Name) {
 	for _, name := range v.Names {
+		newName := *name
+
 		if v.Version != nil && v.Version.HasVersionStringInterpolation(name.Value) {
-			name.Value = v.Version.InterpolateIntoString(name.Value)
+			newName.Value = v.Version.InterpolateIntoString(name.Value)
 		}
 
-		n = append(n, *name)
+		n = append(n, newName)
 	}
 
 	return n
@@ -116,11 +118,13 @@ func (v *Variant) GetHomepage() (h Homepage) {
 // artifact value if available.
 func (v *Variant) GetArtifacts() (a []Artifact) {
 	for _, artifact := range v.Artifacts {
+		newArtifact := *artifact
+
 		if v.Version != nil && v.Version.HasVersionStringInterpolation(artifact.Value) {
-			artifact.Value = v.Version.InterpolateIntoString(artifact.Value)
+			newArtifact.Value = v.Version.InterpolateIntoString(artifact.Value)
 		}
 
-		a = append(a, *artifact)
+		a = append(a, newArtifact)
 	}
 
 	return a

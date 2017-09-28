@@ -70,3 +70,16 @@ func (v *Variant) GetURL() (u URL) {
 
 	return u
 }
+
+// GetAppcast returns the Appcast struct from the existing Variant.Appcast
+// struct pointer and interpolates the version into the Variant.Appcast.URL if
+// available.
+func (v *Variant) GetAppcast() (a Appcast) {
+	a = *(v.Appcast)
+
+	if v.Version != nil && v.Version.HasVersionStringInterpolation(a.URL) {
+		a.URL = v.Version.InterpolateIntoString(a.URL)
+	}
+
+	return a
+}

@@ -85,3 +85,27 @@ func TestGetURL(t *testing.T) {
 	assert.IsType(t, URL{}, actual)
 	assert.Equal(t, "http://example.com/2.0.0.dmg", actual.Value)
 }
+
+func TestGetAppcast(t *testing.T) {
+	// preparations
+	v := NewVariant()
+	v.Appcast = NewAppcast(
+		"http://example.com/#{version}/appcast.xml",
+		"2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1",
+	)
+
+	// test (without version)
+	actual := v.GetAppcast()
+	assert.IsType(t, &Appcast{}, v.Appcast)
+	assert.IsType(t, Appcast{}, actual)
+	assert.Equal(t, v.Appcast.URL, actual.URL)
+	assert.Equal(t, v.Appcast.Checkpoint, actual.Checkpoint)
+
+	// test (with version)
+	v.Version = NewVersion("2.0.0")
+	actual = v.GetAppcast()
+	assert.IsType(t, &Appcast{}, v.Appcast)
+	assert.IsType(t, Appcast{}, actual)
+	assert.Equal(t, "http://example.com/2.0.0/appcast.xml", actual.URL)
+	assert.Equal(t, v.Appcast.Checkpoint, actual.Checkpoint)
+}

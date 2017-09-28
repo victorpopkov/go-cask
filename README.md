@@ -126,8 +126,8 @@ func main() {
 	if err == nil {
 		fmt.Println("Token:", c.Token)
 		for i, v := range c.Variants {
-      fmt.Printf("Variant #%d:\n", i+1)
-      fmt.Printf("%10s: %s\n", "version", v.GetVersion())
+			fmt.Printf("Variant #%d:\n", i+1)
+			fmt.Printf("%10s: %s\n", "version", v.GetVersion())
 			fmt.Printf("%10s: %s\n", "sha256", v.GetSHA256())
 			fmt.Printf("%10s: %s\n", "url", v.GetURL())
 			fmt.Printf("%10s: %s\n", "appcast", v.GetAppcast().URL)
@@ -135,7 +135,7 @@ func main() {
 			fmt.Printf("%10s: %v\n", "names", v.GetNames())
 			fmt.Printf("%10s: %s\n", "homepage", v.GetHomepage())
 
-      // artifacts
+			// artifacts
 			fmt.Printf("%10s: ", "artifacts")
 			if len(v.GetArtifacts()) > 0 {
 				for i, a := range v.GetArtifacts() {
@@ -155,7 +155,7 @@ func main() {
 		}
 	}
 
-  // Output:
+	// Output:
 	// Token: example-one
 	// Variant #1:
 	//    version: 2.0.0

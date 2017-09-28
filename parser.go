@@ -499,8 +499,8 @@ func (p *Parser) parseArtifactBinary() (*Artifact, error) {
 	return nil, errors.New(`error parsing "binary" artifact`)
 }
 
-// ParseConditionMacOS parses the "MacOS.release" condition statement. Returns
-// both the minimum and maximum macOS release. By default, the minimum is
+// ParseConditionMacOS parses the "MacOS.version" condition statement. Returns
+// both the minimum and maximum macOS releases. By default, the minimum is
 // MacOSTiger and the maximum matches the latest macOS release which is
 // MacOSHighSierra.
 func (p *Parser) ParseConditionMacOS() (min MacOS, max MacOS, err error) {
@@ -511,8 +511,8 @@ func (p *Parser) ParseConditionMacOS() (min MacOS, max MacOS, err error) {
 	if p.currentTokenIs(CONST) && p.currentToken.Literal == "MacOS" {
 		p.accept(DOT)
 
-		// release
-		if p.peekTokenIs(IDENT) && p.peekToken.Literal == "release" {
+		// version
+		if p.peekTokenIs(IDENT) && p.peekToken.Literal == "version" {
 			p.accept(IDENT)
 
 			// comparison

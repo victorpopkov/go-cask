@@ -63,8 +63,6 @@ func (a Artifact) String() (result string) {
 		if a.Target != "" {
 			result += fmt.Sprintf(" => %s", a.Target)
 		}
-	default:
-		result = a.Type.String()
 	}
 
 	return result

@@ -51,6 +51,21 @@ func TestNewCask(t *testing.T) {
 
 func TestParse(t *testing.T) {
 	testCases := map[string]Cask{
+		"empty.rb": {
+			Token:   "empty",
+			Content: string(getTestdata("empty.rb")),
+			Variants: []*Variant{
+				{
+					Version:   nil,
+					SHA256:    nil,
+					URL:       nil,
+					Appcast:   nil,
+					Names:     nil,
+					Homepage:  nil,
+					Artifacts: nil,
+				},
+			},
+		},
 		"if-global-version-two-sha256.rb": {
 			Token:   "if-global-version-two-sha256",
 			Content: string(getTestdata("if-global-version-two-sha256.rb")),
@@ -914,18 +929,13 @@ func TestParse(t *testing.T) {
 			for keyVariant, actualVariant := range actualCask.Variants {
 				expectedVariant := expectedCask.Variants[keyVariant]
 				assert.IsType(t, &Variant{}, actualVariant, filename)
-				assert.Equal(t, expectedVariant.Version, actualVariant.Version, filename)
-				assert.Equal(t, expectedVariant.SHA256, actualVariant.SHA256, filename)
-				assert.Equal(t, expectedVariant.URL, actualVariant.URL, filename)
-
-				// names
-				for keyName, name := range actualVariant.Names {
-					assert.Equal(t, expectedVariant.Names[keyName], name, filename)
-				}
-
-				assert.Equal(t, expectedVariant.Homepage, actualVariant.Homepage, filename)
-				assert.Equal(t, expectedVariant.Appcast, actualVariant.Appcast, filename)
-				assert.Equal(t, expectedVariant.Artifacts, actualVariant.Artifacts, filename)
+				assert.Equal(t, expectedVariant.GetVersion(), actualVariant.GetVersion(), filename)
+				assert.Equal(t, expectedVariant.GetSHA256(), actualVariant.GetSHA256(), filename)
+				assert.Equal(t, expectedVariant.GetURL(), actualVariant.GetURL(), filename)
+				assert.Equal(t, expectedVariant.GetNames(), actualVariant.GetNames(), filename)
+				assert.Equal(t, expectedVariant.GetHomepage(), actualVariant.GetHomepage(), filename)
+				assert.Equal(t, expectedVariant.GetAppcast(), actualVariant.GetAppcast(), filename)
+				assert.Equal(t, expectedVariant.GetArtifacts(), actualVariant.GetArtifacts(), filename)
 			}
 		}
 	}

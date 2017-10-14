@@ -50,38 +50,54 @@ func (v *Variant) AddArtifact(artifact *Artifact) {
 // GetVersion returns the Version struct from the existing Variant.Version
 // struct pointer.
 func (v *Variant) GetVersion() Version {
-	return *(v.Version)
+	if v.Version != nil {
+		return *(v.Version)
+	}
+
+	return Version{}
 }
 
 // GetSHA256 returns the SHA256 struct from the existing Variant.SHA256 struct
 // pointer.
 func (v *Variant) GetSHA256() SHA256 {
-	return *(v.SHA256)
+	if v.SHA256 != nil {
+		return *(v.SHA256)
+	}
+
+	return SHA256{}
 }
 
 // GetURL returns the URL struct from the existing Variant.URL struct pointer
 // and interpolates the version into the Variant.URL.Value if available.
 func (v *Variant) GetURL() (u URL) {
-	u = *(v.URL)
+	if v.URL != nil {
+		u = *(v.URL)
 
-	if v.Version != nil && v.Version.HasVersionStringInterpolation(u.Value) {
-		u.Value = v.Version.InterpolateIntoString(u.Value)
+		if v.Version != nil && v.Version.HasVersionStringInterpolation(u.Value) {
+			u.Value = v.Version.InterpolateIntoString(u.Value)
+		}
+
+		return u
 	}
 
-	return u
+	return URL{}
 }
 
 // GetAppcast returns the Appcast struct from the existing Variant.Appcast
 // struct pointer and interpolates the version into the Variant.Appcast.URL if
 // available.
 func (v *Variant) GetAppcast() (a Appcast) {
-	a = *(v.Appcast)
+	if v.Appcast != nil {
+		a = *(v.Appcast)
 
-	if v.Version != nil && v.Version.HasVersionStringInterpolation(a.URL) {
-		a.URL = v.Version.InterpolateIntoString(a.URL)
+		if v.Version != nil && v.Version.HasVersionStringInterpolation(a.URL) {
+			a.URL = v.Version.InterpolateIntoString(a.URL)
+		}
+
+		return a
 	}
 
-	return a
+	return Appcast{}
 }
 
 // GetNames returns the []Name slice from the existing []Variant.Names slice
@@ -104,13 +120,17 @@ func (v *Variant) GetNames() (n []Name) {
 // struct pointer and interpolates the version into the Variant.Homepage.Value
 // if available.
 func (v *Variant) GetHomepage() (h Homepage) {
-	h = *(v.Homepage)
+	if v.Homepage != nil {
+		h = *(v.Homepage)
 
-	if v.Version != nil && v.Version.HasVersionStringInterpolation(h.Value) {
-		h.Value = v.Version.InterpolateIntoString(h.Value)
+		if v.Version != nil && v.Version.HasVersionStringInterpolation(h.Value) {
+			h.Value = v.Version.InterpolateIntoString(h.Value)
+		}
+
+		return h
 	}
 
-	return h
+	return Homepage{}
 }
 
 // GetArtifacts returns the []Artifacts slice from the existing

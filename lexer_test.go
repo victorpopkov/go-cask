@@ -10,7 +10,27 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func testSingleNextToken(t *testing.T, input string, expectedType TokenType, expectedLiteral string) {
+func assertNextToken(t *testing.T, lexer *Lexer, expectedType TokenType, expectedLiteral string, position int) {
+	token := lexer.NextToken()
+
+	// type
+	assert.Equal(t, expectedType, token.Type, fmt.Sprintf(
+		"Expected token with type %q at position %d, got type %q\n",
+		expectedType,
+		position,
+		token.Type,
+	))
+
+	// literal
+	assert.Equal(t, expectedLiteral, token.Literal, fmt.Sprintf(
+		"Expected token with literal %q at position %d, got literal %q\n",
+		expectedLiteral,
+		position,
+		token.Literal,
+	))
+}
+
+func assertSingleNextToken(t *testing.T, input string, expectedType TokenType, expectedLiteral string) {
 	lexer := NewLexer(input)
 
 	if lexer.HasNext() {
@@ -34,35 +54,31 @@ func testSingleNextToken(t *testing.T, input string, expectedType TokenType, exp
 
 func TestLexerNextToken(t *testing.T) {
 	// test (successful)
-	input := `five = 5
+	input := `
 # just comment
-fifty = 5_0
-ten = 10
+
+five = 5
+fifty = 50
+result = add(five, fifty)
+
+!-/*5;
+10 == 10
+10 != 9
+4 % 2
+5 < 10 > 5
+
+[1, 2]
+A::B
+:symbol
+
+$foo;
+$Foo
+$@
+$a
 
 def add(x, y)
 	x + y
 end
-
-result = add(five, ten)
-!-/*5;
-5 < 10 > 5
-return
-
-if 5 < 10 then
-	true
-else
-	false
-end
-
-10 == 10
-10 != 9
-""
-"foobar"
-'foobar'
-"foo bar"
-'foo bar'
-:sym
-.
 
 def nil?
 end
@@ -70,41 +86,117 @@ end
 def run!
 end
 
-[1, 2]
-nil
-self
-Ten = 10
 module Abc
 end
+
 class Abc
 end
-add { |x| x }
+
+if 5 < 10 then
+	true
+else
+	false
+end
+
 add do |x|
 end
-yield
-A::B
-$foo;
-$Foo
-$@
-$a`
+
+add { |x| x }
+`
 
 	testCases := []struct {
 		expectedType    TokenType
 		expectedLiteral string
 	}{
+		{NEWLINE, "\n"},
+		{NEWLINE, "\n"},
+
 		{IDENT, "five"},
 		{ASSIGN, "="},
 		{INT, "5"},
 		{NEWLINE, "\n"},
+
 		{IDENT, "fifty"},
 		{ASSIGN, "="},
-		{INT, "5_0"},
+		{INT, "50"},
 		{NEWLINE, "\n"},
-		{IDENT, "ten"},
+
+		{IDENT, "result"},
 		{ASSIGN, "="},
+		{IDENT, "add"},
+		{LPAREN, "("},
+		{IDENT, "five"},
+		{COMMA, ","},
+		{IDENT, "fifty"},
+		{RPAREN, ")"},
+		{NEWLINE, "\n"},
+		{NEWLINE, "\n"},
+
+		{BANG, "!"},
+		{MINUS, "-"},
+		{SLASH, "/"},
+		{ASTERISK, "*"},
+		{INT, "5"},
+		{SEMICOLON, ";"},
+		{NEWLINE, "\n"},
+
+		{INT, "10"},
+		{EQ, "=="},
 		{INT, "10"},
 		{NEWLINE, "\n"},
+
+		{INT, "10"},
+		{NOTEQ, "!="},
+		{INT, "9"},
 		{NEWLINE, "\n"},
+
+		{INT, "4"},
+		{MODULUS, "%"},
+		{INT, "2"},
+		{NEWLINE, "\n"},
+
+		{INT, "5"},
+		{LT, "<"},
+		{INT, "10"},
+		{GT, ">"},
+		{INT, "5"},
+		{NEWLINE, "\n"},
+		{NEWLINE, "\n"},
+
+		{LBRACKET, "["},
+		{INT, "1"},
+		{COMMA, ","},
+		{INT, "2"},
+		{RBRACKET, "]"},
+		{NEWLINE, "\n"},
+
+		{CONST, "A"},
+		{SCOPE, "::"},
+		{CONST, "B"},
+		{NEWLINE, "\n"},
+
+		{SYMBOL, "symbol"},
+		{NEWLINE, "\n"},
+		{NEWLINE, "\n"},
+
+		// Globals
+
+		{GLOBAL, "$foo"},
+		{SEMICOLON, ";"},
+		{NEWLINE, "\n"},
+
+		{GLOBAL, "$Foo"},
+		{NEWLINE, "\n"},
+
+		{GLOBAL, "$@"},
+		{NEWLINE, "\n"},
+
+		{GLOBAL, "$a"},
+		{NEWLINE, "\n"},
+		{NEWLINE, "\n"},
+
+		// Blocks
+
 		{DEF, "def"},
 		{IDENT, "add"},
 		{LPAREN, "("},
@@ -120,31 +212,35 @@ $a`
 		{END, "end"},
 		{NEWLINE, "\n"},
 		{NEWLINE, "\n"},
-		{IDENT, "result"},
-		{ASSIGN, "="},
-		{IDENT, "add"},
-		{LPAREN, "("},
-		{IDENT, "five"},
-		{COMMA, ","},
-		{IDENT, "ten"},
-		{RPAREN, ")"},
+
+		{DEF, "def"},
+		{IDENT, "nil?"},
 		{NEWLINE, "\n"},
-		{BANG, "!"},
-		{MINUS, "-"},
-		{SLASH, "/"},
-		{ASTERISK, "*"},
-		{INT, "5"},
-		{SEMICOLON, ";"},
-		{NEWLINE, "\n"},
-		{INT, "5"},
-		{LT, "<"},
-		{INT, "10"},
-		{GT, ">"},
-		{INT, "5"},
-		{NEWLINE, "\n"},
-		{RETURN, "return"},
+		{END, "end"},
 		{NEWLINE, "\n"},
 		{NEWLINE, "\n"},
+
+		{DEF, "def"},
+		{IDENT, "run!"},
+		{NEWLINE, "\n"},
+		{END, "end"},
+		{NEWLINE, "\n"},
+		{NEWLINE, "\n"},
+
+		{MODULE, "module"},
+		{CONST, "Abc"},
+		{NEWLINE, "\n"},
+		{END, "end"},
+		{NEWLINE, "\n"},
+		{NEWLINE, "\n"},
+
+		{CLASS, "class"},
+		{CONST, "Abc"},
+		{NEWLINE, "\n"},
+		{END, "end"},
+		{NEWLINE, "\n"},
+		{NEWLINE, "\n"},
+
 		{IF, "if"},
 		{INT, "5"},
 		{LT, "<"},
@@ -160,73 +256,7 @@ $a`
 		{END, "end"},
 		{NEWLINE, "\n"},
 		{NEWLINE, "\n"},
-		{INT, "10"},
-		{EQ, "=="},
-		{INT, "10"},
-		{NEWLINE, "\n"},
-		{INT, "10"},
-		{NOTEQ, "!="},
-		{INT, "9"},
-		{NEWLINE, "\n"},
-		{STRING, ""},
-		{NEWLINE, "\n"},
-		{STRING, "foobar"},
-		{NEWLINE, "\n"},
-		{STRING, "foobar"},
-		{NEWLINE, "\n"},
-		{STRING, "foo bar"},
-		{NEWLINE, "\n"},
-		{STRING, "foo bar"},
-		{NEWLINE, "\n"},
-		{SYMBOL, "sym"},
-		{NEWLINE, "\n"},
-		{DOT, "."},
-		{NEWLINE, "\n"},
-		{NEWLINE, "\n"},
-		{DEF, "def"},
-		{IDENT, "nil?"},
-		{NEWLINE, "\n"},
-		{END, "end"},
-		{NEWLINE, "\n"},
-		{NEWLINE, "\n"},
-		{DEF, "def"},
-		{IDENT, "run!"},
-		{NEWLINE, "\n"},
-		{END, "end"},
-		{NEWLINE, "\n"},
-		{NEWLINE, "\n"},
-		{LBRACKET, "["},
-		{INT, "1"},
-		{COMMA, ","},
-		{INT, "2"},
-		{RBRACKET, "]"},
-		{NEWLINE, "\n"},
-		{NIL, "nil"},
-		{NEWLINE, "\n"},
-		{SELF, "self"},
-		{NEWLINE, "\n"},
-		{CONST, "Ten"},
-		{ASSIGN, "="},
-		{INT, "10"},
-		{NEWLINE, "\n"},
-		{MODULE, "module"},
-		{CONST, "Abc"},
-		{NEWLINE, "\n"},
-		{END, "end"},
-		{NEWLINE, "\n"},
-		{CLASS, "class"},
-		{CONST, "Abc"},
-		{NEWLINE, "\n"},
-		{END, "end"},
-		{NEWLINE, "\n"},
-		{IDENT, "add"},
-		{LBRACE, "{"},
-		{PIPE, "|"},
-		{IDENT, "x"},
-		{PIPE, "|"},
-		{IDENT, "x"},
-		{RBRACE, "}"},
-		{NEWLINE, "\n"},
+
 		{IDENT, "add"},
 		{DO, "do"},
 		{PIPE, "|"},
@@ -235,48 +265,150 @@ $a`
 		{NEWLINE, "\n"},
 		{END, "end"},
 		{NEWLINE, "\n"},
-		{YIELD, "yield"},
 		{NEWLINE, "\n"},
-		{CONST, "A"},
-		{SCOPE, "::"},
-		{CONST, "B"},
+
+		{IDENT, "add"},
+		{LBRACE, "{"},
+		{PIPE, "|"},
+		{IDENT, "x"},
+		{PIPE, "|"},
+		{IDENT, "x"},
+		{RBRACE, "}"},
 		{NEWLINE, "\n"},
-		{GLOBAL, "$foo"},
-		{SEMICOLON, ";"},
-		{NEWLINE, "\n"},
-		{GLOBAL, "$Foo"},
-		{NEWLINE, "\n"},
-		{GLOBAL, "$@"},
-		{NEWLINE, "\n"},
-		{GLOBAL, "$a"},
+
 		{EOF, ""},
 	}
 
 	lexer := NewLexer(input)
 
 	// test
-	for pos, testCase := range testCases {
-		token := lexer.NextToken()
-
-		// type
-		assert.Equal(t, testCase.expectedType, token.Type, fmt.Sprintf(
-			"Expected token with type %q at position %d, got type %q\n",
-			testCase.expectedType,
-			pos,
-			token.Type,
-		))
-
-		// literal
-		assert.Equal(t, testCase.expectedLiteral, token.Literal, fmt.Sprintf(
-			"Expected token with literal %q at position %d, got literal %q\n",
-			testCase.expectedLiteral,
-			pos,
-			token.Literal,
-		))
+	for position, testCase := range testCases {
+		assertNextToken(t, lexer, testCase.expectedType, testCase.expectedLiteral, position)
 	}
 
 	// test (error)
-	testSingleNextToken(t, "$ ", ILLEGAL, "Illegal character at 2: ' '")
-	testSingleNextToken(t, "$;", ILLEGAL, "Illegal character at 2: ';'")
-	testSingleNextToken(t, "\\", ILLEGAL, "Illegal character at 0: '\\'")
+	assertSingleNextToken(t, "$ ", ILLEGAL, "Illegal character at 2: ' '")
+	assertSingleNextToken(t, "$;", ILLEGAL, "Illegal character at 2: ';'")
+	assertSingleNextToken(t, "\\", ILLEGAL, "Illegal character at 0: '\\'")
+}
+
+func TestLexerPercentNotationRegexp(t *testing.T) {
+	// test (successful)
+	input := `
+%r(regex)
+%r[regex]
+%r{regex}
+%r<regex>
+`
+
+	testCases := []struct {
+		expectedType    TokenType
+		expectedLiteral string
+	}{
+		{NEWLINE, "\n"},
+
+		{PNREGEXP, "%r"},
+		{PNSTART, "("},
+		{REGEXP, "regex"},
+		{PNEND, ")"},
+		{NEWLINE, "\n"},
+
+		{PNREGEXP, "%r"},
+		{PNSTART, "["},
+		{REGEXP, "regex"},
+		{PNEND, "]"},
+		{NEWLINE, "\n"},
+
+		{PNREGEXP, "%r"},
+		{PNSTART, "{"},
+		{REGEXP, "regex"},
+		{PNEND, "}"},
+		{NEWLINE, "\n"},
+
+		{PNREGEXP, "%r"},
+		{PNSTART, "<"},
+		{REGEXP, "regex"},
+		{PNEND, ">"},
+		{NEWLINE, "\n"},
+
+		{EOF, ""},
+	}
+
+	lexer := NewLexer(input)
+
+	// test
+	for position, testCase := range testCases {
+		assertNextToken(t, lexer, testCase.expectedType, testCase.expectedLiteral, position)
+	}
+}
+
+func TestLexerStrings(t *testing.T) {
+	// test (successful)
+	input := `
+""
+''
+"double quoted string"
+'single quoted string'
+`
+
+	testCases := []struct {
+		expectedType    TokenType
+		expectedLiteral string
+	}{
+		{NEWLINE, "\n"},
+
+		{STRING, ""},
+		{NEWLINE, "\n"},
+
+		{STRING, ""},
+		{NEWLINE, "\n"},
+
+		{STRING, "double quoted string"},
+		{NEWLINE, "\n"},
+
+		{STRING, "single quoted string"},
+		{NEWLINE, "\n"},
+
+		{EOF, ""},
+	}
+
+	lexer := NewLexer(input)
+
+	// test
+	for position, testCase := range testCases {
+		assertNextToken(t, lexer, testCase.expectedType, testCase.expectedLiteral, position)
+	}
+}
+
+func TestLexerDelimiters(t *testing.T) {
+	assertSingleNextToken(t, ",", COMMA, ",")
+	assertSingleNextToken(t, "\n", NEWLINE, "\n")
+	assertSingleNextToken(t, ";", SEMICOLON, ";")
+	assertSingleNextToken(t, ".", DOT, ".")
+	assertSingleNextToken(t, "{", LBRACE, "{")
+	assertSingleNextToken(t, "[", LBRACKET, "[")
+	assertSingleNextToken(t, "(", LPAREN, "(")
+	assertSingleNextToken(t, "|", PIPE, "|")
+	assertSingleNextToken(t, "}", RBRACE, "}")
+	assertSingleNextToken(t, "]", RBRACKET, "]")
+	assertSingleNextToken(t, ")", RPAREN, ")")
+	assertSingleNextToken(t, "::", SCOPE, "::")
+}
+
+func TestLexerKeywords(t *testing.T) {
+	assertSingleNextToken(t, "class", CLASS, "class")
+	assertSingleNextToken(t, "def", DEF, "def")
+	assertSingleNextToken(t, "do", DO, "do")
+	assertSingleNextToken(t, "else", ELSE, "else")
+	assertSingleNextToken(t, "end", END, "end")
+	assertSingleNextToken(t, "false", FALSE, "false")
+	assertSingleNextToken(t, "if", IF, "if")
+	assertSingleNextToken(t, "elsif", ELSEIF, "elsif")
+	assertSingleNextToken(t, "module", MODULE, "module")
+	assertSingleNextToken(t, "nil", NIL, "nil")
+	assertSingleNextToken(t, "return", RETURN, "return")
+	assertSingleNextToken(t, "self", SELF, "self")
+	assertSingleNextToken(t, "then", THEN, "then")
+	assertSingleNextToken(t, "true", TRUE, "true")
+	assertSingleNextToken(t, "yield", YIELD, "yield")
 }

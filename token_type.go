@@ -22,6 +22,13 @@ const (
 	STRING
 	SYMBOL // :symbol
 
+	// The % Notation
+
+	// %r{}
+	PNREGEXP // %r
+	PNSTART  // left delimiter ('{' or other)
+	PNEND    // right delimiter ('}' or other)
+
 	// Operators
 
 	ASSIGN   // =
@@ -30,6 +37,7 @@ const (
 	MINUS    // -
 	PLUS     // +
 	SLASH    // /
+	MODULUS  // %
 
 	EQ    // ==
 	GT    // >
@@ -38,9 +46,9 @@ const (
 
 	// Delimiters
 
-	COMMA
-	NEWLINE // \n
-	SEMICOLON
+	COMMA     // ,
+	NEWLINE   // \n
+	SEMICOLON // ;
 
 	COLON    // :
 	DOT      // .
@@ -53,6 +61,10 @@ const (
 	RPAREN   // )
 
 	SCOPE // ::
+
+	// Other
+
+	REGEXP
 
 	// Keywords
 

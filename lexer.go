@@ -54,7 +54,7 @@ func NewLexer(input string) *Lexer {
 	return &Lexer{
 		input:  input,
 		state:  startLexer,
-		tokens: make(chan Token, 2), // two tokens is sufficient.
+		tokens: make(chan Token, 3), // three tokens are sufficient.
 	}
 }
 
@@ -147,6 +147,7 @@ func startLexer(l *Lexer) StateFn {
 			l.emit(SCOPE)
 			return startLexer
 		}
+
 		return lexSymbol
 	case '.':
 		l.emit(DOT)
@@ -158,6 +159,7 @@ func startLexer(l *Lexer) StateFn {
 		} else {
 			l.emit(ASSIGN)
 		}
+
 		return startLexer
 	case '+':
 		l.emit(PLUS)
@@ -172,9 +174,21 @@ func startLexer(l *Lexer) StateFn {
 		} else {
 			l.emit(BANG)
 		}
+
 		return startLexer
 	case '/':
 		l.emit(SLASH)
+		return startLexer
+	case '%':
+		if l.peek() == 'r' {
+			l.next()
+			l.emit(PNREGEXP)
+
+			return lexRegexp
+		}
+
+		l.emit(MODULUS)
+
 		return startLexer
 	case '*':
 		l.emit(ASTERISK)
@@ -288,6 +302,43 @@ func lexString(l *Lexer) StateFn {
 	l.emit(STRING)
 	l.next()
 	l.ignore()
+
+	return startLexer
+}
+
+// lexRegexp lexes the regular expression.
+func lexRegexp(l *Lexer) StateFn {
+	l.ignore()
+
+	r := l.next()
+	l.emit(PNSTART)
+
+	pnStart := r
+	pnEnd := pnStart
+
+	switch pnStart {
+	case '(':
+		pnEnd = ')'
+		break
+	case '[':
+		pnEnd = ']'
+		break
+	case '{':
+		pnEnd = '}'
+		break
+	case '<':
+		pnEnd = '>'
+		break
+	}
+
+	for r != pnEnd {
+		r = l.next()
+	}
+
+	l.backup()
+	l.emit(REGEXP)
+	l.next()
+	l.emit(PNEND)
 
 	return startLexer
 }

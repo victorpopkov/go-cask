@@ -93,6 +93,7 @@ func (l *Lexer) next() rune {
 		l.width = 0
 		return eof
 	}
+
 	var r rune
 	r, l.width = utf8.DecodeRuneInString(l.input[l.position:])
 	l.position += l.width
@@ -279,8 +280,14 @@ func lexSingleQuoteString(l *Lexer) StateFn {
 	r := l.next()
 
 	for r != '\'' {
+		// we skip the escape character
+		if l.peek() == '\'' && r == '\\' {
+			l.next()
+		}
+
 		r = l.next()
 	}
+
 	l.backup()
 	l.emit(STRING)
 	l.next()
@@ -292,9 +299,14 @@ func lexSingleQuoteString(l *Lexer) StateFn {
 // lexString lexes the string.
 func lexString(l *Lexer) StateFn {
 	l.ignore()
-
 	r := l.next()
+
 	for r != '"' {
+		// we skip the escape character
+		if l.peek() == '"' && r == '\\' {
+			l.next()
+		}
+
 		r = l.next()
 	}
 

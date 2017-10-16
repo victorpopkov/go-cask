@@ -349,6 +349,8 @@ func TestLexerStrings(t *testing.T) {
 ''
 "double quoted string"
 'single quoted string'
+"double quoted string (\") with escaped double quote"
+'single quoted string (\') with escaped single quote'
 `
 
 	testCases := []struct {
@@ -367,6 +369,12 @@ func TestLexerStrings(t *testing.T) {
 		{NEWLINE, "\n"},
 
 		{STRING, "single quoted string"},
+		{NEWLINE, "\n"},
+
+		{STRING, "double quoted string (\\\") with escaped double quote"},
+		{NEWLINE, "\n"},
+
+		{STRING, "single quoted string (\\') with escaped single quote"},
 		{NEWLINE, "\n"},
 
 		{EOF, ""},

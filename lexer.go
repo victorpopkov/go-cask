@@ -66,12 +66,12 @@ func (l *Lexer) NextToken() Token {
 			if ok {
 				return item
 			}
-			// panic(fmt.Errorf("No items left"))
+			panic(fmt.Errorf("No tokens left"))
 		default:
 			l.state = l.state(l)
-			// if l.state == nil {
-			// 	close(l.tokens)
-			// }
+			if l.state == nil {
+				close(l.tokens)
+			}
 		}
 	}
 }

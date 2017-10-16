@@ -57,7 +57,11 @@ func (p *Parser) ParseCask(cask *Cask) error {
 
 	for !p.currentTokenIs(EOF) {
 		p.parseStatement()
-		p.nextToken()
+
+		err := p.nextToken()
+		if err != nil {
+			break
+		}
 	}
 
 	if p.currentCaskVariant != nil {
@@ -606,12 +610,17 @@ func (p *Parser) mergeCurrentCaskVariant(condition bool) {
 }
 
 // nextToken updates the Parser.currentToken and Parser.peekToken values to
-// match the next Lexer token.
-func (p *Parser) nextToken() {
+// match the next Lexer token. If Lexer doesn't have any token left, returns the
+// "No tokens left" error.
+func (p *Parser) nextToken() error {
 	p.currentToken = p.peekToken
 	if p.lexer.HasNext() {
 		p.peekToken = p.lexer.NextToken()
+	} else {
+		return errors.New("No tokens left")
 	}
+
+	return nil
 }
 
 // currentTokenIs checks whether the current Token.Type matches the specified

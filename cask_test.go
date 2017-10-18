@@ -66,9 +66,9 @@ func TestParse(t *testing.T) {
 				},
 			},
 		},
-		"if-global-version-two-sha256.rb": {
-			Token:   "if-global-version-two-sha256",
-			Content: string(getTestdata("if-global-version-two-sha256.rb")),
+		"if-global-version-last.rb": {
+			Token:   "if-global-version-last",
+			Content: string(getTestdata("if-global-version-last.rb")),
 			Variants: []*Variant{
 				{
 					Version: &Version{
@@ -101,7 +101,7 @@ func TestParse(t *testing.T) {
 							BaseStanza: BaseStanza{
 								IsGlobal: true,
 							},
-							Value: "Example (if-global-version-two-sha256)",
+							Value: "Example (if-global-version-last)",
 						},
 					},
 					Homepage: &Homepage{
@@ -113,7 +113,7 @@ func TestParse(t *testing.T) {
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
-							Value:          "Example (if-global-version-two-sha256).app",
+							Value:          "Example (if-global-version-last).app",
 							Target:         "Example.app",
 							AllowUntrusted: false,
 						},
@@ -156,7 +156,7 @@ func TestParse(t *testing.T) {
 							BaseStanza: BaseStanza{
 								IsGlobal: true,
 							},
-							Value: "Example (if-global-version-two-sha256)",
+							Value: "Example (if-global-version-last)",
 						},
 					},
 					Homepage: &Homepage{
@@ -168,7 +168,123 @@ func TestParse(t *testing.T) {
 					Artifacts: []*Artifact{
 						{
 							Type:           ArtifactApp,
-							Value:          "Example (if-global-version-two-sha256).app",
+							Value:          "Example (if-global-version-last).app",
+							Target:         "Example.app",
+							AllowUntrusted: false,
+						},
+						{
+							Type:           ArtifactBinary,
+							Value:          "#{appdir}/Example.app/Contents/MacOS/example-if",
+							Target:         "example",
+							AllowUntrusted: false,
+						},
+					},
+				},
+			},
+		},
+		"if-global-version-first.rb": {
+			Token:   "if-global-version-first",
+			Content: string(getTestdata("if-global-version-first.rb")),
+			Variants: []*Variant{
+				{
+					Version: &Version{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "2.0.0",
+					},
+					SHA256: &SHA256{
+						Value: "cd9d7b8c5d48e2d7f0673e0aa13e82e198f66e958d173d679e38a94abb1b2435",
+					},
+					URL: &URL{
+						Value: "https://example.com/app_#{version}_mac32.dmg",
+					},
+					Appcast: &Appcast{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
+						Checkpoint: "57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7",
+					},
+					Names: []*Name{
+						{
+							BaseStanza: BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (if-global-version-first)",
+						},
+					},
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
+					Artifacts: []*Artifact{
+						{
+							Type:           ArtifactApp,
+							Value:          "Example (if-global-version-first).app",
+							Target:         "Example.app",
+							AllowUntrusted: false,
+						},
+						{
+							Type:           ArtifactBinary,
+							Value:          "#{appdir}/Example.app/Contents/MacOS/example-if",
+							Target:         "example",
+							AllowUntrusted: false,
+						},
+					},
+				},
+				{
+					Version: &Version{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "2.0.0",
+					},
+					SHA256: &SHA256{
+						Value: "9065ae8493fa73bfdf5d29ffcd0012cd343475cf3d550ae526407b9910eb35b7",
+					},
+					URL: &URL{
+						Value: "https://example.com/app_#{version}_mac64.dmg",
+					},
+					Appcast: &Appcast{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
+						Checkpoint: "57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7",
+					},
+					Names: []*Name{
+						{
+							BaseStanza: BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example",
+						},
+						{
+							BaseStanza: BaseStanza{
+								IsGlobal: true,
+							},
+							Value: "Example (if-global-version-first)",
+						},
+					},
+					Homepage: &Homepage{
+						BaseStanza: BaseStanza{
+							IsGlobal: true,
+						},
+						Value: "https://example.com/",
+					},
+					Artifacts: []*Artifact{
+						{
+							Type:           ArtifactApp,
+							Value:          "Example (if-global-version-first).app",
 							Target:         "Example.app",
 							AllowUntrusted: false,
 						},

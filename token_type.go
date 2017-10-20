@@ -29,6 +29,12 @@ const (
 	PNSTART  // left delimiter ('{' or other)
 	PNEND    // right delimiter ('}' or other)
 
+	// Heredoc
+
+	HEREDOC
+	HEREDOCSTART
+	HEREDOCEND
+
 	// Operators
 
 	ASSIGN   // =

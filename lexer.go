@@ -6,6 +6,7 @@ package cask
 import (
 	"bytes"
 	"fmt"
+	"strings"
 	"unicode"
 	"unicode/utf8"
 )
@@ -117,6 +118,12 @@ func (l *Lexer) peek() rune {
 	return r
 }
 
+// isEndingWithString checks whether the current string input part has the
+// provided suffix.
+func (l *Lexer) isEndingWithString(s string) bool {
+	return strings.HasSuffix(l.input[l.start:l.position], s)
+}
+
 // errorf returns an error token and terminates the scan by passing
 // back a nil pointer that will be the next state, terminating l.run.
 func (l *Lexer) errorf(format string, args ...interface{}) StateFn {
@@ -195,7 +202,18 @@ func startLexer(l *Lexer) StateFn {
 		l.emit(ASTERISK)
 		return startLexer
 	case '<':
+		if l.peek() == '<' {
+			l.next()
+			if l.peek() == '-' || l.peek() == '~' {
+				l.next()
+				l.emit(HEREDOC)
+
+				return lexHeredoc
+			}
+		}
+
 		l.emit(LT)
+
 		return startLexer
 	case '>':
 		l.emit(GT)
@@ -351,6 +369,51 @@ func lexRegexp(l *Lexer) StateFn {
 	l.emit(REGEXP)
 	l.next()
 	l.emit(PNEND)
+
+	return startLexer
+}
+
+// lexHeredoc lexes the heredoc expression.
+func lexHeredoc(l *Lexer) StateFn {
+	l.ignore()
+
+	// HEREDOCSTART
+	r := l.next()
+	hdStart := string(r)
+
+	for r != '\n' {
+		r = l.next()
+		hdStart += string(r)
+	}
+
+	l.backup() // don't add a newline character
+	l.emit(HEREDOCSTART)
+
+	l.start++ // skip newline character
+	l.next()
+
+	for !l.isEndingWithString(hdStart) {
+		l.next()
+	}
+
+	l.position -= len(hdStart)
+
+	s := strings.TrimRightFunc(l.input[l.start:l.position], func(r rune) bool {
+		if isWhitespace(r) {
+			return true
+		}
+		return false
+	})
+
+	l.tokens <- *NewToken(STRING, s, l.start)
+	l.start = l.position
+
+	for !l.isEndingWithString(hdStart) {
+		l.next()
+	}
+
+	l.backup()
+	l.emit(HEREDOCEND)
 
 	return startLexer
 }

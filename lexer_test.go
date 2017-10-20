@@ -342,6 +342,58 @@ func TestLexerPercentNotationRegexp(t *testing.T) {
 	}
 }
 
+func TestLexerHeredoc(t *testing.T) {
+	// test (successful)
+	input := `
+  <<-HEREDOC
+    This is a heredoc multiline string.
+    It should have 4 leading spaces.
+    HEREDOCEND has no leading spaces.
+HEREDOC
+
+  <<-HEREDOC
+    This is a heredoc multiline string.
+    It should have 4 leading spaces.
+    HEREDOCEND is aligned with HEREDOCSTART.
+  HEREDOC
+`
+
+	testCases := []struct {
+		expectedType    TokenType
+		expectedLiteral string
+	}{
+		{NEWLINE, "\n"},
+
+		{HEREDOC, "<<-"},
+		{HEREDOCSTART, "HEREDOC"},
+		{STRING, `    This is a heredoc multiline string.
+    It should have 4 leading spaces.
+    HEREDOCEND has no leading spaces.
+`},
+		{HEREDOCEND, "HEREDOC"},
+		{NEWLINE, "\n"},
+		{NEWLINE, "\n"},
+
+		{HEREDOC, "<<-"},
+		{HEREDOCSTART, "HEREDOC"},
+		{STRING, `    This is a heredoc multiline string.
+    It should have 4 leading spaces.
+    HEREDOCEND is aligned with HEREDOCSTART.
+`},
+		{HEREDOCEND, "HEREDOC"},
+		{NEWLINE, "\n"},
+
+		{EOF, ""},
+	}
+
+	lexer := NewLexer(input)
+
+	// test
+	for position, testCase := range testCases {
+		assertNextToken(t, lexer, testCase.expectedType, testCase.expectedLiteral, position)
+	}
+}
+
 func TestLexerStrings(t *testing.T) {
 	// test (successful)
 	input := `

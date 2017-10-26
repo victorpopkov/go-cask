@@ -88,6 +88,8 @@ stanza is not ticked, that stanza is not supported yet.
 - [ ] `depends_on`
 - [ ] `conflicts_with`
 - [ ] `caveats`
+  - [ ] indented heredoc (`<<-EOS`)
+  - [ ] "squiggly" heredoc (`<<~EOS`)
 - [ ] `preflight`
 - [ ] `postflight`
 - [ ] `uninstall_preflight`

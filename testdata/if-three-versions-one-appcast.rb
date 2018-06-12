@@ -9,8 +9,7 @@ cask 'if-three-versions-one-appcast' do
     version '2.0.0'
     sha256 'f22abd6773ab232869321ad4b1e47ac0c908febf4f3a2bd10c8066140f741261'
 
-    appcast "https://example.com/sparkle/#{version.major}/appcast.xml",
-            checkpoint: '8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d'
+    appcast "https://example.com/sparkle/#{version.major}/appcast.xml"
   end
 
   url "https://example.com/app_#{version}.dmg"

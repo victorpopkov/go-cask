@@ -9,8 +9,7 @@ cask 'if-global-version-first' do
     url "https://example.com/app_#{version}_mac64.dmg"
   end
 
-  appcast "https://example.com/sparkle/#{version.major}/appcast.xml",
-          checkpoint: '57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7'
+  appcast "https://example.com/sparkle/#{version.major}/appcast.xml"
   name 'Example'
   name 'Example (if-global-version-first)'
   homepage 'https://example.com/'

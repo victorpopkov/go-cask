@@ -8,8 +8,7 @@ cask 'if-global-version-last' do
   end
 
   version '2.0.0'
-  appcast "https://example.com/sparkle/#{version.major}/appcast.xml",
-          checkpoint: '57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7'
+  appcast "https://example.com/sparkle/#{version.major}/appcast.xml"
   name 'Example'
   name 'Example (if-global-version-last)'
   homepage 'https://example.com/'

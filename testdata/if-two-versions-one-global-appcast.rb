@@ -8,8 +8,7 @@ cask 'if-two-versions-one-global-appcast' do
   end
 
   url "https://example.com/app_#{version}.dmg"
-  appcast "https://example.com/sparkle/#{version.major}/appcast.xml",
-          checkpoint: '8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d'
+  appcast "https://example.com/sparkle/#{version.major}/appcast.xml"
   name 'Example'
   name 'Example (if-two-versions-one-global-appcast)'
   homepage 'https://example.com/'

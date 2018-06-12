@@ -172,29 +172,13 @@ func TestParseAppcast(t *testing.T) {
 			BaseStanza: BaseStanza{
 				IsGlobal: true,
 			},
-			URL:        "https://example.com/appcast.xml",
-			Checkpoint: "",
+			URL: "https://example.com/appcast.xml",
 		},
 		"appcast 'https://example.com/appcast.xml'": {
 			BaseStanza: BaseStanza{
 				IsGlobal: true,
 			},
-			URL:        "https://example.com/appcast.xml",
-			Checkpoint: "",
-		},
-		"appcast 'https://example.com/appcast.xml', checkpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'": {
-			BaseStanza: BaseStanza{
-				IsGlobal: true,
-			},
-			URL:        "https://example.com/appcast.xml",
-			Checkpoint: "2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1",
-		},
-		"appcast 'https://example.com/appcast.xml',\ncheckpoint: '2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1'": {
-			BaseStanza: BaseStanza{
-				IsGlobal: true,
-			},
-			URL:        "https://example.com/appcast.xml",
-			Checkpoint: "2ffedc4898df88e05a6e8f5519e11159d967153f75f8d4e8c9a0286d347ea1e1",
+			URL: "https://example.com/appcast.xml",
 		},
 	}
 
@@ -208,7 +192,6 @@ func TestParseAppcast(t *testing.T) {
 		assert.Nil(t, err)
 		assert.IsType(t, Appcast{}, *actual)
 		assert.Equal(t, expected.URL, actual.URL)
-		assert.Equal(t, expected.Checkpoint, actual.Checkpoint)
 	}
 
 	// test (error)

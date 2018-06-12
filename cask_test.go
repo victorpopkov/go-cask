@@ -87,8 +87,7 @@ func TestParse(t *testing.T) {
 						BaseStanza: BaseStanza{
 							IsGlobal: true,
 						},
-						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
-						Checkpoint: "57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7",
+						URL: "https://example.com/sparkle/#{version.major}/appcast.xml",
 					},
 					Names: []*Name{
 						{
@@ -142,8 +141,7 @@ func TestParse(t *testing.T) {
 						BaseStanza: BaseStanza{
 							IsGlobal: true,
 						},
-						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
-						Checkpoint: "57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7",
+						URL: "https://example.com/sparkle/#{version.major}/appcast.xml",
 					},
 					Names: []*Name{
 						{
@@ -203,8 +201,7 @@ func TestParse(t *testing.T) {
 						BaseStanza: BaseStanza{
 							IsGlobal: true,
 						},
-						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
-						Checkpoint: "57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7",
+						URL: "https://example.com/sparkle/#{version.major}/appcast.xml",
 					},
 					Names: []*Name{
 						{
@@ -258,8 +255,7 @@ func TestParse(t *testing.T) {
 						BaseStanza: BaseStanza{
 							IsGlobal: true,
 						},
-						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
-						Checkpoint: "57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7",
+						URL: "https://example.com/sparkle/#{version.major}/appcast.xml",
 					},
 					Names: []*Name{
 						{
@@ -319,8 +315,7 @@ func TestParse(t *testing.T) {
 						BaseStanza: BaseStanza{
 							IsGlobal: true,
 						},
-						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
-						Checkpoint: "57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7",
+						URL: "https://example.com/sparkle/#{version.major}/appcast.xml",
 					},
 					Names: []*Name{
 						{
@@ -374,8 +369,7 @@ func TestParse(t *testing.T) {
 						BaseStanza: BaseStanza{
 							IsGlobal: true,
 						},
-						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
-						Checkpoint: "57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7",
+						URL: "https://example.com/sparkle/#{version.major}/appcast.xml",
 					},
 					Names: []*Name{
 						{
@@ -429,8 +423,7 @@ func TestParse(t *testing.T) {
 						Value: "https://example.com/app_mavericks_#{version}.dmg",
 					},
 					Appcast: &Appcast{
-						URL:        "https://example.com/sparkle/#{version.major}/mavericks.xml",
-						Checkpoint: "f505fa398c62a9f6d26a3097352c924f9730381b0af65127d76160c96a00ae3d",
+						URL: "https://example.com/sparkle/#{version.major}/mavericks.xml",
 					},
 					Names: []*Name{
 						{
@@ -469,8 +462,7 @@ func TestParse(t *testing.T) {
 						Value: "https://example.com/app_#{version}.dmg",
 					},
 					Appcast: &Appcast{
-						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
-						Checkpoint: "8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d",
+						URL: "https://example.com/sparkle/#{version.major}/appcast.xml",
 					},
 					Names: []*Name{
 						{
@@ -515,8 +507,7 @@ func TestParse(t *testing.T) {
 						Value: "https://example.com/snowleopard/app_#{version}.dmg",
 					},
 					Appcast: &Appcast{
-						URL:        "https://example.com/sparkle/#{version}/snowleopard.xml",
-						Checkpoint: "a93e9e53c90ab95e1ce83cbc1cbd76102da1bce5330b649872dbd95a1793a03e",
+						URL: "https://example.com/sparkle/#{version}/snowleopard.xml",
 					},
 					Names: []*Name{
 						{
@@ -564,8 +555,7 @@ func TestParse(t *testing.T) {
 						Value: "https://example.com/lion/app_#{version}.dmg",
 					},
 					Appcast: &Appcast{
-						URL:        "https://example.com/sparkle/#{version}/lion.xml",
-						Checkpoint: "13dfb3758d65d265e4c12336815b2db327683ad38b2a1162cc88ab3579bbfaa1",
+						URL: "https://example.com/sparkle/#{version}/lion.xml",
 					},
 					Names: []*Name{
 						{
@@ -613,8 +603,7 @@ func TestParse(t *testing.T) {
 						Value: "https://example.com/mountainlion/app_#{version}.dmg",
 					},
 					Appcast: &Appcast{
-						URL:        "https://example.com/sparkle/#{version}/mountainlion.xml",
-						Checkpoint: "00af55f25d0c6e53f017a972b77fe4def95f9bb4ec4dc217c520e875fa0071a9",
+						URL: "https://example.com/sparkle/#{version}/mountainlion.xml",
 					},
 					Names: []*Name{
 						{
@@ -662,8 +651,7 @@ func TestParse(t *testing.T) {
 						Value: "https://example.com/mavericks/app_#{version}.dmg",
 					},
 					Appcast: &Appcast{
-						URL:        "https://example.com/sparkle/#{version}/mavericks.xml",
-						Checkpoint: "9cbe5cfd22b0eb5f159ae634acf615d9c8032699b5a79d37a3046bdaf5677c84",
+						URL: "https://example.com/sparkle/#{version}/mavericks.xml",
 					},
 					Names: []*Name{
 						{
@@ -711,8 +699,7 @@ func TestParse(t *testing.T) {
 						Value: "https://example.com/yosemite/app_#{version}.dmg",
 					},
 					Appcast: &Appcast{
-						URL:        "https://example.com/sparkle/#{version}/yosemite.xml",
-						Checkpoint: "f309466aea57120e04b214292d54a9d5e32d018582344b3a62021a91ed8dd69d",
+						URL: "https://example.com/sparkle/#{version}/yosemite.xml",
 					},
 					Names: []*Name{
 						{
@@ -760,8 +747,7 @@ func TestParse(t *testing.T) {
 						Value: "https://example.com/elcapitan/app_#{version}.dmg",
 					},
 					Appcast: &Appcast{
-						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
-						Checkpoint: "57956bd3fb23a5673e30dc83ed19d51b43e5a9235756887f3ed90662e6c68fb7",
+						URL: "https://example.com/sparkle/#{version.major}/appcast.xml",
 					},
 					Names: []*Name{
 						{
@@ -916,8 +902,7 @@ func TestParse(t *testing.T) {
 						Value: "https://example.com/app_#{version}.dmg",
 					},
 					Appcast: &Appcast{
-						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
-						Checkpoint: "8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d",
+						URL: "https://example.com/sparkle/#{version.major}/appcast.xml",
 					},
 					Names: []*Name{
 						{
@@ -977,8 +962,7 @@ func TestParse(t *testing.T) {
 						BaseStanza: BaseStanza{
 							IsGlobal: true,
 						},
-						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
-						Checkpoint: "8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d",
+						URL: "https://example.com/sparkle/#{version.major}/appcast.xml",
 					},
 					Names: []*Name{
 						{
@@ -1032,8 +1016,7 @@ func TestParse(t *testing.T) {
 						BaseStanza: BaseStanza{
 							IsGlobal: true,
 						},
-						URL:        "https://example.com/sparkle/#{version.major}/appcast.xml",
-						Checkpoint: "8dc47a4bcec6e46b79fb6fc7b84224f1461f18a2d9f2e5adc94612bb9b97072d",
+						URL: "https://example.com/sparkle/#{version.major}/appcast.xml",
 					},
 					Names: []*Name{
 						{

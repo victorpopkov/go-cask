@@ -99,7 +99,6 @@ func TestGetAppcast(t *testing.T) {
 	assert.IsType(t, &Appcast{}, v.Appcast)
 	assert.IsType(t, Appcast{}, actual)
 	assert.Equal(t, v.Appcast.URL, actual.URL)
-	assert.Equal(t, v.Appcast.Checkpoint, actual.Checkpoint)
 
 	// test (with version)
 	v.Version = NewVersion("2.0.0")
@@ -107,7 +106,6 @@ func TestGetAppcast(t *testing.T) {
 	assert.IsType(t, &Appcast{}, v.Appcast)
 	assert.IsType(t, Appcast{}, actual)
 	assert.Equal(t, "http://example.com/2.0.0/appcast.xml", actual.URL)
-	assert.Equal(t, v.Appcast.Checkpoint, actual.Checkpoint)
 }
 
 func TestGetNames(t *testing.T) {
